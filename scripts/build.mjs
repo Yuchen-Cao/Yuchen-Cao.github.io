@@ -212,8 +212,8 @@ const home = `<div class="shell">
 </div>`;
 await writePage("/", layout({ title: config.siteName, description: config.description, body: home, canonical: "/" }));
 
-const writing = `<div class="shell"><header class="page-header"><p class="eyebrow">Writing</p><h1>Essays and research notes</h1><p>Arguments, implementation-level observations, and paper readings around agentic and embodied intelligence.</p></header><div class="post-list">${posts.map(card).join("")}</div><div style="height:6rem"></div></div>`;
-await writePage("/writing/", layout({ title: "Writing", description: "Essays and research notes by Yuchen Cao.", body: writing, current: "/writing/", canonical: "/writing/" }));
+const writing = `<div class="shell"><header class="page-header"><p class="eyebrow">Writing</p><h1>What I’m Thinking About as an LLM Researcher Working on Embodied Intelligence</h1><p>Essays and research notes</p></header><div class="post-list">${posts.map(card).join("")}</div><div style="height:6rem"></div></div>`;
+await writePage("/writing/", layout({ title: "Writing", description: "What I’m thinking about as an LLM researcher working on embodied intelligence.", body: writing, current: "/writing/", canonical: "/writing/" }));
 
 const topicCounts = allTags.map((tag) => ({ tag, count: posts.filter((post) => post.tags.includes(tag)).length }));
 const topics = `<div class="shell"><header class="page-header"><p class="eyebrow">Topics</p><h1>Recurring questions</h1><p>The themes connecting individual notes, from temporal representations to the system boundary around a model.</p></header><div class="topic-grid">${topicCounts.map(({ tag, count }) => `<div class="topic-card"><h2>${escapeHtml(tag)}</h2><span class="topic-count">${count} ${count === 1 ? "essay" : "essays"}</span></div>`).join("")}</div></div>`;
