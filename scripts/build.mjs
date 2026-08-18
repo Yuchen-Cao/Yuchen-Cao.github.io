@@ -118,8 +118,13 @@ function markdown(source) {
 }
 
 function readingTime(body) {
-  const words = body.trim().split(/\s+/).length;
-  return `${Math.max(1, Math.round(words / 220))} min read`;
+  const hanCharacters = body.match(/\p{Script=Han}/gu)?.length || 0;
+  const latinWords = body
+    .replace(/\p{Script=Han}/gu, " ")
+    .trim()
+    .split(/\s+/)
+    .filter((word) => /[a-z0-9]/i.test(word)).length;
+  return `${Math.max(1, Math.round(hanCharacters / 450 + latinWords / 220))} min read`;
 }
 
 function formatDate(date) {
