@@ -32,6 +32,8 @@ function inline(text) {
   value = value.replace(/`([^`]+)`/g, "<code>$1</code>");
   value = value.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
   value = value.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+  value = value.replace(/\$([^$]+)\$/g, '<span class="inline-math">$1</span>');
+  value = value.replace(/!\[([^\]]*)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/g, '<img src="$2" alt="$1" loading="lazy">');
   value = value.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+|\/[^\s)]*)\)/g, '<a href="$2">$1</a>');
   return value;
 }
@@ -44,6 +46,8 @@ function markdown(source) {
   let code = false;
   let codeLanguage = "";
   let codeLines = [];
+  let equation = false;
+  let equationLines = [];
 
   const flushParagraph = () => {
     if (paragraph.length) html.push(`<p>${inline(paragraph.join(" "))}</p>`);
@@ -55,6 +59,17 @@ function markdown(source) {
   };
 
   for (const line of lines) {
+    if (line.trim() === "$$") {
+      flushParagraph(); closeList();
+      if (!equation) {
+        equation = true; equationLines = [];
+      } else {
+        html.push(`<div class="equation">${escapeHtml(equationLines.join(" "))}</div>`);
+        equation = false;
+      }
+      continue;
+    }
+    if (equation) { equationLines.push(line.trim()); continue; }
     const fence = line.match(/^```(.*)$/);
     if (fence) {
       flushParagraph(); closeList();
@@ -98,6 +113,7 @@ function markdown(source) {
   }
   flushParagraph(); closeList();
   if (code) html.push(`<pre><code>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+  if (equation) html.push(`<div class="equation">${escapeHtml(equationLines.join(" "))}</div>`);
   return html.join("\n");
 }
 
@@ -213,4 +229,3 @@ await writeFile(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UT
 await writeFile(path.join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${config.url}/sitemap.xml\n`);
 
 console.log(`Built ${posts.length} posts and ${routes.length} routes into dist/`);
-

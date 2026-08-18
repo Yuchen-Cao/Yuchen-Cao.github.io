@@ -205,6 +205,9 @@ button { font: inherit; }
 .prose pre { overflow-x: auto; padding: 1.2rem; background: var(--code); border: 1px solid var(--line); }
 .prose pre code { padding: 0; background: none; }
 .prose a { color: var(--accent); }
+.prose img { display: block; width: 100%; height: auto; margin: 2.2rem 0; border: 1px solid var(--line); border-radius: 0.75rem; background: var(--paper-raised); }
+.prose .equation { overflow-x: auto; margin: 2rem 0; padding: 1rem 1.25rem; border: 1px solid var(--line); background: var(--paper-raised); font-family: "Times New Roman", serif; font-size: 1.15rem; text-align: center; }
+.prose .inline-math { font-family: "Times New Roman", serif; font-style: italic; }
 
 .article-header { max-width: 900px; padding: 6rem 0 2.5rem; }
 .article-header h1 { margin: 0.8rem 0 1.3rem; font-family: Georgia, serif; font-size: clamp(3rem, 7vw, 5.7rem); font-weight: 500; letter-spacing: -0.055em; line-height: 1; }
@@ -248,4 +251,3 @@ button { font: inherit; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
-
