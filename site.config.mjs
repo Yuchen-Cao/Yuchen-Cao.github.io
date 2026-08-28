@@ -3,14 +3,13 @@ export default {
   shortName: "YC",
   author: "Yuchen Cao",
   description:
-    "Research notes on agentic language models, temporal reasoning, and embodied intelligence.",
+    "Bilingual research notes on agentic language models, temporal reasoning, and embodied intelligence.",
   url: "https://Yuchen-Cao.github.io",
   github: "https://github.com/Yuchen-Cao",
   email: "",
   nav: [
-    { label: "Writing", href: "/writing/" },
-    { label: "Topics", href: "/topics/" },
+    { label: "Writing / 文章", href: "/writing/" },
+    { label: "Topics / 主题", href: "/topics/" },
     { label: "About", href: "/about/" }
   ]
 };
-

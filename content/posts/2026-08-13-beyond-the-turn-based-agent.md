@@ -1,6 +1,7 @@
 ---
 title: Beyond the Turn-Based Agent
 date: 2026-08-13
+lang: en
 description: Harness design matters, but asynchronous interaction exposes problems that cannot always be solved outside the model.
 tags: Agents, Embodied Intelligence, Systems
 featured: false
@@ -52,4 +53,3 @@ The most productive question is not “model or harness?” in the abstract. It 
 If the remaining failure is scheduling, fix the runtime. If it is belief revision, temporal credit assignment, or deciding when incomplete reasoning is already sufficient to act, model-side learning may be necessary.
 
 That split turns a philosophical argument into an experimental program.
-
