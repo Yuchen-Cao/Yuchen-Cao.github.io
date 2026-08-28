@@ -1,6 +1,6 @@
 # YC — Research Notes
 
-The source for [Yuchen-Cao.github.io](https://Yuchen-Cao.github.io): an English research blog about agentic language models, temporal reasoning, and embodied intelligence.
+The source for [Yuchen-Cao.github.io](https://Yuchen-Cao.github.io): a bilingual research blog about agentic language models, temporal reasoning, and embodied intelligence.
 
 The site uses a tiny zero-dependency static generator. Posts are Markdown, the generated site is plain HTML/CSS/JavaScript, and GitHub Actions publishes it to GitHub Pages.
 
@@ -12,6 +12,7 @@ Create `content/posts/YYYY-MM-DD-your-post-slug.md`:
 ---
 title: Your post title
 date: 2026-08-14
+lang: en
 description: One sentence used on cards and in search previews.
 tags: Agents, Temporal Reasoning
 featured: false
@@ -23,6 +24,8 @@ Start writing here.
 ```
 
 Supported Markdown includes headings, paragraphs, ordered and unordered lists, blockquotes, fenced code blocks, links, bold, emphasis, and inline code.
+
+Use `lang: en` or `lang: zh-CN` to give each post localized dates, reading time, labels, and typography. Existing post URLs remain based on the filename slug, so metadata and template changes do not alter permalinks.
 
 ## Preview locally
 
@@ -51,4 +54,3 @@ The final URL will be `https://Yuchen-Cao.github.io`.
 - Edit the About page in `content/pages/about.md`.
 - Adjust the visual system in `assets/styles.css`.
 - Replace or revise the two launch essays before sharing the site publicly.
-

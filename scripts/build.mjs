@@ -6,10 +6,10 @@ const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "dist");
 
 const escapeHtml = (value = "") =>
-  value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
+  String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 
-const slugify = (value) =>
-  value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const slugify = (value) => value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const headingSlug = (value) => value.normalize("NFKC").toLowerCase().replace(/<[^>]+>/g, "").replace(/[^\p{Letter}\p{Number}]+/gu, "-").replace(/^-|-$/g, "") || "section";
 
 function parseDocument(raw) {
   const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
@@ -41,54 +41,44 @@ function inline(text) {
 function markdown(source) {
   const lines = source.split("\n");
   const html = [];
-  let paragraph = [];
-  let list = null;
-  let code = false;
-  let codeLanguage = "";
-  let codeLines = [];
-  let equation = false;
-  let equationLines = [];
-
-  const flushParagraph = () => {
-    if (paragraph.length) html.push(`<p>${inline(paragraph.join(" "))}</p>`);
-    paragraph = [];
-  };
-  const closeList = () => {
-    if (list) html.push(`</${list}>`);
-    list = null;
+  const headingIds = new Map();
+  let paragraph = [], list = null, code = false, codeLanguage = "", codeLines = [], equation = false, equationLines = [];
+  const flushParagraph = () => { if (paragraph.length) html.push(`<p>${inline(paragraph.join(" "))}</p>`); paragraph = []; };
+  const closeList = () => { if (list) html.push(`</${list}>`); list = null; };
+  const uniqueHeadingId = (text) => {
+    const base = headingSlug(text), count = headingIds.get(base) || 0;
+    headingIds.set(base, count + 1);
+    return count ? `${base}-${count + 1}` : base;
   };
 
   for (const line of lines) {
     if (line.trim() === "$$") {
       flushParagraph(); closeList();
-      if (!equation) {
-        equation = true; equationLines = [];
-      } else {
-        html.push(`<div class="equation">${escapeHtml(equationLines.join(" "))}</div>`);
-        equation = false;
-      }
+      if (!equation) { equation = true; equationLines = []; }
+      else { html.push(`<div class="equation" role="math">${escapeHtml(equationLines.join(" "))}</div>`); equation = false; }
       continue;
     }
     if (equation) { equationLines.push(line.trim()); continue; }
     const fence = line.match(/^```(.*)$/);
     if (fence) {
       flushParagraph(); closeList();
-      if (!code) {
-        code = true; codeLanguage = fence[1].trim(); codeLines = [];
-      } else {
-        html.push(`<pre><code${codeLanguage ? ` class="language-${escapeHtml(codeLanguage)}"` : ""}>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+      if (!code) { code = true; codeLanguage = fence[1].trim(); codeLines = []; }
+      else {
+        const language = codeLanguage ? ` data-language="${escapeHtml(codeLanguage)}"` : "";
+        const className = codeLanguage ? ` class="language-${escapeHtml(codeLanguage)}"` : "";
+        html.push(`<pre${language}><code${className}>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
         code = false;
       }
       continue;
     }
     if (code) { codeLines.push(line); continue; }
     if (!line.trim()) { flushParagraph(); closeList(); continue; }
-
+    if (/^---+$/.test(line.trim())) { flushParagraph(); closeList(); html.push("<hr>"); continue; }
     const heading = line.match(/^(#{1,4})\s+(.+)$/);
     if (heading) {
       flushParagraph(); closeList();
       const level = heading[1].length;
-      html.push(`<h${level} id="${slugify(heading[2])}">${inline(heading[2])}</h${level}>`);
+      html.push(`<h${level} id="${uniqueHeadingId(heading[2])}">${inline(heading[2])}</h${level}>`);
       continue;
     }
     const unordered = line.match(/^[-*]\s+(.+)$/);
@@ -106,47 +96,48 @@ function markdown(source) {
       continue;
     }
     const quote = line.match(/^>\s?(.+)$/);
-    if (quote) {
-      flushParagraph(); closeList(); html.push(`<blockquote>${inline(quote[1])}</blockquote>`); continue;
-    }
+    if (quote) { flushParagraph(); closeList(); html.push(`<blockquote><p>${inline(quote[1])}</p></blockquote>`); continue; }
     closeList(); paragraph.push(line.trim());
   }
   flushParagraph(); closeList();
   if (code) html.push(`<pre><code>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
-  if (equation) html.push(`<div class="equation">${escapeHtml(equationLines.join(" "))}</div>`);
+  if (equation) html.push(`<div class="equation" role="math">${escapeHtml(equationLines.join(" "))}</div>`);
   return html.join("\n");
 }
 
-function readingTime(body) {
-  const hanCharacters = body.match(/\p{Script=Han}/gu)?.length || 0;
-  const latinWords = body
-    .replace(/\p{Script=Han}/gu, " ")
-    .trim()
-    .split(/\s+/)
-    .filter((word) => /[a-z0-9]/i.test(word)).length;
-  return `${Math.max(1, Math.round(hanCharacters / 450 + latinWords / 220))} min read`;
+function languageOf(data, body) {
+  if (data.lang) return String(data.lang).toLowerCase().startsWith("zh") ? "zh-CN" : "en";
+  return (body.match(/\p{Script=Han}/gu)?.length || 0) > 80 ? "zh-CN" : "en";
 }
 
-function formatDate(date) {
-  return new Intl.DateTimeFormat("en", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`));
+function readingTime(body, lang) {
+  const hanCharacters = body.match(/\p{Script=Han}/gu)?.length || 0;
+  const latinWords = body.replace(/\p{Script=Han}/gu, " ").trim().split(/\s+/).filter((word) => /[a-z0-9]/i.test(word)).length;
+  const minutes = Math.max(1, Math.ceil(hanCharacters / 450 + latinWords / 220));
+  return lang === "zh-CN" ? `${minutes} 分钟阅读` : `${minutes} min read`;
+}
+
+function formatDate(date, lang = "en") {
+  const locale = lang === "zh-CN" ? "zh-CN" : "en";
+  return new Intl.DateTimeFormat(locale, { year: "numeric", month: lang === "zh-CN" ? "long" : "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`));
 }
 
 function nav(current) {
   return config.nav.map((item) => `<a href="${item.href}"${current === item.href ? ' aria-current="page"' : ""}>${item.label}</a>`).join("");
 }
 
-function layout({ title, description, body, current = "", type = "website", canonical = "/" }) {
+function layout({ title, description, body, current = "", type = "website", canonical = "/", lang = "en" }) {
   const fullTitle = title === config.siteName ? title : `${title} — ${config.shortName}`;
   const url = new URL(canonical, config.url).href;
   return `<!doctype html>
-<html lang="en">
+<html lang="${lang}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(fullTitle)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="author" content="${escapeHtml(config.author)}">
-  <meta name="theme-color" content="#0b6e69">
+  <meta name="theme-color" content="#f7f6f2">
   <link rel="canonical" href="${url}">
   <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="/feed.xml">
   <link rel="stylesheet" href="/assets/styles.css">
@@ -157,25 +148,35 @@ function layout({ title, description, body, current = "", type = "website", cano
   <meta name="twitter:card" content="summary">
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">Skip to content / 跳至正文</a>
   <header class="site-header">
-    <a class="brand" href="/" aria-label="${escapeHtml(config.siteName)} home"><span class="brand-mark">YC</span><span>${escapeHtml(config.siteName)}</span></a>
-    <nav class="site-nav" aria-label="Primary">${nav(current)}<button class="theme-toggle" type="button" data-theme-toggle>Dark</button></nav>
+    <a class="brand" href="/" aria-label="${escapeHtml(config.siteName)} home"><span class="brand-mark">YC</span><span class="brand-name">${escapeHtml(config.siteName)}</span></a>
+    <nav class="site-nav" aria-label="Primary navigation">${nav(current)}<button class="theme-toggle" type="button" data-theme-toggle aria-label="Use dark theme">◐</button></nav>
   </header>
   <main id="main">${body}</main>
-  <footer class="site-footer"><span>© ${new Date().getUTCFullYear()} ${escapeHtml(config.author)}. Notes in public.</span><span><a href="${config.github}">GitHub</a> · <a href="/feed.xml">RSS</a></span></footer>
+  <footer class="site-footer"><span>© ${new Date().getUTCFullYear()} ${escapeHtml(config.author)} · Research notes in public</span><span><a href="${config.github}">GitHub</a><a href="/feed.xml">RSS</a></span></footer>
   <script src="/assets/main.js" defer></script>
 </body>
 </html>`;
 }
 
-function postMeta(post) {
-  const tags = post.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
-  return `<div class="meta"><time datetime="${post.date}">${formatDate(post.date)}</time><span>${post.readingTime}</span>${tags}</div>`;
+function postMeta(post, { showTags = true } = {}) {
+  const tags = showTags ? post.tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("") : "";
+  const language = post.lang === "zh-CN" ? "中文" : "EN";
+  return `<div class="meta"><span class="language-badge">${language}</span><time datetime="${post.date}">${formatDate(post.date, post.lang)}</time><span>${post.readingTime}</span>${tags}</div>`;
 }
 
-function card(post) {
-  return `<article class="post-card" data-post-card data-tags="${post.tags.map(slugify).join("|")}">${postMeta(post)}<h3><a href="${post.url}">${escapeHtml(post.title)}</a></h3><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}" aria-label="Read ${escapeHtml(post.title)}">Read essay</a></article>`;
+function card(post, index) {
+  const action = post.lang === "zh-CN" ? "阅读全文" : "Read article";
+  return `<article class="post-card" lang="${post.lang}" data-post-card data-language="${post.lang}" data-tags="${post.tags.map(slugify).join("|")}">
+    <span class="post-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>
+    <div class="post-card-content">${postMeta(post)}<h3><a href="${post.url}">${escapeHtml(post.title)}</a></h3><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}" aria-label="${action}: ${escapeHtml(post.title)}">${action}</a></div>
+  </article>`;
+}
+
+function filterControls(allTags) {
+  const topics = allTags.map((tag) => `<button class="filter" data-filter="${slugify(tag)}" aria-pressed="false">${escapeHtml(tag)}</button>`).join("");
+  return `<div class="filters" aria-label="Filter articles"><button class="filter" data-filter="all" aria-pressed="true">全部 / All</button><button class="filter" data-filter="zh-CN" aria-pressed="false">中文</button><button class="filter" data-filter="en" aria-pressed="false">English</button>${topics}</div>`;
 }
 
 async function writePage(route, html) {
@@ -194,33 +195,35 @@ const posts = [];
 for (const file of postFiles) {
   const { data, body } = parseDocument(await readFile(path.join(root, "content/posts", file), "utf8"));
   const slug = file.replace(/^\d{4}-\d{2}-\d{2}-/, "").replace(/\.md$/, "");
-  posts.push({ ...data, body, slug, url: `/writing/${slug}/`, tags: String(data.tags || "").split(",").map((tag) => tag.trim()).filter(Boolean), readingTime: readingTime(body) });
+  const lang = languageOf(data, body);
+  posts.push({ ...data, body, lang, slug, url: `/writing/${slug}/`, tags: String(data.tags || "").split(",").map((tag) => tag.trim()).filter(Boolean), readingTime: readingTime(body, lang) });
 }
 posts.sort((a, b) => b.date.localeCompare(a.date));
 
 for (const post of posts) {
-  const article = `<div class="shell"><header class="article-header">${postMeta(post)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">Thanks for reading. If this line of work overlaps with yours, feel free to continue the conversation on <a href="${config.github}">GitHub</a>.</div></div>`;
-  await writePage(post.url, layout({ title: post.title, description: post.description, body: article, current: "/writing/", type: "article", canonical: post.url }));
+  const closing = post.lang === "zh-CN" ? `感谢阅读。如果你也在思考这些问题，欢迎在 <a href="${config.github}">GitHub</a> 继续交流。` : `Thanks for reading. If this line of work overlaps with yours, continue the conversation on <a href="${config.github}">GitHub</a>.`;
+  const article = `<div class="article-shell" lang="${post.lang}"><header class="article-header">${postMeta(post)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">${closing}</div></div>`;
+  await writePage(post.url, layout({ title: post.title, description: post.description, body: article, current: "/writing/", type: "article", canonical: post.url, lang: post.lang }));
 }
 
 const featured = posts.find((post) => post.featured) || posts[0];
 const allTags = [...new Set(posts.flatMap((post) => post.tags))].sort();
 const home = `<div class="shell">
-  <section class="hero"><div><p class="eyebrow">Research notebook · Agentic intelligence</p><h1>Models that reason <em>in time.</em></h1><p class="hero-copy">I write about language model agents, temporal reasoning, and the systems required when intelligence has to interact with a world that does not wait for the next turn.</p></div><aside class="hero-aside"><p><strong>Current questions</strong></p><p>How should an agent represent elapsed time?</p><p>When should interaction logic live in the model rather than the harness?</p><p>How do asynchronous events revise a model's belief state?</p></aside></section>
-  <section class="section"><div class="section-head"><div><p class="section-label">Featured essay</p><h2>Start here</h2></div><p class="section-intro">A working argument for why token order, interaction steps, and wall-clock time should not be treated as the same variable.</p></div><article class="featured"><div class="featured-index">01</div><div>${postMeta(featured)}<h3><a href="${featured.url}">${escapeHtml(featured.title)}</a></h3><p>${escapeHtml(featured.description)}</p><a class="read-link" href="${featured.url}">Read the essay</a></div></article></section>
-  <section class="section"><div class="section-head"><div><p class="section-label">Latest writing</p><h2>Notes & arguments</h2></div><p class="section-intro">Technical ideas in progress: concrete enough to test, open enough to revise.</p></div><div class="filters" aria-label="Filter posts"><button class="filter" data-filter="all" aria-pressed="true">All</button>${allTags.map((tag) => `<button class="filter" data-filter="${slugify(tag)}" aria-pressed="false">${escapeHtml(tag)}</button>`).join("")}</div><div class="post-list">${posts.map(card).join("")}</div></section>
+  <section class="hero"><p class="eyebrow">Research notebook · 研究笔记</p><div class="hero-grid"><h1>Thinking about agents<br><em>beyond the turn.</em></h1><div><p class="hero-copy">关于语言模型 Agent、时间推理与具身智能的技术文章。记录那些发生在模型、工具与真实世界交界处的问题。</p><p class="hero-copy-en">Technical essays on language-model agents, temporal reasoning, and embodied intelligence.</p></div></div><div class="research-lines"><span>Agentic systems</span><span>Temporal reasoning</span><span>Embodied intelligence</span></div></section>
+  <section class="section featured-section"><div class="section-head"><div><p class="section-label">Featured / 精选</p><h2>One idea to start with</h2></div></div><article class="featured" lang="${featured.lang}"><div class="featured-side"><span>Editor’s pick</span><span>${featured.lang === "zh-CN" ? "中文" : "English"}</span></div><div>${postMeta(featured, { showTags: false })}<h3><a href="${featured.url}">${escapeHtml(featured.title)}</a></h3><p>${escapeHtml(featured.description)}</p><a class="read-link" href="${featured.url}">${featured.lang === "zh-CN" ? "阅读全文" : "Read article"}</a></div></article></section>
+  <section class="section"><div class="section-head"><div><p class="section-label">Latest writing / 最新文章</p><h2>Ideas, with the argument visible.</h2></div><p class="section-intro">每篇文章在首页直接呈现核心论点摘要；可按语言或研究主题筛选。</p></div>${filterControls(allTags)}<div class="post-list">${posts.map(card).join("")}</div></section>
 </div>`;
 await writePage("/", layout({ title: config.siteName, description: config.description, body: home, canonical: "/" }));
 
-const writing = `<div class="shell"><header class="page-header"><p class="eyebrow">Writing</p><h1>What I’m Thinking About as an LLM Researcher Working on Embodied Intelligence</h1><p>Essays and research notes</p></header><div class="post-list">${posts.map(card).join("")}</div><div style="height:6rem"></div></div>`;
-await writePage("/writing/", layout({ title: "Writing", description: "What I’m thinking about as an LLM researcher working on embodied intelligence.", body: writing, current: "/writing/", canonical: "/writing/" }));
+const writing = `<div class="shell"><header class="page-header"><p class="eyebrow">Writing / 文章</p><h1>Research notes,<br>arguments in progress.</h1><p>关于 Agent、时间推理和具身系统的长文与研究笔记。Browse by language or topic.</p></header>${filterControls(allTags)}<div class="post-list archive-list">${posts.map(card).join("")}</div></div>`;
+await writePage("/writing/", layout({ title: "Writing", description: "Technical essays and research notes on agentic and embodied intelligence.", body: writing, current: "/writing/", canonical: "/writing/" }));
 
-const topicCounts = allTags.map((tag) => ({ tag, count: posts.filter((post) => post.tags.includes(tag)).length }));
-const topics = `<div class="shell"><header class="page-header"><p class="eyebrow">Topics</p><h1>Recurring questions</h1><p>The themes connecting individual notes, from temporal representations to the system boundary around a model.</p></header><div class="topic-grid">${topicCounts.map(({ tag, count }) => `<div class="topic-card"><h2>${escapeHtml(tag)}</h2><span class="topic-count">${count} ${count === 1 ? "essay" : "essays"}</span></div>`).join("")}</div></div>`;
+const topicCounts = allTags.map((tag) => ({ tag, posts: posts.filter((post) => post.tags.includes(tag)) }));
+const topics = `<div class="shell"><header class="page-header"><p class="eyebrow">Topics / 主题</p><h1>Recurring questions</h1><p>跨越单篇文章、持续推进的研究线索。</p></header><div class="topic-grid">${topicCounts.map(({ tag, posts: tagged }) => `<a class="topic-card" href="/writing/?filter=${slugify(tag)}"><span class="topic-count">${tagged.length} ${tagged.length === 1 ? "article" : "articles"}</span><h2>${escapeHtml(tag)}</h2><p>${tagged.slice(0, 2).map((post) => escapeHtml(post.title)).join(" · ")}</p></a>`).join("")}</div></div>`;
 await writePage("/topics/", layout({ title: "Topics", description: "Topics covered in YC Research Notes.", body: topics, current: "/topics/", canonical: "/topics/" }));
 
 const aboutDoc = parseDocument(await readFile(path.join(root, "content/pages/about.md"), "utf8"));
-const about = `<div class="shell"><header class="page-header"><p class="eyebrow">About</p><h1>Research in public</h1><p>${escapeHtml(aboutDoc.data.description)}</p></header><article class="prose">${markdown(aboutDoc.body)}</article></div>`;
+const about = `<div class="article-shell"><header class="page-header"><p class="eyebrow">About</p><h1>Research in public</h1><p>${escapeHtml(aboutDoc.data.description)}</p></header><article class="prose">${markdown(aboutDoc.body)}</article></div>`;
 await writePage("/about/", layout({ title: "About", description: aboutDoc.data.description, body: about, current: "/about/", canonical: "/about/" }));
 
 const notFound = `<div class="shell"><header class="page-header"><p class="eyebrow">404</p><h1>This page moved—or never existed.</h1><p>Return to the <a href="/">research notebook</a> or browse the <a href="/writing/">writing archive</a>.</p></header></div>`;
@@ -228,9 +231,7 @@ await writeFile(path.join(out, "404.html"), layout({ title: "Page not found", de
 
 const rssItems = posts.map((post) => `<item><title>${escapeHtml(post.title)}</title><link>${new URL(post.url, config.url).href}</link><guid>${new URL(post.url, config.url).href}</guid><pubDate>${new Date(`${post.date}T00:00:00Z`).toUTCString()}</pubDate><description>${escapeHtml(post.description)}</description></item>`).join("");
 await writeFile(path.join(out, "feed.xml"), `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${escapeHtml(config.siteName)}</title><link>${config.url}</link><description>${escapeHtml(config.description)}</description>${rssItems}</channel></rss>`);
-
 const routes = ["/", "/writing/", "/topics/", "/about/", ...posts.map((post) => post.url)];
 await writeFile(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map((route) => `<url><loc>${new URL(route, config.url).href}</loc></url>`).join("")}</urlset>`);
 await writeFile(path.join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${config.url}/sitemap.xml\n`);
-
 console.log(`Built ${posts.length} posts and ${routes.length} routes into dist/`);

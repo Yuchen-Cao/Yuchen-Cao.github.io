@@ -1,6 +1,7 @@
 ---
 title: What Agentic Models Still Miss About Time
 date: 2026-08-14
+lang: en
 description: Token order is not elapsed time. Real agents need a representation of time that survives pauses, tools, and asynchronous events.
 tags: Agents, Temporal Reasoning, Post-training
 featured: true
@@ -61,4 +62,3 @@ Time awareness eventually changes the interaction protocol itself. A model that 
 The deeper direction is therefore event-driven: observations arrive when the world changes, safety-critical signals can interrupt ongoing reasoning, and the agent maintains a belief state across events with different temporal scales.
 
 The clock is not the whole solution. It is the first piece of infrastructure that makes the missing problem visible.
-

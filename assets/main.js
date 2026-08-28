@@ -11,7 +11,7 @@ function updateToggleLabel() {
   const dark = root.dataset.theme === "dark";
   toggle.setAttribute("aria-label", dark ? "Use light theme" : "Use dark theme");
   toggle.setAttribute("title", dark ? "Use light theme" : "Use dark theme");
-  toggle.textContent = dark ? "Light" : "Dark";
+  toggle.textContent = dark ? "☀" : "◐";
 }
 
 toggle?.addEventListener("click", () => {
@@ -25,13 +25,25 @@ updateToggleLabel();
 const filters = document.querySelectorAll("[data-filter]");
 const cards = document.querySelectorAll("[data-post-card]");
 
+function applyFilter(selected) {
+  const active = [...filters].find((item) => item.dataset.filter === selected) || [...filters][0];
+  if (!active) return;
+  filters.forEach((item) => item.setAttribute("aria-pressed", String(item === active)));
+  cards.forEach((card) => {
+    const matchesLanguage = card.dataset.language === active.dataset.filter;
+    const matchesTopic = card.dataset.tags.split("|").includes(active.dataset.filter);
+    card.hidden = active.dataset.filter !== "all" && !matchesLanguage && !matchesTopic;
+  });
+}
+
 filters.forEach((button) => {
   button.addEventListener("click", () => {
-    const selected = button.dataset.filter;
-    filters.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-    cards.forEach((card) => {
-      card.hidden = selected !== "all" && !card.dataset.tags.split("|").includes(selected);
-    });
+    applyFilter(button.dataset.filter);
+    const url = new URL(window.location);
+    if (button.dataset.filter === "all") url.searchParams.delete("filter");
+    else url.searchParams.set("filter", button.dataset.filter);
+    history.replaceState(null, "", url);
   });
 });
 
+applyFilter(new URLSearchParams(window.location.search).get("filter") || "all");
