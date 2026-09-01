@@ -2,6 +2,7 @@
 title: SWE to workspace to physical workspace agent
 date: 2026-08-28
 lang: zh-CN
+translationKey: swe-to-workspace-to-physical-workspace-agent
 description: 从 CaP-X、MHS 与具身 Agent 的交互边界出发，讨论 SWE agent 的工作方式如何走向动态、异步且不可逆的物理世界。
 tags: Agents, Embodied Intelligence, Physical AI
 featured: true
