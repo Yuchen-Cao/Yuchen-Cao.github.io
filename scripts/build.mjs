@@ -126,9 +126,10 @@ function nav(current) {
   return config.nav.map((item) => `<a href="${item.href}"${current === item.href ? ' aria-current="page"' : ""}>${item.label}</a>`).join("");
 }
 
-function layout({ title, description, body, current = "", type = "website", canonical = "/", lang = "en" }) {
+function layout({ title, description, body, current = "", type = "website", canonical = "/", lang = "en", alternates = [] }) {
   const fullTitle = title === config.siteName ? title : `${title} — ${config.shortName}`;
   const url = new URL(canonical, config.url).href;
+  const alternateLinks = alternates.map((item) => `\n  <link rel="alternate" hreflang="${item.lang}" href="${new URL(item.url, config.url).href}">`).join("");
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -138,7 +139,7 @@ function layout({ title, description, body, current = "", type = "website", cano
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="author" content="${escapeHtml(config.author)}">
   <meta name="theme-color" content="#f7f6f2">
-  <link rel="canonical" href="${url}">
+  <link rel="canonical" href="${url}">${alternateLinks}
   <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="/feed.xml">
   <link rel="stylesheet" href="/assets/styles.css">
   <meta property="og:type" content="${type}">
@@ -200,10 +201,28 @@ for (const file of postFiles) {
 }
 posts.sort((a, b) => b.date.localeCompare(a.date));
 
+function translationsFor(post) {
+  if (!post.translationKey) return [];
+  return posts.filter((candidate) => candidate.translationKey === post.translationKey).sort((a, b) => a.lang.localeCompare(b.lang));
+}
+
+function languageSwitch(post, translations) {
+  if (translations.length < 2) return "";
+  const label = post.lang === "zh-CN" ? "阅读语言" : "Read in";
+  const options = translations.map((translation) => {
+    const name = translation.lang === "zh-CN" ? "中文" : "English";
+    return translation.slug === post.slug
+      ? `<span aria-current="page">${name}</span>`
+      : `<a href="${translation.url}" hreflang="${translation.lang}" lang="${translation.lang}">${name}</a>`;
+  }).join("");
+  return `<nav class="language-switch" aria-label="${label}"><span class="language-switch-label">${label}</span>${options}</nav>`;
+}
+
 for (const post of posts) {
+  const translations = translationsFor(post);
   const closing = post.lang === "zh-CN" ? `感谢阅读。如果你也在思考这些问题，欢迎在 <a href="${config.github}">GitHub</a> 继续交流。` : `Thanks for reading. If this line of work overlaps with yours, continue the conversation on <a href="${config.github}">GitHub</a>.`;
-  const article = `<div class="article-shell" lang="${post.lang}"><header class="article-header">${postMeta(post)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">${closing}</div></div>`;
-  await writePage(post.url, layout({ title: post.title, description: post.description, body: article, current: "/writing/", type: "article", canonical: post.url, lang: post.lang }));
+  const article = `<div class="article-shell" lang="${post.lang}"><header class="article-header">${postMeta(post)}${languageSwitch(post, translations)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">${closing}</div></div>`;
+  await writePage(post.url, layout({ title: post.title, description: post.description, body: article, current: "/writing/", type: "article", canonical: post.url, lang: post.lang, alternates: translations }));
 }
 
 const featured = posts.find((post) => post.featured) || posts[0];

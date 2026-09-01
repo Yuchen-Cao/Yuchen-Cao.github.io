@@ -2,6 +2,7 @@
 title: 具身智能领域需要自己的 SWE-Bench
 date: 2026-08-18
 lang: zh-CN
+translationKey: embodied-agent-benchmark-part-1
 description: 从 Coding Agentic LLM 视角讨论 interaction loop、harness、长程依赖，以及具身智能为何需要自己的 SWE-Bench。
 tags: Agents, Embodied Intelligence, Benchmarks
 featured: true

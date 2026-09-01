@@ -117,6 +117,11 @@ button { font: inherit; }
 .page-header > p:last-child { max-width: 680px; margin: 1.8rem 0 0; color: var(--muted); font-size: 1.08rem; }
 .article-shell { width: min(calc(100% - 3rem), 980px); margin-inline: auto; }
 .article-header { padding: clamp(4.5rem, 9vw, 8rem) 0 clamp(2.8rem, 6vw, 5rem); border-bottom: 1px solid var(--line); }
+.language-switch { display: flex; width: fit-content; align-items: center; gap: .35rem; margin-top: 1.25rem; padding: .28rem; border: 1px solid var(--line); border-radius: 4px; font-family: var(--sans); font-size: .78rem; }
+.language-switch-label { margin-inline: .45rem .25rem; color: var(--muted); }
+.language-switch a, .language-switch [aria-current="page"] { padding: .28rem .58rem; border-radius: 2px; text-decoration: none; }
+.language-switch [aria-current="page"] { background: var(--accent-soft); color: var(--accent); font-weight: 750; }
+.language-switch a:hover { background: var(--paper-raised); }
 .article-header h1 { max-width: 930px; margin: 1.1rem 0 1.4rem; font-family: var(--serif); font-size: clamp(2.8rem, 6.8vw, 5.5rem); font-weight: 500; letter-spacing: -.05em; line-height: 1.03; }
 .article-shell[lang="zh-CN"] .article-header h1 { font-family: var(--sans); font-weight: 720; letter-spacing: -.045em; line-height: 1.2; }
 .article-deck { max-width: var(--reading); margin: 0; color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.24rem); line-height: 1.7; }
