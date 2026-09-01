@@ -24,17 +24,35 @@ updateToggleLabel();
 
 const filters = document.querySelectorAll("[data-filter]");
 const cards = document.querySelectorAll("[data-post-card]");
+const languageChoices = document.querySelectorAll("[data-language-choice]");
+const translationGroups = document.querySelectorAll("[data-post-card], [data-featured]");
+
+function applyReadingLanguage(language) {
+  languageChoices.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.languageChoice === language)));
+  translationGroups.forEach((group) => {
+    const variants = [...group.querySelectorAll("[data-card-translation]")];
+    const active = variants.find((variant) => variant.dataset.language === language) || variants[0];
+    variants.forEach((variant) => { variant.hidden = variant !== active; });
+  });
+  document.documentElement.dataset.readingLanguage = language;
+}
 
 function applyFilter(selected) {
   const active = [...filters].find((item) => item.dataset.filter === selected) || [...filters][0];
   if (!active) return;
   filters.forEach((item) => item.setAttribute("aria-pressed", String(item === active)));
   cards.forEach((card) => {
-    const matchesLanguage = card.dataset.language === active.dataset.filter;
     const matchesTopic = card.dataset.tags.split("|").includes(active.dataset.filter);
-    card.hidden = active.dataset.filter !== "all" && !matchesLanguage && !matchesTopic;
+    card.hidden = active.dataset.filter !== "all" && !matchesTopic;
   });
 }
+
+languageChoices.forEach((button) => {
+  button.addEventListener("click", () => {
+    localStorage.setItem("reading-language", button.dataset.languageChoice);
+    applyReadingLanguage(button.dataset.languageChoice);
+  });
+});
 
 filters.forEach((button) => {
   button.addEventListener("click", () => {
@@ -47,3 +65,4 @@ filters.forEach((button) => {
 });
 
 applyFilter(new URLSearchParams(window.location.search).get("filter") || "all");
+applyReadingLanguage(localStorage.getItem("reading-language") || (navigator.language.toLowerCase().startsWith("zh") ? "zh-CN" : "en"));

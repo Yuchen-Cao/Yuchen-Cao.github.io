@@ -2,6 +2,7 @@
 title: Beyond the Turn-Based Agent
 date: 2026-08-13
 lang: en
+translationKey: beyond-the-turn-based-agent
 description: Harness design matters, but asynchronous interaction exposes problems that cannot always be solved outside the model.
 tags: Agents, Embodied Intelligence, Systems
 featured: false
