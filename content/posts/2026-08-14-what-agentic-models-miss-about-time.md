@@ -2,6 +2,7 @@
 title: What Agentic Models Still Miss About Time
 date: 2026-08-14
 lang: en
+translationKey: what-agentic-models-miss-about-time
 description: Token order is not elapsed time. Real agents need a representation of time that survives pauses, tools, and asynchronous events.
 tags: Agents, Temporal Reasoning, Post-training
 featured: true

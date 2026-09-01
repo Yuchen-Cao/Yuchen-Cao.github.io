@@ -27,6 +27,14 @@ Supported Markdown includes headings, paragraphs, ordered and unordered lists, b
 
 Use `lang: en` or `lang: zh-CN` to give each post localized dates, reading time, labels, and typography. Existing post URLs remain based on the filename slug, so metadata and template changes do not alter permalinks.
 
+To pair two language versions of the same article, give both files the same `translationKey`:
+
+```md
+translationKey: beyond-the-turn-based-agent
+```
+
+Paired posts appear only once on the homepage and writing archive. The reading-language control switches the card title, summary, metadata, and destination URL, while each article page links directly to its alternate-language version.
+
 ## Preview locally
 
 Node.js 20 or newer is the only requirement.
