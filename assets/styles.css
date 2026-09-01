@@ -69,9 +69,9 @@ button { font: inherit; }
 .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
 
 .eyebrow, .section-label { margin: 0 0 1rem; color: var(--warm); font-size: .72rem; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
-.hero { padding: clamp(4.5rem, 9vw, 8rem) 0 2.2rem; border-bottom: 1px solid var(--line); }
+.hero { padding: clamp(3.8rem, 7vw, 6rem) 0 2.2rem; border-bottom: 1px solid var(--line); }
 .hero-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(280px, .55fr); align-items: end; gap: clamp(2.5rem, 7vw, 7rem); }
-.hero h1 { margin: 0; font-family: var(--serif); font-size: clamp(3.1rem, 6.6vw, 6.2rem); font-weight: 500; letter-spacing: -.055em; line-height: .99; }
+.hero h1 { margin: 0; font-family: var(--serif); font-size: clamp(2.8rem, 5.2vw, 4.9rem); font-weight: 500; letter-spacing: -.05em; line-height: 1.02; }
 .hero h1 em { color: var(--accent); font-weight: 500; }
 .hero-copy { margin: 0; font-size: 1.15rem; line-height: 1.75; }
 .hero-copy-en { margin: 1rem 0 0; color: var(--muted); font-family: var(--serif); font-size: 1rem; line-height: 1.6; }
@@ -177,8 +177,8 @@ button { font: inherit; }
   .brand-name, .site-nav a:nth-of-type(2) { display: none; }
   .site-nav { gap: .75rem; }
   .site-nav a { font-size: .8rem; }
-  .hero { padding-top: 3.8rem; }
-  .hero h1 { font-size: clamp(2.8rem, 14vw, 4.2rem); }
+  .hero { padding-top: 3.2rem; }
+  .hero h1 { font-size: clamp(2.5rem, 12vw, 3.5rem); }
   .research-lines { gap: .5rem 1rem; }
   .section { padding-block: 3.7rem; }
   .featured { padding: 1.4rem; }
