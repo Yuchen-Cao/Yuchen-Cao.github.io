@@ -30,7 +30,7 @@ for (const file of htmlFiles) {
     try { await stat(target); } catch { failures.push(`${path.relative(root, file)} has broken link ${href}`); }
   }
 
-  const sources = [...html.matchAll(/(?:src)="(\/[^"?]*)/g)].map((match) => match[1]);
+  const sources = [...html.matchAll(/(?:src|poster)="(\/[^"?#]*)/g)].map((match) => match[1]);
   for (const source of sources) {
     const target = path.join(out, source.replace(/^\//, ""));
     try { await stat(target); } catch { failures.push(`${path.relative(root, file)} has missing asset ${source}`); }

@@ -25,6 +25,20 @@ Start writing here.
 
 Supported Markdown includes headings, paragraphs, ordered and unordered lists, blockquotes, fenced code blocks, links, bold, emphasis, and inline code.
 
+### Videos in posts
+
+Put MP4 files in `assets/videos/<post-slug>/`. A standalone Markdown image line ending in `.mp4` renders as an inline video player:
+
+```md
+![Video description](/assets/videos/robodojo-gpt6-trajectories/cover_blocks_gpt6_mixed.mp4)
+
+*Optional caption or viewing notes.*
+```
+
+Players have playback controls, work inline on mobile, and load the video when the reader chooses to play. If a `.jpg` with the same basename exists next to a local video, it is used as the preview image. Keep videos and their preview images alongside the post in the repository; the build copies them into the published site.
+
+The RoboDojo article is editable at `content/posts/2026-09-16-robodojo-gpt6-trajectories.md`, with its English translation in `content/posts/2026-09-16-robodojo-gpt6-trajectories-en.md`. Edit these Markdown files directly, then build and upload the repository through the existing publishing workflow. Both versions share the five selected videos used in the article; the original experiment directory is not needed by the website.
+
 Use `lang: en` or `lang: zh-CN` to give each post localized dates, reading time, labels, and typography. Existing post URLs remain based on the filename slug, so metadata and template changes do not alter permalinks.
 
 To pair two language versions of the same article, give both files the same `translationKey`:
