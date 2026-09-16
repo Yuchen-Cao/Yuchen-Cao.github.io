@@ -49,6 +49,8 @@ translationKey: beyond-the-turn-based-agent
 
 Paired posts appear only once on the homepage and writing archive. The reading-language control switches the card title, summary, metadata, and destination URL, while each article page links directly to its alternate-language version.
 
+The homepage's Recent section automatically displays the newest article by date, with both language versions when available. Legacy `featured` metadata does not affect this selection.
+
 ## Preview locally
 
 Node.js 20 or newer is the only requirement.

@@ -10,9 +10,9 @@ featured: false
 
 Lately, the embodied AI community has been talking about a major improvement in GPT-6's spatial understanding. Earlier this week, Galbot released some pilot studies showing strong results with GPT-6's help on RoboDojo, a manipulation benchmark that has stumped countless VLAs. Yesterday, curiosity got the better of me. I connected GPT-6 in Codex to RoboDojo and tried a few combinations: letting π0.5 run on its own, letting GPT-6 take over and correct π0.5 along the way, and removing the VLA entirely so that GPT-6 operated independently through the control interface. For π0.5, I used a 15/50-step action selection setting.
 
-I originally wanted to see which setup performed better. But once I watched the trajectories from my own runs, I realized the fun part was this: **GPT-6 goes about things in a remarkably different way from a VLA.**
+I originally wanted to see which setup performed better. What turned out to be fascinating was **how much more alive GPT-6's way of doing things felt compared with a VLA's.**
 
-On September 16—today—RoboDojo released its official GPT-6-Astra evaluation: 42 simulation tasks, 50 episodes per task, and 2,100 trials in total. Its average Score was 28.97, with an average success rate of 22.48%, putting it at the top of the leaderboard at the time. Still some distance from the picture in my head of “connect a smart brain to a robot arm and watch it crush everything,” haha. [Official evaluation report](https://robodojo-benchmark.com/report/gpt-6-astra-eval)
+On September 16—today—RoboDojo released its official GPT-6-Astra evaluation: 42 simulation tasks, 50 episodes per task, and 2,100 trials in total. Its average Score was 28.97, with an average success rate of 22.48%, putting it at the top of the current leaderboard. Still some distance from the picture in my head of “connect a smart brain to a robot arm and watch it crush everything,” haha. [Official evaluation report](https://robodojo-benchmark.com/report/gpt-6-astra-eval)
 
 But the individual trajectories are more interesting than the leaderboard scores.
 

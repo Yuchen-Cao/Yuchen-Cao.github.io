@@ -2,6 +2,7 @@
 title: 它还不灵巧，但已经开始想办法了：GPT-6 机器人轨迹里的“活人感”
 date: 2026-09-16
 lang: zh-CN
+translationKey: robodojo-gpt6-trajectories
 description: 从揭杯纠错、投币微调，到双手叠衣与翻转数字，看看 GPT-6 的机器人轨迹里，那些尚未熟练却已经开始找办法的瞬间。
 tags: Agents, Embodied Intelligence, Physical AI
 featured: false
