@@ -242,9 +242,9 @@ function languageSwitch(post, translations) {
   return `<nav class="language-switch" aria-label="${label}"><span class="language-switch-label">${label}</span>${options}</nav>`;
 }
 
-function featuredTranslation(post) {
+function recentTranslation(post) {
   const hidden = post.lang === "en" ? "" : " hidden";
-  return `<div class="featured-translation" lang="${post.lang}" data-card-translation data-language="${post.lang}"${hidden}><div class="featured-side"><span>${post.lang === "zh-CN" ? "编辑精选" : "Editor’s pick"}</span><span>${post.lang === "zh-CN" ? "中文" : "English"}</span></div><div>${postMeta(post, { showTags: false })}<h3><a href="${post.url}">${escapeHtml(post.title)}</a></h3><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}">${post.lang === "zh-CN" ? "阅读全文" : "Read article"}</a></div></div>`;
+  return `<div class="featured-translation" lang="${post.lang}" data-card-translation data-language="${post.lang}"${hidden}><div class="featured-side"><span>${post.lang === "zh-CN" ? "最近更新" : "Recent"}</span><span>${post.lang === "zh-CN" ? "中文" : "English"}</span></div><div>${postMeta(post, { showTags: false })}<h3><a href="${post.url}">${escapeHtml(post.title)}</a></h3><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}">${post.lang === "zh-CN" ? "阅读全文" : "Read article"}</a></div></div>`;
 }
 
 for (const post of posts) {
@@ -254,11 +254,11 @@ for (const post of posts) {
   await writePage(post.url, layout({ title: post.title, description: post.description, body: article, current: "/writing/", type: "article", canonical: post.url, lang: post.lang, alternates: translations }));
 }
 
-const featuredGroup = postGroups.find((group) => group.variants.some((post) => post.featured)) || postGroups[0];
+const recentGroup = postGroups[0];
 const allTags = [...new Set(posts.flatMap((post) => post.tags))].sort();
 const home = `<div class="shell">
   <section class="hero"><p class="eyebrow">Research notebook · 研究思考笔记</p><div class="hero-grid"><h1>Thinking about agents<br><em>beyond the turn.</em></h1><div><p class="hero-copy">关于语言模型 Agent、时间推理与具身智能的技术文章。记录那些发生在模型、工具与真实世界交界处的问题。</p><p class="hero-copy-en">Technical essays on language-model agents, temporal reasoning, and embodied intelligence.</p></div></div><div class="research-lines"><span>Agentic systems</span><span>Temporal reasoning</span><span>Embodied intelligence</span></div></section>
-  <section class="section featured-section"><div class="section-head"><div><p class="section-label">Featured / 精选</p><h2>One idea to start with</h2></div></div><article class="featured" data-featured>${featuredGroup.variants.map(featuredTranslation).join("")}</article></section>
+  <section class="section featured-section"><div class="section-head"><div><p class="section-label">Recent / 最近更新</p><h2>Most recent article</h2></div></div><article class="featured" data-featured>${recentGroup.variants.map(recentTranslation).join("")}</article></section>
   <section class="section"><div class="section-head"><div><p class="section-label">Latest writing / 最新文章</p><h2>Ideas, with the argument visible.</h2></div><p class="section-intro">每个主题只显示一次；可切换阅读语言，或按研究主题筛选。</p></div>${filterControls(allTags)}<div class="post-list">${postGroups.map(card).join("")}</div></section>
 </div>`;
 await writePage("/", layout({ title: config.siteName, description: config.description, body: home, canonical: "/" }));
