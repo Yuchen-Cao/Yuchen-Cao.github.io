@@ -1,4 +1,5 @@
 import { readFile, writeFile, readdir, mkdir, cp, rm } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import config from "../site.config.mjs";
 
@@ -73,6 +74,15 @@ function markdown(source) {
     }
     if (code) { codeLines.push(line); continue; }
     if (!line.trim()) { flushParagraph(); closeList(); continue; }
+    const video = line.trim().match(/^!\[([^\]]*)\]\((https?:\/\/[^\s)]+\.mp4|\/[^\s)]*\.mp4)\)$/i);
+    if (video) {
+      flushParagraph(); closeList();
+      const [, label, source] = video;
+      const poster = source.replace(/\.mp4$/i, ".jpg");
+      const posterAttribute = source.startsWith("/") && existsSync(path.join(root, poster.slice(1))) ? ` poster="${escapeHtml(poster)}"` : "";
+      html.push(`<figure class="article-video"><video controls playsinline preload="none" aria-label="${escapeHtml(label)}"${posterAttribute}><source src="${escapeHtml(source)}" type="video/mp4"><a href="${escapeHtml(source)}">${escapeHtml(label || "MP4")}</a></video></figure>`);
+      continue;
+    }
     if (/^---+$/.test(line.trim())) { flushParagraph(); closeList(); html.push("<hr>"); continue; }
     const heading = line.match(/^(#{1,4})\s+(.+)$/);
     if (heading) {
