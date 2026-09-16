@@ -1,10 +1,12 @@
 import { readFile, writeFile, readdir, mkdir, cp, rm } from "node:fs/promises";
 import { existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 import path from "node:path";
 import config from "../site.config.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "dist");
+const styleVersion = createHash("sha256").update(await readFile(path.join(root, "assets/styles.css"))).digest("hex").slice(0, 12);
 
 const escapeHtml = (value = "") =>
   String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
@@ -151,7 +153,7 @@ function layout({ title, description, body, current = "", type = "website", cano
   <meta name="theme-color" content="#f7f6f2">
   <link rel="canonical" href="${url}">${alternateLinks}
   <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="/feed.xml">
-  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/styles.css?v=${styleVersion}">
   <meta property="og:type" content="${type}">
   <meta property="og:title" content="${escapeHtml(fullTitle)}">
   <meta property="og:description" content="${escapeHtml(description)}">
