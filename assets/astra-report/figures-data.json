@@ -369,7 +369,7 @@
         "historical feedback messages"
       ],
       "configuration_caption_zh": "两种历史接口。Direct Policy 按控制步采样近期图像与本体状态；Agentic Policy 分别控制此前文本交互和决策时图像的保留范围。所有 Agentic 条件都保留当前图像、机器人状态与运动反馈；“文本历史”包括计划、动作调用和此前的模型输出。时间刻度表示控制步，而非秒。",
-      "result_caption_zh": "历史信息消融。Direct Policy 从仅当前观测的 49.3% 提升到三帧近期观测的 72.7%；增加时间跨度或采样密度未进一步改善结果。Agentic Policy 中，完整文本与视觉历史达到 100%，但这一组仅在 23 个任务、每配置 23 个 episode 上评估，不能将其直接视为完整 RoboLab-120 的成绩。",
+      "result_caption_zh": "历史信息消融。Direct Policy 从仅当前观测的 49.3% 提升到三帧近期观测的 72.7%；增加时间跨度或采样密度未进一步改善结果。Agentic Policy 使用完整文本与视觉历史时达到 100%。Direct 每配置包含 30 个任务、150 个 episode，Agentic 每配置包含 23 个任务、23 个 episode。",
       "caveats": [
         "Direct history: 30 tasks and 150 episodes per condition. Agentic history: 23-task subset and 23 episodes per condition; cost constrained the evaluation.",
         "Assistant history can indirectly mention old state/feedback even though old robot-state and feedback messages are removed.",
