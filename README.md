@@ -63,7 +63,7 @@ The project draft is published for review at `https://Yuchen-Cao.github.io/writi
 - `:::takeaways … :::`, `:::figure N`, and `:::video-cases … :::` are report-specific blocks. The video block preserves the original case request and renders task tabs with clearly marked placeholders. No video or event timing is fabricated.
 - To add real rollouts later, select the cases first and provide each video's policy, viewpoint, playback timing, and event annotations; the current placeholder deliberately does not infer these from old assets.
 
-After building, run `node scripts/export-report.mjs` to create a self-contained preview at `../outputs/astra-report/astra-robotics-preview.html` and `dist/astra-robotics-preview.html`. Styles, scripts and images are embedded, so the exported file can be opened without a preview server. Re-export after changing the report. The original Notion page remains the writing reference.
+After building, run `node scripts/export-report.mjs` to create a self-contained preview at `../outputs/astra-report/astra-robotics-preview.html` and `dist/astra-robotics-preview.html`. Styles, scripts and images are embedded, so the exported file can be opened without a preview server. Re-export after changing the report.
 
 Node.js 20 or newer is the only requirement.
 
