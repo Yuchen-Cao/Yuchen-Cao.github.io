@@ -1,0 +1,135 @@
+{
+  "1": {
+    "short": "SenseNova",
+    "title": "Has GPT-6-Astra Achieved Embodied Intelligence?",
+    "url": "https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence",
+    "authors": "SenseNova",
+    "year": "2026"
+  },
+  "2": {
+    "short": "Galbot Team",
+    "title": "Systematically Exploring the Capabilities of GPT-6 Astra as Embodied Policies",
+    "url": "https://arxiv.org/abs/2609.38537",
+    "authors": "Galbot Team",
+    "year": "2026"
+  },
+  "3": {
+    "short": "NVIDIA Research",
+    "title": "Astranomy: An Empirical Study of GPT-6 Astra as a Native Robot Policy",
+    "url": "https://research.nvidia.com/labs/srl/projects/astranomy/",
+    "authors": "NVIDIA Research",
+    "year": "2026"
+  },
+  "4": {
+    "short": "Physical Intelligence",
+    "title": "π0.7: a Steerable Model with Emergent Capabilities",
+    "url": "https://www.pi.website/blog/pi07",
+    "authors": "Physical Intelligence",
+    "year": "2026"
+  },
+  "5": {
+    "short": "Brown et al.",
+    "title": "Language Models are Few-Shot Learners",
+    "url": "https://arxiv.org/abs/2005.14165",
+    "authors": "Tom B. Brown et al.",
+    "year": "2020"
+  },
+  "6": {
+    "short": "Generalist",
+    "title": "GEN-1.5: Embodied Foundation Models are One-Shot Learners",
+    "url": "https://generalistai.com/blog/gen-1.5",
+    "authors": "Generalist",
+    "year": "2026"
+  },
+  "7": {
+    "short": "Yang et al.",
+    "title": "GPT-6 Astra Is a Native Visuo-Tactile Policy for Contact-Rich Manipulation",
+    "url": "https://arxiv.org/abs/2610.26846",
+    "authors": "Yang et al.",
+    "year": "2026"
+  },
+  "8": {
+    "short": "Wang et al.",
+    "title": "GPT-6-Astra Understands Touch and Outperform Vision–Tactile–Language–Action Models",
+    "url": "https://arxiv.org/abs/2610.28457",
+    "authors": "Wang et al.",
+    "year": "2026"
+  },
+  "9": {
+    "short": "NVIDIA Research",
+    "title": "Long-WAM: Scaling the Context of World-Action Models",
+    "url": "https://nvlabs.github.io/LongLive/Long-WAM/#planning",
+    "authors": "NVIDIA Research",
+    "year": "2026"
+  },
+  "10": {
+    "short": "Anthropic / Andon Labs",
+    "title": "Project Pilot: Can AI control a drone?",
+    "url": "https://www.anthropic.com/research/project-pilot",
+    "authors": "Anthropic and Andon Labs",
+    "year": "2026"
+  },
+  "11": {
+    "short": "Liang et al.",
+    "title": "Code as Policies: Language Model Programs for Embodied Control",
+    "url": "https://code-as-policies.github.io/",
+    "authors": "Jacky Liang et al.",
+    "year": "2022"
+  },
+  "12": {
+    "short": "Fu et al.",
+    "title": "CaP-X: A Framework for Benchmarking and Improving Coding Agents for Robot Manipulation",
+    "url": "https://arxiv.org/abs/2603.22435",
+    "authors": "Letian Fu et al.",
+    "year": "2026"
+  },
+  "13": {
+    "short": "Goetting",
+    "title": "VLA as Tools: Exploring the Space of Agentic Robot Generalists",
+    "url": "https://dylan-goetting.github.io/images/vat.pdf",
+    "authors": "Dylan Goetting",
+    "year": "年份未注明"
+  },
+  "14": {
+    "short": "Zhang et al.",
+    "title": "Harness VLA: Steering Frozen VLAs into Reliable Manipulation Primitives via Memory-Guided Agents",
+    "url": "https://arxiv.org/abs/2607.08448",
+    "authors": "Yixian Zhang et al.",
+    "year": "2026"
+  },
+  "15": {
+    "short": "NVlabs",
+    "title": "VoLo: A Physical Orchestrator for Open-Vocabulary Long-Horizon Manipulation",
+    "url": "https://arxiv.org/abs/2606.07723",
+    "authors": "Siyi Chen et al.",
+    "year": "2026"
+  },
+  "16": {
+    "short": "ARC authors",
+    "title": "ARC: A Reasoning Recipe for Robot Foundation Models",
+    "url": "https://arc-robot-reasoning.github.io/",
+    "authors": "Anonymous authors (project website)",
+    "year": "2026"
+  },
+  "17": {
+    "short": "Google DeepMind",
+    "title": "Introducing Gemini Robotics ER 2",
+    "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-robotics-er-2/",
+    "authors": "Steven Hansen and Peng Xu; Google DeepMind",
+    "year": "2026"
+  },
+  "18": {
+    "short": "Su et al.",
+    "title": "Multi-Stream LLMs: Unblocking Language Models with Parallel Streams of Thoughts, Inputs and Outputs",
+    "url": "https://arxiv.org/abs/2605.12460",
+    "authors": "Guinan Su, Yanwu Yang, Xueyan Li, Jonas Geiping",
+    "year": "2026"
+  },
+  "19": {
+    "short": "Li et al.",
+    "title": "Engagement Process: Rethinking the Temporal Interface of Action and Observation",
+    "url": "https://arxiv.org/abs/2605.11484",
+    "authors": "Jialian Li, Yuchen Cao, Junhong Liu, Weiran Guo, Xutao Wang, Jiaming Song, Jiahao Zhang, Jie Chen",
+    "year": "2026"
+  }
+}
