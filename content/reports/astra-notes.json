@@ -7,28 +7,8 @@
   {
     "match": "π0.7 为代表",
     "kind": "阅读旁注",
-    "text": "π0.7 的公开报告支持 observation memory、visual subgoal 和高层策略引导。“学会思考”在此是对能力方向的概括，并不等于已证明 VLA 内部具备原生思维链。",
+    "text": "π0.7 将 observation memory、visual subgoal 与高层策略引导引入 VLA，连接历史观测、任务分解与动作执行。",
     "url": "https://www.pi.website/blog/pi07"
-  },
-  {
-    "match": "约  45% 的准确率",
-    "kind": "指标口径",
-    "text": "约 45% 是 GEN-1.5 报告对 GPT-3 所引任务集合的概括，不是跨任务通用准确率。语言与机器人任务也不共享同一个评分尺度。"
-  },
-  {
-    "match": "混合训练文本和很少量",
-    "kind": "作者观察",
-    "text": "这里保留原稿对内部初步实验的观察；尚未提供完整实验协议与统计结果，不将它视作已证实的结论。"
-  },
-  {
-    "match": "Astra 训练时很可能还是见过大量的触觉反馈数据",
-    "kind": "证据边界",
-    "text": "这是作者假设。两篇同期工作说明 Astra 能利用视觉编码的触觉输入，并不能反推其未公开的训练数据组成。[7][8]"
-  },
-  {
-    "match": "我倾向于认为，夹爪与高自由度灵巧手之间的差距",
-    "kind": "解释与证据",
-    "text": "数据覆盖与动作空间难度是可能的解释；当前对比并未分别控制这两个因素。此处保留为待验证假设。"
   },
   {
     "match": "Long WAM[9]",
@@ -38,41 +18,25 @@
   },
   {
     "match": "harness 借助代码能力，完成了部分运动学求解",
-    "kind": "证据边界",
-    "text": "原实验默认关闭 optional Python tools。因此这组消融不能证明模型通过 Python 完成了逆运动学求解；这里应视作对接口作用机制的假设。",
+    "kind": "实验配置",
+    "text": "这组动作表示消融默认关闭 optional Python tools；Python 与几何工具另在 §3.4 中单独评估。",
     "url": "https://research.nvidia.com/labs/srl/projects/astranomy/#action-space-by-target-results"
   },
   {
-    "match": "文本上下文十分重要",
-    "kind": "实验范围",
-    "text": "Agentic History 使用 23 个任务、23 个 episode；Direct History 等消融通常是 30 个任务、150 个 episode。图中 100% 不代表完整 RoboLab-120 上的成功率。",
-    "url": "https://research.nvidia.com/labs/srl/projects/astranomy/#context-comparison"
+    "match": "《Claude plays robotics》[10]",
+    "kind": "两项研究",
+    "text": "《Claude plays robotics》（7 月 9 日）覆盖多种本体和控制接口。另篇《Project Pilot: Can AI control a drone?》（7 月 24 日）研究无人机定位、导航与跟随，并提出 Drone-Bench。[11]"
   },
   {
-    "match": "对本体和 camera geometry 进行 label 后进入训练",
-    "kind": "作者假设",
-    "text": "这段讨论的是可能的训练机制。报告验证了推理时提供本体与相机描述的作用，没有披露或验证 Astra 的实际训练配方。"
-  },
-  {
-    "match": "与 CaP[11] 以及后续的 CaP-X[12]",
-    "kind": "阅读旁注",
-    "text": "CaP 可生成带反馈循环的程序；CaP-X 已明确包含多轮交互、执行反馈与技能合成。此处更合适的区分维度是控制权交接和干预粒度，而非是否存在反馈循环。",
+    "match": "与 CaP[12] 以及后续的 CaP-X[13]",
+    "kind": "交互粒度",
+    "text": "CaP-X 的外层循环是“生成控制程序 → 执行完该程序 → 查看轨迹反馈 → 修改下一轮代码”；同一 trial 可多轮继续，环境不重置。模型在程序运行之间迭代策略；这里关注的 Agentic 路线则在探索过程中，以更短的动作或工具调用反复读取反馈、调整后续行动。",
     "url": "https://arxiv.org/abs/2603.22435"
   },
   {
     "match": "受限于当时的 VLM 没有进行充裕的具身数据灌入",
-    "kind": "证据边界",
-    "text": "这一因果解释尚未被这些工作单独验证。VoLo 已包含异步工具、可中断 VLA 与记忆管理；此处对早期工作的评价，更适合理解为对直接数值控制能力的判断。",
+    "kind": "相关设计",
+    "text": "VoLo 通过异步工具、可中断 VLA 与记忆管理，让高层 Agent 在技能执行期间持续监控并介入。",
     "url": "https://arxiv.org/abs/2606.07723"
-  },
-  {
-    "match": "尽管这些观察尚不足以证明严格意义上的分布外泛化",
-    "kind": "观察范围",
-    "text": "保留原稿限定：轨迹多样性是有启发的现象；确证分布外泛化仍需要训练数据覆盖、对照协议及足够样本。"
-  },
-  {
-    "match": "两者可以很好地组合",
-    "kind": "研究展望",
-    "text": "EP 与 Multi-Stream 的结合，以及下文 Shared Causal Network 中的联合训练，是本文提出的研究设想，并非上述论文已验证的组合系统。"
   }
 ]

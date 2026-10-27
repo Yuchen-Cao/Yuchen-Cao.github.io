@@ -48,11 +48,11 @@ source: https://app.notion.com/p/405c548b160f802fa649f99390666aa0
 
 ### 1.1 Physical ICL：通用模型已有知识在具身任务中被激活的方式
 
-在不训练的情况下，具有划时代意义的语言模型 GPT-3 可以在不训练的情况下通过 1-shot ICL 获得约  45% 的准确率[5][6]。GEN-1.5 的技术报告[6]类比这类设计，将之迁移至物理世界的机器人任务上。
+具有划时代意义的 GPT-3 展示了预训练 LLM 的 one-shot / few-shot 能力：保持模型权重固定，将任务示例放进上下文，再评测它对新输入的回答。GEN-1.5 的技术报告引用 GPT-3 的语言任务结果——one-shot 约 45%，few-shot 约 65%——并将这套评测思路迁移到物理世界：用一段观测与动作示教作为上下文，检验预训练模型能否在新场景中完成任务。[5][6]
 
 :::figure 2
 
-GEN-1.5 在十个短时程任务上报告 one-shot ICL 平均成功率 59%，并展示了跨示教组合与非示教路径的行为。[6]
+GEN-1.5 在十个短时程任务上报告 one-shot ICL 平均成功率 59%：仅将示教放进上下文，直接评测预训练模型。作为进一步适配的对照，使用少量数据做 10 次梯度更新后，成功率达到 83%。报告还展示了跨示教组合与非示教路径的行为。[6]
 
 :::figure 3
 
@@ -190,11 +190,11 @@ Astranomy 细致消融了在 Direct Policy 或 Agentic Policy 下，使用 EEF �
 
 ### 3.5 From CaP to Agentic Robotics
 
-近几个月，Agentic Robotics 的讨论逐渐开始火热。Anthropic 的 pilot research[10] 让人们想起了 Code-as-Policy 路线。
+近几个月，Agentic Robotics 的讨论逐渐开始火热。Anthropic 在《Claude plays robotics》[10] 中系统比较了直接控制、代码控制、预训练 policy 监督与 RL 等接口，其中的代码控制让人们想起了 Code-as-Policy 路线。
 
-不过与 CaP[11] 以及后续的 CaP-X[12] 侧重于比较稀疏地生成可执行的控制程序不同，现代 Agentic Robotics 则更强调模型在执行过程中反复接收反馈、维护自身决策历史，并持续修改后续策略。
+不过与 CaP[12] 以及后续的 CaP-X[13] 侧重于比较稀疏地生成可执行的控制程序不同，现代 Agentic Robotics 则更强调模型在执行过程中反复接收反馈、维护自身决策历史，并持续修改后续策略。
 
-在 Astra 发布之前，VLA-as-Tools[13]，Harness VLA[14] 以及 VoLoAgent[15] 等工作实际都在尝试 RFM-Assisted Policy，尝试利用 sys-2 的 VLM agentic 能力，配合 VLA 这类 sys-1 模型解决具身领域的长程富接触问题。受限于当时的 VLM 没有进行充裕的具身数据灌入，VLM 的能力被限制在上层的规划与监控，没有直接介入控制的能力。而 Astra 显然同时具备 Agentic 层面的长程规划、trial and error，以及随时接入修正控制策略的能力。这让人不禁发问，如果成本和实时性问题被解决，sys-1 这一层是否还有存在的必要？
+在 Astra 发布之前，VLA-as-Tools[14]，Harness VLA[15] 以及 VoLoAgent[16] 等工作实际都在尝试 RFM-Assisted Policy，尝试利用 sys-2 的 VLM agentic 能力，配合 VLA 这类 sys-1 模型解决具身领域的长程富接触问题。受限于当时的 VLM 没有进行充裕的具身数据灌入，VLM 的能力被限制在上层的规划与监控，没有直接介入控制的能力。而 Astra 显然同时具备 Agentic 层面的长程规划、trial and error，以及随时接入修正控制策略的能力。这让人不禁发问，如果成本和实时性问题被解决，sys-1 这一层是否还有存在的必要？
 
 ## 4 Beyond Success Rates: What Robot Rollouts Reveal About Generalization
 
@@ -222,9 +222,9 @@ Astranomy 细致消融了在 Direct Policy 或 Agentic Policy 下，使用 EEF �
 
 在这方面也已有一些研究工作。
 
-- **ARC：异步推理与控制解耦。** ARC 使用后台 VLM 更新 action-grounded reasoning trace，底层策略在执行 15 Hz 动作控制时消费最新有效 trace。其中的 reasoning 约 1 Hz 更新。[16]
-- **Gemini Robotics ER 2：Bidirectional Streaming**。 Google 明确提出通过双向流式接口接收连续视频、音频和文本，并调用 VLA 与机器人 API。这里已经很接近 Agentic Physical Interaction 的产品级范式。不过，双向 API 流式交互不自动等价于模型内部 Observation、Reasoning、Action 三流同时自回归。[17]
-- **Multi-Stream LLM** 与 **Engagement Process**：更彻底的模型和交互层统一。 Multi-Stream LLM 研究让多个输入和输出流在同一个模型前向过程中并行演化；EP 则将物理交互重新定义为共享时间线上的异步观测与动作事件。[18][19]两者可以很好地组合：EP 定义与环境交互的时序语义，Multi-Stream 架构负责学习这种时序下的信息处理与输出。
+- **ARC：异步推理与控制解耦。** ARC 使用后台 VLM 更新 action-grounded reasoning trace，底层策略在执行 15 Hz 动作控制时消费最新有效 trace。其中的 reasoning 约 1 Hz 更新。[17]
+- **Gemini Robotics ER 2：Bidirectional Streaming**。 Google 明确提出通过双向流式接口接收连续视频、音频和文本，并调用 VLA 与机器人 API。这里已经很接近 Agentic Physical Interaction 的产品级范式。不过，双向 API 流式交互不自动等价于模型内部 Observation、Reasoning、Action 三流同时自回归。[18]
+- **Multi-Stream LLM** 与 **Engagement Process**：更彻底的模型和交互层统一。 Multi-Stream LLM 研究让多个输入和输出流在同一个模型前向过程中并行演化；EP 则将物理交互重新定义为共享时间线上的异步观测与动作事件。[19][20]两者可以很好地组合：EP 定义与环境交互的时序语义，Multi-Stream 架构负责学习这种时序下的信息处理与输出。
 
 如果我们不再将机器人控制表示为严格串行的 Observation → Reasoning → Action 循环，而是让持续输入的 Observation、较低频的 Reasoning，以及高频 Action 共享一条物理时间线，那么是否能够同时保留大模型的长时程推理能力与实时机器人控制的要求？<br />进一步地，我们或许可以让这些不同速率的事件在同一个 Shared Causal Network 中联合训练，使模型不仅学习下一步做什么，也学习何时应该观察、何时重新思考，以及何时必须及时干预。
 

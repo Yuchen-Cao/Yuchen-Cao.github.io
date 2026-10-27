@@ -8,6 +8,7 @@ import { renderReport } from "./report.mjs";
 const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "dist");
 const styleVersion = createHash("sha256").update(await readFile(path.join(root, "assets/styles.css"))).digest("hex").slice(0, 12);
+const reportStyleVersion = createHash("sha256").update(await readFile(path.join(root, "assets/report-figures.css"))).digest("hex").slice(0, 12);
 
 const escapeHtml = (value = "") =>
   String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
@@ -155,7 +156,7 @@ function layout({ title, description, body, current = "", type = "website", cano
   <link rel="canonical" href="${url}">${alternateLinks}
   <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="/feed.xml">
   <link rel="stylesheet" href="/assets/styles.css?v=${styleVersion}">
-  ${report ? '<link rel="stylesheet" href="/assets/report.css"><link rel="stylesheet" href="/assets/report-figures.css">' : ''}
+  ${report ? `<link rel="stylesheet" href="/assets/report.css"><link rel="stylesheet" href="/assets/report-figures.css?v=${reportStyleVersion}">` : ''}
   ${draft ? '<meta name="robots" content="noindex, nofollow">' : ''}
   <meta property="og:type" content="${type}">
   <meta property="og:title" content="${escapeHtml(fullTitle)}">
