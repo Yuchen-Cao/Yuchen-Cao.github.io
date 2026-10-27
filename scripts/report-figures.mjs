@@ -44,7 +44,7 @@ function physicalFigure() {
     '模型根据示例识别任务，在新的输入上生成延续：语言模型回答新问题，具身模型根据当前观测继续行动。'
   ];
   const panels = ['01 评测输入','02 固定模型','03 生成结果'].map((label,step)=>({label,html:`<div class="rf-icl-comparison" data-focus="${step}"><div class="rf-icl-axis"><span>示例 + 新输入</span><span>预训练权重固定</span><span>新输入的输出</span></div>${row('Language model','One-shot / few-shot evaluation',languageInput,'LLM',languageOutput,step)}${row('Embodied model','Physical one-shot evaluation',physicalInput,'GEN-1.5',physicalOutput,step)}<p class="rf-icl-explanation">${explanations[step]}</p></div>`}));
-  return figure(2,'从语言 few-shot 评测，到物理 one-shot 评测',tabs('rf-physical-icl',panels),`参照 ${source('gen','GEN-1.5，Figure 1')} 与 <a href="https://arxiv.org/abs/2005.14165">GPT-3</a> 的 in-context learning 评测方式重绘。两者都将示例放入上下文，保持预训练权重固定，并在新输入上评测；物理提示的示例由传感器观测与动作轨迹组成。`);
+  return figure(2,'从语言 few-shot 评测，到物理 one-shot 评测',tabs('rf-physical-icl',panels),`${source('gen','GEN-1.5，Figure 1')} 与 <a href="https://arxiv.org/abs/2005.14165">GPT-3</a> 的 in-context learning 评测方式。两者都将示例放入上下文，保持预训练权重固定，并在新输入上评测；物理提示的示例由传感器观测与动作轨迹组成。`);
 }
 
 function genFigure(){return figure(3,'Physical ICL：从示教到任务成功',tabs('rf-gen',[
@@ -55,12 +55,12 @@ function genFigure(){return figure(3,'Physical ICL：从示教到任务成功',t
 function iclFigure(){return figure(4,'SenseNova ICL：把探索整理成可复用的知识包',tabs('rf-knowledge',[
 {label:'准备阶段',html:flow(box('训练数据 / 环境','允许用于准备的任务资料','blue'),box('Astra 探索','阅读、分析、试验与整理'),box('Knowledge package K','写入文件并在测试前冻结','orange'))+`<div class="rf-package">${['Task guidance','Motion references','Visual references','Executable helpers','Checks & recovery','Metadata & provenance'].map(x=>box(x,'知识包的组成','blue')).join('')}</div>`+note('ICL 准备阶段产出知识包；不更新模型权重。')},
 {label:'测试阶段',html:flow(box('冻结的 K','只读检索与适配','blue'),box('Astra','Retrieve · Adapt · Check'),box('Test episode','根据实时观测执行','orange'))+`<div class="rf-loop">↶ 新观测与环境反馈，继续适配当前任务</div>`+note('测试时读取准备阶段形成的资料，将任务相关知识用于当下的决策。')}
-]),`根据 ${source('sense','SenseNova')} 的 Knowledge package 图重绘。它与直接将 sensorimotor demo 放入时间上下文的 Physical ICL，在输入组织与准备流程上不同；二者均不要求测试时更新模型权重。`);}
+]),`${source('sense','SenseNova')} 的 Knowledge package。它与直接将 sensorimotor demo 放入时间上下文的 Physical ICL，在输入组织与准备流程上不同；二者均不要求测试时更新模型权重。`);}
 
 function budgetFigure(){const curves=DATA.studies.sensenova.exact_data.budget_curves;return figure(5,'交互预算：标准步数与 10× 上限',tabs('rf-budget',[
 {label:'1× / 10× 对比',html:chart('budget',curves.map(t=>({label:t.name,values:[1,10].map(b=>t.points.find(p=>p.budget===b)?.success_pct??null),group:t.name.includes('VLN')?'导航':t.name.includes('Dex')||t.name.includes('JoCo')?'灵巧操作':'操作'})),['1× 标准预算','10× 预算'])},
 {label:'各任务的实测预算点',html:chart('budget-points',curves.flatMap(t=>t.points.map(p=>({label:`${t.name} · ${p.budget}×`,values:[p.success_pct],group:t.name}))),['成功率'],{filterLabel:'选择预算曲线对应任务',defaultGroup:'RoboDojo',detail:'选择任务，查看报告中的各个实测预算点。'})}
-]),`按 ${source('sense','SenseNova，Figure 4')} 的预算曲线实测点重绘。单位：成功率（%）；横向预算倍率指环境动作步数，扩展同一个 episode，不重置环境。BEHAVIOR 未测 10×。`);}
+]),`${source('sense','SenseNova，Figure 4')} 的推理预算与成功率。单位：成功率（%）；横向预算倍率指环境动作步数，扩展同一个 episode，不重置环境。BEHAVIOR 未测 10×。`);}
 
 function robocasaFigure(){return figure(9,'RoboCasa365：见过的任务与未见组合',chart('robocasa',rcRows.map(r=>({label:r[0],values:r.slice(1,4),group:r[4]})),['π0.5','Astra Direct','Astra Hybrid']),`数据来自 ${source('galbot','Galbot，Table 6')}。单位：成功率（%）；每个 split 选取 5 个任务，每任务 5 个 episode。Composite unseen 中 Direct 为 56%，Hybrid 为 36%，π0.5 为 4%。`);}
 function wamFigure() {
@@ -80,7 +80,7 @@ function timelineFigure() {
     +lane('Reasoning','reason',[[7,28,'推理 R₁'],[55,28,'推理 R₂']])
     +lane('Action','action',[[36,11,'A₁'],[84,10,'A₂']])
     +lane('Physical time','world',[[0,36,'冻结'],[36,11,'推进',true],[47,37,'冻结'],[84,10,'推进',true],[94,6,'冻结']],'rf-world-lane');
-  return figure(16,'当推理需要时间，物理世界会不会等待？',`<div class="rf-time-widget" data-rf-time><div class="rf-controls">${controls}</div><label class="rf-time-slider">查看时刻 <input type="range" min="0" max="100" value="30" step="1" aria-label="拖动查看时间线" data-rf-time-range><output data-rf-time-position>30 / 100</output></label><div class="rf-timeline" data-rf-timeline><div class="rf-time-cursor" style="--rf-progress:.3" data-rf-time-cursor></div>${timeline}</div><output class="rf-time-status" data-rf-time-status aria-live="polite">暂停仿真：模型正在推理，环境的物理时间被冻结。</output>${note('切换三种执行方式并拖动游标。仿真可以在推理时暂停；同步真机仍等待下一段动作，但外界持续变化；异步交互让观测、推理与控制重叠。')}</div>`,`作者对暂停仿真、同步真机与异步交互的概念重绘。横轴为归一化的墙钟时间；Physical time 一行标明环境时间是冻结还是推进，异步模式展示观测、推理与控制的并行关系。`);
+  return figure(16,'当推理需要时间，物理世界会不会等待？',`<div class="rf-time-widget" data-rf-time><div class="rf-controls">${controls}</div><label class="rf-time-slider">查看时刻 <input type="range" min="0" max="100" value="30" step="1" aria-label="拖动查看时间线" data-rf-time-range><output data-rf-time-position>30 / 100</output></label><div class="rf-timeline" data-rf-timeline><div class="rf-time-cursor" style="--rf-progress:.3" data-rf-time-cursor></div>${timeline}</div><output class="rf-time-status" data-rf-time-status aria-live="polite">暂停仿真：模型正在推理，环境的物理时间被冻结。</output>${note('切换三种执行方式并拖动游标。仿真可以在推理时暂停；同步真机仍等待下一段动作，但外界持续变化；异步交互让观测、推理与控制重叠。')}</div>`,`暂停仿真、同步真机与异步交互的时间关系。横轴为归一化的墙钟时间；Physical time 一行标明环境时间是冻结还是推进，异步模式展示观测、推理与控制的并行关系。`);
 }
 
 function tactileFigure(){return figure(7,'触觉反馈：两个独立的插孔实验',tabs('rf-tactile',[
@@ -91,7 +91,7 @@ function tactileFigure(){return figure(7,'触觉反馈：两个独立的插孔�
 function dexterityFigure(){const d=DATA.studies.galbot.exact_data.dexterity;const groups=['搬运与收纳','搬运与收纳','搬运与收纳','接触与对齐','搬运与收纳','搬运与收纳','接触与对齐','接触与对齐','接触与对齐','接触与对齐'];return figure(8,'Dexterity：高层修正与低层控制先验',tabs('rf-dexterity',[
 {label:'按操作类型查看',html:chart('dexterity',d.rows.map((r,i)=>({label:r[0],values:r.slice(1),group:groups[i]})),['π0.5','Astra Direct','Astra Hybrid'],{unit:'',detail:'条形表示子目标完成分数（0–100）。'})},
 {label:'总体均值',html:chart('dexterity-mean',[{label:'10 个任务平均',values:d.mean}],['π0.5','Astra Direct','Astra Hybrid'],{unit:''})+note('Hybrid 约 88.02% 的执行步沿用未修改的 π0.5 动作，11.98% 由 Astra 修正；占比按执行步数计算。')}
-]),`根据 ${source('galbot','Galbot，Table 3')} 重绘。指标是子目标完成分数（0–100）；每任务 5 个 case。π0.5 / Direct / Hybrid 平均为 44.2 / 16.6 / 61.6。可按操作类型筛选任务。`);}
+]),`数据：${source('galbot','Galbot，Table 3')}。指标是子目标完成分数（0–100）；每任务 5 个 case。π0.5 / Direct / Hybrid 平均为 44.2 / 16.6 / 61.6。可按操作类型筛选任务。`);}
 
 function ablationFigure(n,key,title){const d=DATA.astranomy[key];const rows=d.rows;return figure(n,title,tabs(`rf-${key}-metric`,['Direct Policy','Agentic Policy'].map(policy=>({label:policy,html:chart(`astra-${key}-${policy}`,rows.filter(r=>r.policy===policy).map(r=>({label:r.label,values:[r.sr,r.score],sub:`${r.tasks} tasks · ${r.episodes} episodes`,details:[r.successes?`${r.successes} / ${r.episodes} 次成功`:`${r.episodes} episodes`, '包含部分完成的平均得分']})),['SR (%)','Score (/100)'],{unit:''})}))),`${key==='history'?d.result_caption_zh:d.caption_zh} 数据：<a href="${d.source_url}">Astranomy 原图</a>。`);}
 
@@ -114,14 +114,17 @@ function verifiedHistoryFigure() {
     });
     return { label: policy, html: tabs(`rf-history-config-${pi}`, configPanels) };
   });
-  return figure(12, 'History configuration：分别保留哪些信息', tabs('rf-history-policy', policyPanels), `${d.configuration_caption_zh} 依据 <a href="${d.configuration_source_url}">Astranomy 历史配置</a> 重绘，具体采样控制步已逐项标注。`);
+  return figure(12, 'History configuration：分别保留哪些信息', tabs('rf-history-policy', policyPanels), `${d.configuration_caption_zh} 来源：<a href="${d.configuration_source_url}">Astranomy 历史配置</a>。`);
 }
 
-function verifiedPromptFigure(){const d=DATA.astranomy.prompt;const text={
-base:`机器人：Franka Panda + Robotiq 2F-85\n根坐标：+X 向桌面前方，+Y 向左，+Z 向上\n\n动作格式：x y z qw qx qy qz gripper\n位置单位：m；四元数顺序：wxyz（单位化）\nEEF 位姿参考：夹爪安装法兰，不是指尖中心\n夹爪命令：0 = 张开，1 = 闭合\n\n控制频率：15 Hz\n每行平移上限：0.02 m；旋转上限：0.1 rad\n当前 Base 片段：每次输出 3–15 个目标\n目标之间不额外插值；模型推理时仿真暂停`,
-gripper:`局部 +X：指垫延伸方向；局部 Y：夹爪开合方向\n从法兰到指垫中点的局部偏移：[d, 0, 0]\n\ng（实测闭合度）   d (m)      内侧间距 (m)\n${d.tabs[1].facts.pad_geometry_table.map(r=>`${String(r.g).padEnd(18)}${String(r.d_m).padEnd(11)}${r.inner_gap_m}`).join('\n')}\n\np_pad = p_flange + R(ee_quat) × [d, 0, 0]\n\n注意：g 是实测连续闭合度，与二元夹爪命令不同。\n接触会改变连杆状态；几何表不能用作抓取成功判断。`,
-camera:`相机轴：+X 向图像右，+Y 向上，−Z 向前（OpenGL）\n外参：p_parent = t + R(q) × p_camera\nt 单位：m；q 顺序：wxyz，旋转前先单位化\n\n${d.tabs[2].facts.cameras.map(c=>`${c.name}\n  parent: ${c.parent}\n  t: [${c.t.join(', ')}]\n  q: [${c.q_wxyz.join(', ')}]\n  fx/fy（归一化）: ${c.fx_normalized} / ${c.fy_normalized}`).join('\n\n')}\n\n主点（归一化）：[0.5, 0.5]\nu = 0.5 + fx × X / (−Z)\nv = 0.5 − fy × Y / (−Z)，且 Z < 0\n\n腕部相机随法兰移动，历史帧要使用当时的机器人姿态。\n内参适用于单张完整图像，不能直接套用三视角拼图。\n一个像素只确定射线，不能单独确定深度。`
-};return figure(14,'Prompt anatomy：三个可组合的信息片段',tabs('rf-prompt-inspector',d.tabs.map(t=>({label:t.label,html:`<p class="rf-prompt-summary">${t.summary_zh}</p><pre class="rf-prompt-code" tabindex="0">${esc(text[t.id])}</pre>`}))),`参考 <a href="${d.inspector_source_url}">Astranomy 的 Prompt Anatomy</a>，保留 Base / Gripper geometry / Camera geometry 三个页签与等宽文本查看方式。内容为中文释义及原报告参数；两个 geometry 片段附加在 Base 之上，完整配置组合三者。图中使用该实验的 DROID 本体与相机参数。`);}
+function verifiedPromptFigure() {
+  const d = DATA.astranomy.prompt;
+  const panels = d.tabs.map(t => ({
+    label: t.label,
+    html: `<pre class="rf-prompt-code" lang="en" aria-label="${esc(t.label)} original prompt" tabindex="0">${esc(t.original_text)}</pre>`
+  }));
+  return figure(14, 'Prompt variants', tabs('rf-prompt-inspector', panels), `Base execution timing; gripper and camera geometry. Source: <a href="${d.inspector_source_url}">Astranomy</a>. <a href="${d.original_text_provenance.license_asset}">Prompt license</a>.`);
+}
 
 export function renderFigure(index){switch(Number(index)){
 case 1:return policyFigure();case 2:return physicalFigure();case 3:return genFigure();case 4:return iclFigure();case 5:return budgetFigure();

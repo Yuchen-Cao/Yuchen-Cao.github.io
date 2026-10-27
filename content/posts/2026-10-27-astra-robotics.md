@@ -6,7 +6,6 @@ description: 从三份系统评测出发，追问通用模型的具身能力如�
 tags: Embodied Intelligence, Agentic Systems
 layout: report
 draft: true
-source: https://app.notion.com/p/405c548b160f802fa649f99390666aa0
 ---
 
 :::takeaways
