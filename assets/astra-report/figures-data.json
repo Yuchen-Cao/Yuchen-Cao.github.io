@@ -1,0 +1,1472 @@
+{
+  "astranomy": {
+    "meta": {
+      "title": "Astranomy — verified redraw data",
+      "source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/",
+      "accessed_date": "2026-10-27",
+      "source_report_date": "2026-10-14",
+      "method": "Numbers and precision extracted from public HTML chart styles; labels, sample sizes, and prompt facts checked against rendered DOM and source captions.",
+      "metric_units": "percentage points on a 0–100 axis",
+      "metric_definitions": {
+        "sr": "Success rate; binary task success.",
+        "score": "Mean episode completion score, including partial completion; a successful episode receives 100."
+      },
+      "controls": {
+        "model": "GPT-6 Astra",
+        "reasoning_effort": "medium",
+        "control_hz": 15,
+        "camera_views": 3,
+        "input_image_resolution": [
+          384,
+          216
+        ],
+        "inference_pauses_simulation": true
+      },
+      "caution": "These are study-specific ablations. Cross-policy comparisons also change the harness and action execution scheme. Small differences are not established as statistically significant."
+    },
+    "action": {
+      "source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/#action-space-by-target-results",
+      "source_figure": 6,
+      "rows": [
+        {
+          "label": "Absolute EEF",
+          "sr": 72.7,
+          "score": 82.2,
+          "sr_raw": 72.666667,
+          "score_raw": 82.218519,
+          "source_accessible_label": "Success rate 72.7 percent; completion score 82.2 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": true
+        },
+        {
+          "label": "Delta EEF",
+          "sr": 66.0,
+          "score": 74.6,
+          "sr_raw": 66.0,
+          "score_raw": 74.555556,
+          "source_accessible_label": "Success rate 66.0 percent; completion score 74.6 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "Relative EEF",
+          "sr": 64.7,
+          "score": 74.6,
+          "sr_raw": 64.666667,
+          "score_raw": 74.551852,
+          "source_accessible_label": "Success rate 64.7 percent; completion score 74.6 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "Absolute joint positions",
+          "sr": 48.7,
+          "score": 60.7,
+          "sr_raw": 48.666667,
+          "score_raw": 60.683704,
+          "source_accessible_label": "Success rate 48.7 percent; completion score 60.7 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "Delta joint positions",
+          "sr": 43.3,
+          "score": 57.2,
+          "sr_raw": 43.333333,
+          "score_raw": 57.153334,
+          "source_accessible_label": "Success rate 43.3 percent; completion score 57.2 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "Relative joint positions",
+          "sr": 43.3,
+          "score": 58.0,
+          "sr_raw": 43.333333,
+          "score_raw": 58.002222,
+          "source_accessible_label": "Success rate 43.3 percent; completion score 58.0 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "B-spline joint positions",
+          "sr": 37.3,
+          "score": 49.8,
+          "sr_raw": 37.333333,
+          "score_raw": 49.759259,
+          "source_accessible_label": "Success rate 37.3 percent; completion score 49.8 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "Agentic absolute EEF",
+          "sr": 86.0,
+          "score": 90.9,
+          "sr_raw": 86.0,
+          "score_raw": 90.888889,
+          "source_accessible_label": "Success rate 86.0 percent; completion score 90.9 percent",
+          "policy": "Agentic Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": true
+        },
+        {
+          "label": "Agentic absolute joint positions",
+          "sr": 84.0,
+          "score": 90.8,
+          "sr_raw": 84.0,
+          "score_raw": 90.755556,
+          "source_accessible_label": "Success rate 84.0 percent; completion score 90.8 percent",
+          "policy": "Agentic Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        }
+      ],
+      "execution_labels": {
+        "Direct Policy": "1–15 targets; 1 control step per target (as printed in Figure 6).",
+        "Agentic Policy": "1 target; held for 1–5 control steps."
+      },
+      "representation_definitions": {
+        "Absolute": "目标在固定坐标系中的绝对值。",
+        "Delta": "偏移从上一个目标累积。",
+        "Relative": "每个偏移相对当前观测。",
+        "B-spline": "关节空间三次 B-spline；模型预测 6 个 8 维系数向量。"
+      },
+      "caveats": [
+        "Figure 6 labels Direct execution as 1–15 targets, while the current Base prompt and overall ablation diagram show 3–15. Keep the original figure label or omit horizon in this chart rather than silently harmonizing the source.",
+        "Agentic EEF and joint-position difference is 2.0 percentage points. The report does not establish the difference as statistically significant.",
+        "Do not explain Agentic results as proven Python inverse-kinematics use: optional tools are disabled in the default Agentic configuration."
+      ],
+      "caption_zh": "动作表示消融。Direct Policy 在 EEF 表示下达到 72.7% 成功率，高于关节位置的 48.7%；Agentic Policy 中，两者分别为 86.0% 和 84.0%。每个条件包含 30 个任务、150 个 episode。SR 表示成功率，Score 包含部分完成得分；不同策略还使用了不同的执行方式与 harness。"
+    },
+    "history": {
+      "source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/#context-comparison",
+      "configuration_source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/#ablation-tree",
+      "source_figure": 11,
+      "rows": [
+        {
+          "label": "Current only",
+          "sr": 49.3,
+          "score": 60.7,
+          "sr_raw": 49.333333,
+          "score_raw": 60.725926,
+          "source_accessible_label": "Success rate 49.3 percent; completion score 60.7 percent",
+          "policy": "Direct Policy",
+          "image_steps": [
+            0
+          ],
+          "proprioception_steps": [
+            0
+          ],
+          "assistant_history": "none",
+          "default": false,
+          "tasks": 30,
+          "episodes": 150
+        },
+        {
+          "label": "Recent history",
+          "sr": 72.7,
+          "score": 82.2,
+          "sr_raw": 72.666667,
+          "score_raw": 82.218519,
+          "source_accessible_label": "Success rate 72.7 percent; completion score 82.2 percent",
+          "policy": "Direct Policy",
+          "image_steps": [
+            -14,
+            -7,
+            0
+          ],
+          "proprioception_steps": [
+            -14,
+            -7,
+            0
+          ],
+          "assistant_history": "none",
+          "default": true,
+          "tasks": 30,
+          "episodes": 150
+        },
+        {
+          "label": "Longer history",
+          "sr": 70.7,
+          "score": 77.8,
+          "sr_raw": 70.666667,
+          "score_raw": 77.811111,
+          "source_accessible_label": "Success rate 70.7 percent; completion score 77.8 percent",
+          "policy": "Direct Policy",
+          "image_steps": [
+            -29,
+            -14,
+            0
+          ],
+          "proprioception_steps": [
+            -29,
+            -14,
+            0
+          ],
+          "assistant_history": "none",
+          "default": false,
+          "tasks": 30,
+          "episodes": 150
+        },
+        {
+          "label": "Denser history",
+          "sr": 70.0,
+          "score": 79.4,
+          "sr_raw": 70.0,
+          "score_raw": 79.396296,
+          "source_accessible_label": "Success rate 70.0 percent; completion score 79.4 percent",
+          "policy": "Direct Policy",
+          "image_steps": [
+            -29,
+            -21,
+            -14,
+            -7,
+            0
+          ],
+          "proprioception_steps": [
+            -29,
+            -21,
+            -14,
+            -7,
+            0
+          ],
+          "assistant_history": "none",
+          "default": false,
+          "tasks": 30,
+          "episodes": 150
+        },
+        {
+          "label": "Full history",
+          "sr": 100.0,
+          "score": 100.0,
+          "sr_raw": 100.0,
+          "score_raw": 100.0,
+          "source_accessible_label": "23 of 23 successful; SR 100.0 percent; SCORE 100.0 percent",
+          "policy": "Agentic Policy",
+          "image_steps": "all_decision_times",
+          "proprioception_steps": [
+            0
+          ],
+          "assistant_history": "all",
+          "default": true,
+          "successes": 23,
+          "tasks": 23,
+          "episodes": 23
+        },
+        {
+          "label": "Full text + recent visual history",
+          "sr": 95.7,
+          "score": 95.7,
+          "sr_raw": 95.7,
+          "score_raw": 95.7,
+          "source_accessible_label": "22 of 23 successful; SR 95.7 percent; SCORE 95.7 percent",
+          "policy": "Agentic Policy",
+          "image_steps": [
+            -30,
+            -15,
+            0
+          ],
+          "proprioception_steps": [
+            0
+          ],
+          "assistant_history": "all",
+          "default": false,
+          "successes": 22,
+          "tasks": 23,
+          "episodes": 23
+        },
+        {
+          "label": "Text history",
+          "sr": 87.0,
+          "score": 94.9,
+          "sr_raw": 87.0,
+          "score_raw": 94.9,
+          "source_accessible_label": "20 of 23 successful; SR 87.0 percent; SCORE 94.9 percent",
+          "policy": "Agentic Policy",
+          "image_steps": [
+            0
+          ],
+          "proprioception_steps": [
+            0
+          ],
+          "assistant_history": "all",
+          "default": false,
+          "successes": 20,
+          "tasks": 23,
+          "episodes": 23
+        },
+        {
+          "label": "Recent text + recent visual history",
+          "sr": 73.9,
+          "score": 78.3,
+          "sr_raw": 73.9,
+          "score_raw": 78.3,
+          "source_accessible_label": "17 of 23 successful; SR 73.9 percent; SCORE 78.3 percent",
+          "policy": "Agentic Policy",
+          "image_steps": [
+            -30,
+            -15,
+            0
+          ],
+          "proprioception_steps": [
+            0
+          ],
+          "assistant_history": "at_most_two_previous_turns_at_or_before_past_sampled_observations_deduplicated",
+          "default": false,
+          "successes": 17,
+          "tasks": 23,
+          "episodes": 23
+        },
+        {
+          "label": "Visual history",
+          "sr": 56.5,
+          "score": 61.6,
+          "sr_raw": 56.5,
+          "score_raw": 61.6,
+          "source_accessible_label": "13 of 23 successful; SR 56.5 percent; SCORE 61.6 percent",
+          "policy": "Agentic Policy",
+          "image_steps": "all_decision_times",
+          "proprioception_steps": [
+            0
+          ],
+          "assistant_history": "none",
+          "default": false,
+          "successes": 13,
+          "tasks": 23,
+          "episodes": 23
+        }
+      ],
+      "steps_are": "control steps, not seconds; 15 Hz",
+      "all_assistant_history_includes": [
+        "assistant messages",
+        "plans",
+        "action calls and arguments",
+        "native reasoning records"
+      ],
+      "agentic_shared_inputs": [
+        "current images",
+        "current robot state",
+        "current motion feedback"
+      ],
+      "agentic_excluded_historical_inputs": [
+        "historical robot-state messages",
+        "historical feedback messages"
+      ],
+      "configuration_caption_zh": "两种历史接口。Direct Policy 按控制步采样近期图像与本体状态；Agentic Policy 分别控制此前文本交互和决策时图像的保留范围。所有 Agentic 条件都保留当前图像、机器人状态与运动反馈；“文本历史”包括计划、动作调用和此前的模型输出。时间刻度表示控制步，而非秒。",
+      "result_caption_zh": "历史信息消融。Direct Policy 从仅当前观测的 49.3% 提升到三帧近期观测的 72.7%；增加时间跨度或采样密度未进一步改善结果。Agentic Policy 中，完整文本与视觉历史达到 100%，但这一组仅在 23 个任务、每配置 23 个 episode 上评估，不能将其直接视为完整 RoboLab-120 的成绩。",
+      "caveats": [
+        "Direct history: 30 tasks and 150 episodes per condition. Agentic history: 23-task subset and 23 episodes per condition; cost constrained the evaluation.",
+        "Assistant history can indirectly mention old state/feedback even though old robot-state and feedback messages are removed.",
+        "Do not label Full history as every original user/robot-state message. The original ablation specifically retains assistant outputs plus visual history."
+      ]
+    },
+    "prompt": {
+      "source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/#prompt-results",
+      "inspector_source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/#prompt-variants",
+      "source_figures": [
+        8,
+        10
+      ],
+      "rows": [
+        {
+          "label": "Base",
+          "sr": 19.3,
+          "score": 34.5,
+          "sr_raw": 19.333333,
+          "score_raw": 34.545185,
+          "source_accessible_label": "Success rate 19.3 percent; completion score 34.5 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "Base + gripper",
+          "sr": 35.3,
+          "score": 50.9,
+          "sr_raw": 35.333333,
+          "score_raw": 50.944445,
+          "source_accessible_label": "Success rate 35.3 percent; completion score 50.9 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "Base + camera",
+          "sr": 62.7,
+          "score": 72.1,
+          "sr_raw": 62.666667,
+          "score_raw": 72.114815,
+          "source_accessible_label": "Success rate 62.7 percent; completion score 72.1 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "Base + gripper + camera",
+          "sr": 72.7,
+          "score": 82.2,
+          "sr_raw": 72.666667,
+          "score_raw": 82.218519,
+          "source_accessible_label": "Success rate 72.7 percent; completion score 82.2 percent",
+          "policy": "Direct Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": true
+        },
+        {
+          "label": "Agentic base",
+          "sr": 83.3,
+          "score": 87.9,
+          "sr_raw": 83.333333,
+          "score_raw": 87.866667,
+          "source_accessible_label": "Success rate 83.3 percent; completion score 87.9 percent",
+          "policy": "Agentic Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": false
+        },
+        {
+          "label": "Agentic base + gripper + camera",
+          "sr": 86.0,
+          "score": 90.9,
+          "sr_raw": 86.0,
+          "score_raw": 90.888889,
+          "source_accessible_label": "Success rate 86.0 percent; completion score 90.9 percent",
+          "policy": "Agentic Policy",
+          "tasks": 30,
+          "episodes": 150,
+          "default": true
+        }
+      ],
+      "interaction": {
+        "type": "three mutually exclusive tabs",
+        "tab_labels": [
+          "Base",
+          "Gripper geometry",
+          "Camera geometry"
+        ],
+        "initial_tab": "Base",
+        "panel": "fixed-style preformatted prompt block; only selected panel is shown",
+        "keyboard": "accessible tablist with aria-selected and matching tabpanel",
+        "meaning": "The tabs expose reusable prompt fragments. Gripper and camera are additions to Base; the strongest/default configuration combines all three. These tabs are not the four ablation configuration choices."
+      },
+      "tabs": [
+        {
+          "id": "base",
+          "label": "Base",
+          "source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/#prompt-tab-base",
+          "summary_zh": "定义 DROID 本体、机器人根坐标系、EEF 动作格式与执行时序。位置和姿态对应夹爪安装法兰，而非指尖中心；每行是一个控制目标，执行一个控制周期后重新观测。",
+          "facts": {
+            "robot": "Franka Panda + Robotiq 2F-85",
+            "root_axes": {
+              "+x": "forward across tabletop",
+              "+y": "robot left",
+              "+z": "up"
+            },
+            "action_components": [
+              "x",
+              "y",
+              "z",
+              "qw",
+              "qx",
+              "qy",
+              "qz",
+              "gripper"
+            ],
+            "position_unit": "m",
+            "quaternion_order": "wxyz",
+            "quaternion_norm": "unit",
+            "gripper": {
+              "0": "open",
+              "1": "closed"
+            },
+            "pose_reference": "Robotiq base_link mounting flange",
+            "control_hz": 15,
+            "max_translation_per_row_m": 0.02,
+            "max_rotation_per_row_rad": 0.1,
+            "actions_per_call": [
+              3,
+              15
+            ],
+            "interpolation_between_emitted_targets": false,
+            "simulation_paused_during_inference": true
+          }
+        },
+        {
+          "id": "gripper",
+          "label": "Gripper geometry",
+          "source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/#prompt-tab-gripper",
+          "summary_zh": "补充法兰到指垫中点的偏移，以及开合程度对应的指间距。局部 +X 沿指垫延伸方向，局部 Y 为夹爪开合方向；偏移必须先随末端姿态旋转，再换算到机器人根坐标系。",
+          "facts": {
+            "pad_offset_local_vector": "[d, 0, 0]",
+            "closure_g": "measured gripper_pos[0], continuous 0=open to 1=closed; distinct from the binary command",
+            "pad_geometry_table": [
+              {
+                "g": 0,
+                "d_m": 0.1301,
+                "inner_gap_m": 0.085
+              },
+              {
+                "g": 0.25,
+                "d_m": 0.13651,
+                "inner_gap_m": 0.0666
+              },
+              {
+                "g": 0.5,
+                "d_m": 0.14101,
+                "inner_gap_m": 0.0461
+              },
+              {
+                "g": 0.75,
+                "d_m": 0.14343,
+                "inner_gap_m": 0.0242
+              },
+              {
+                "g": 1,
+                "d_m": 0.14366,
+                "inner_gap_m": 0.0018
+              }
+            ],
+            "formula": "p_pad = p_flange + R(ee_quat) × [d,0,0]",
+            "target_formula": "p_flange_target = desired_pad_position − R(target_quaternion) × [d,0,0]",
+            "example_downward_quaternion_wxyz": [
+              0.7071,
+              0,
+              0.7071,
+              0
+            ],
+            "note": "几何表为近似参考；接触会改变连杆状态，不能据此判断抓取是否成功。"
+          }
+        },
+        {
+          "id": "camera",
+          "label": "Camera geometry",
+          "source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/#prompt-tab-camera",
+          "summary_zh": "补充三台 RGB 相机的外参与归一化内参。相机坐标采用 OpenGL 约定，不能当作机器人动作轴；腕部相机随法兰移动，肩部相机固定。解释历史帧时必须使用该帧对应的机器人姿态。",
+          "facts": {
+            "camera_convention": {
+              "+X": "image right",
+              "+Y": "image up",
+              "-Z": "viewing forward"
+            },
+            "extrinsic_formula": "p_parent = t + R(q) × p_camera",
+            "quaternion_order": "wxyz, normalize before rotation",
+            "translation_unit": "m",
+            "cameras": [
+              {
+                "name": "wrist_cam",
+                "parent": "flange",
+                "t": [
+                  0.011,
+                  -0.031,
+                  -0.074
+                ],
+                "q_wxyz": [
+                  -0.42,
+                  0.57,
+                  0.576,
+                  -0.409
+                ],
+                "fx_normalized": 0.520833333,
+                "fy_normalized": 0.925925926
+              },
+              {
+                "name": "over_shoulder_left_camera",
+                "parent": "robot_root",
+                "t": [
+                  0.05,
+                  0.57,
+                  0.66
+                ],
+                "q_wxyz": [
+                  -0.393,
+                  -0.195,
+                  0.399,
+                  0.805
+                ],
+                "fx_normalized": 0.390625,
+                "fy_normalized": 0.694444444
+              },
+              {
+                "name": "over_shoulder_right_camera",
+                "parent": "robot_root",
+                "t": [
+                  0.05,
+                  -0.57,
+                  0.66
+                ],
+                "q_wxyz": [
+                  0.805,
+                  0.399,
+                  -0.195,
+                  -0.393
+                ],
+                "fx_normalized": 0.390625,
+                "fy_normalized": 0.694444444
+              }
+            ],
+            "optical_center_normalized": [
+              0.5,
+              0.5
+            ],
+            "wrist_view_direction_flange": [
+              0.94976,
+              -0.00763,
+              0.31288
+            ],
+            "wrist_tilt_from_local_x_degrees": 18.24,
+            "projection": "u = 0.5 + fx_norm*X/(-Z); v = 0.5 - fy_norm*Y/(-Z), with Z < 0",
+            "note": "内参适用于单个完整、未裁剪相机图像；不能套用到三视角拼图。一个像素只确定一条射线，无法单独确定三维位置。"
+          }
+        }
+      ],
+      "caption_zh": "Prompt 几何信息消融。Direct Policy 的成功率从 Base 的 19.3% 提升到同时提供夹爪和相机几何信息时的 72.7%；Agentic Policy 的对应变化为 83.3% 至 86.0%。两种策略各自保留原有的基础 prompt 与 harness；每组为 30 个任务、150 个 episode。上方标签用于查看各段配置说明。",
+      "caveats": [
+        "Base already includes robot identity, control frequency, action format, robot/EEF frames, and motion guidance; it is not a bare task instruction.",
+        "The minimal-prompt video example is not a condition evaluated in the quantitative prompt ablation.",
+        "Agentic base and geometry conditions use 150 matched pairs."
+      ]
+    },
+    "extra": {
+      "tools": {
+        "source_url": "https://research.nvidia.com/labs/srl/projects/astranomy/#tool-call",
+        "disabled": {
+          "sr": 86.0,
+          "score": 90.9,
+          "successes": 129,
+          "episodes": 150
+        },
+        "enabled": {
+          "sr": 88.0,
+          "score": 91.2,
+          "successes": 132,
+          "episodes": 150
+        }
+      },
+      "default_agentic_optional_tools": "disabled"
+    },
+    "design_notes": {
+      "astranomy": {
+        "body_bg": "#f8f9f6",
+        "measured_at_viewport_width": 1280,
+        "left_toc_px": 200,
+        "left_outer_margin_px": 40,
+        "content_start_x_px": 280,
+        "body_column_px": 724,
+        "right_notes_px": 200,
+        "right_notes_start_x_px": 1040,
+        "body_font_px": 15,
+        "body_line_height_px": 27.75,
+        "citation": "superscript [n], repeated references reuse number; author + linked title + venue/year + return arrow in aligned margin notes, complete numbered references at end"
+      },
+      "generalist": {
+        "source_url": "https://generalistai.com/blog/gen-1.5",
+        "measured_at_viewport_width": 1280,
+        "body_column_px": 720,
+        "body_font_px": 18.2857,
+        "body_line_height_px": 25.6,
+        "margin_references_px": 240,
+        "media_patterns": "task tabs; paired physical prompt and model rollout; some figures expand across text and margin columns"
+      },
+      "video_prototype_recommendation": "For unfinished Section 4, retain a clearly labeled pending-case slot. Use task tabs, synchronized camera-view group, one seek bar and event bookmarks with associated comments. Add inference-time toggle only when genuine timing data exists."
+    }
+  },
+  "studies": {
+    "sensenova": {
+      "id": "sensenova",
+      "title": "Has GPT-6-Astra Achieved Embodied Intelligence?",
+      "url": "https://www.sensenova.ai/has-gpt-6-astra-achieved-embodied-intelligence",
+      "data_url": "https://www.sensenova.ai/gpt-6/assets/js/data.js?v=20261021n",
+      "claim": "ICL plus extended step budgets improves success on multiple embodied benchmarks.",
+      "exact_data": {
+        "benchmarks": [
+          {
+            "name": "RoboDojo",
+            "agenticMethod": "PhysicalRSI",
+            "agentic": 31.4,
+            "sotaMethod": "Awomo-0.5",
+            "sota": 29.6,
+            "x1": 54.2,
+            "x10": 81.9
+          },
+          {
+            "name": "Bench2Dex",
+            "agenticMethod": null,
+            "agentic": null,
+            "sotaMethod": "π₀.₅",
+            "sota": 25.5,
+            "x1": 25.6,
+            "x10": 61.5
+          },
+          {
+            "name": "DexJoCo",
+            "agenticMethod": null,
+            "agentic": null,
+            "sotaMethod": "π₀.₅",
+            "sota": 40.3,
+            "x1": 78.2,
+            "x10": 87.3
+          },
+          {
+            "name": "LHPR-VLN",
+            "agenticMethod": "Claude Code Opus-5",
+            "agentic": 5.3,
+            "sotaMethod": "FantasyVLN",
+            "sota": 2.4,
+            "x1": 21.1,
+            "x10": 28.9
+          },
+          {
+            "name": "VLN-CE-R2R",
+            "agenticMethod": "GPT-6-Astra (ultra)",
+            "agentic": 81.3,
+            "sotaMethod": "Robostral Navigate",
+            "sota": 77.4,
+            "x1": 80.0,
+            "x10": 88.0
+          },
+          {
+            "name": "VLN-CE-RxR",
+            "agenticMethod": null,
+            "agentic": null,
+            "sotaMethod": "Qwen-RobotNav",
+            "sota": 76.5,
+            "x1": 82.0,
+            "x10": 90.0
+          },
+          {
+            "name": "RoboLab",
+            "agenticMethod": null,
+            "agentic": null,
+            "sotaMethod": "FLUX 3 Action",
+            "sota": 42.9,
+            "x1": 57.1,
+            "x10": 69.2
+          },
+          {
+            "name": "LIBERO-PRO",
+            "agenticMethod": "RPent / GPT-6 Astra",
+            "agentic": 92.6,
+            "sotaMethod": "π_RLinf",
+            "sota": 50.0,
+            "x1": 98.3,
+            "x10": 99.3
+          },
+          {
+            "name": "LIBERO-Long++",
+            "agenticMethod": null,
+            "agentic": null,
+            "sotaMethod": "LiLo-VLA",
+            "sota": 82.0,
+            "x1": 97.5,
+            "x10": 100.0
+          },
+          {
+            "name": "LIBERO-Ultra-Long",
+            "agenticMethod": null,
+            "agentic": null,
+            "sotaMethod": "LiLo-VLA",
+            "sota": 44.0,
+            "x1": 82.2,
+            "x10": 98.9
+          },
+          {
+            "name": "SIMPLE",
+            "agenticMethod": null,
+            "agentic": null,
+            "sotaMethod": "Psi-0",
+            "sota": 92.5,
+            "x1": 96.3,
+            "x10": 98.8
+          },
+          {
+            "name": "BEHAVIOR",
+            "agenticMethod": "Agent",
+            "agentic": 5.3,
+            "sotaMethod": "Rondo",
+            "sota": 14.8,
+            "x1": 37.0,
+            "x10": null
+          }
+        ],
+        "budget_curves": [
+          {
+            "name": "LIBERO-Long++",
+            "points": [
+              {
+                "budget": 0.39,
+                "success_pct": 0.8
+              },
+              {
+                "budget": 0.5,
+                "success_pct": 30.8
+              },
+              {
+                "budget": 1,
+                "success_pct": 97.5
+              },
+              {
+                "budget": 2,
+                "success_pct": 100.0
+              },
+              {
+                "budget": 10,
+                "success_pct": 100.0
+              }
+            ],
+            "other_metadata": {
+              "upper": 100.0
+            }
+          },
+          {
+            "name": "LIBERO-PRO",
+            "points": [
+              {
+                "budget": 0.013,
+                "success_pct": 0.1
+              },
+              {
+                "budget": 0.5,
+                "success_pct": 98.3
+              },
+              {
+                "budget": 1,
+                "success_pct": 99.3
+              },
+              {
+                "budget": 10,
+                "success_pct": 99.3
+              }
+            ],
+            "other_metadata": {
+              "upper": 99.3
+            }
+          },
+          {
+            "name": "SIMPLE",
+            "points": [
+              {
+                "budget": 0.14,
+                "success_pct": 1.3
+              },
+              {
+                "budget": 0.5,
+                "success_pct": 95.0
+              },
+              {
+                "budget": 1,
+                "success_pct": 97.5
+              },
+              {
+                "budget": 2,
+                "success_pct": 98.8
+              },
+              {
+                "budget": 10,
+                "success_pct": 98.8
+              }
+            ],
+            "other_metadata": {
+              "upper": 98.8
+            }
+          },
+          {
+            "name": "LIBERO-Ultra-Long",
+            "points": [
+              {
+                "budget": 0.55,
+                "success_pct": 1.1
+              },
+              {
+                "budget": 1,
+                "success_pct": 82.2
+              },
+              {
+                "budget": 1.5,
+                "success_pct": 97.8
+              },
+              {
+                "budget": 2,
+                "success_pct": 98.9
+              },
+              {
+                "budget": 10,
+                "success_pct": 98.9
+              }
+            ],
+            "other_metadata": {
+              "upper": 98.9
+            }
+          },
+          {
+            "name": "VLN-CE-RxR",
+            "points": [
+              {
+                "budget": 0.012,
+                "success_pct": 1.0
+              },
+              {
+                "budget": 0.5,
+                "success_pct": 65.0
+              },
+              {
+                "budget": 1,
+                "success_pct": 84.0
+              },
+              {
+                "budget": 2,
+                "success_pct": 89.0
+              },
+              {
+                "budget": 10,
+                "success_pct": 90.0
+              }
+            ],
+            "other_metadata": {
+              "upper": 90.0
+            }
+          },
+          {
+            "name": "VLN-CE-R2R",
+            "points": [
+              {
+                "budget": 0.032,
+                "success_pct": 1.0
+              },
+              {
+                "budget": 0.5,
+                "success_pct": 79.0
+              },
+              {
+                "budget": 1,
+                "success_pct": 85.0
+              },
+              {
+                "budget": 1.5,
+                "success_pct": 87.0
+              },
+              {
+                "budget": 3,
+                "success_pct": 88.0
+              },
+              {
+                "budget": 10,
+                "success_pct": 88.0
+              }
+            ],
+            "other_metadata": {
+              "upper": 88.0
+            }
+          },
+          {
+            "name": "DexJoCo",
+            "points": [
+              {
+                "budget": 0.5,
+                "success_pct": 38.2
+              },
+              {
+                "budget": 1,
+                "success_pct": 78.2
+              },
+              {
+                "budget": 2,
+                "success_pct": 81.8
+              },
+              {
+                "budget": 5,
+                "success_pct": 85.5
+              },
+              {
+                "budget": 10,
+                "success_pct": 87.3
+              }
+            ],
+            "other_metadata": {
+              "upper": 90.9
+            }
+          },
+          {
+            "name": "RoboDojo",
+            "points": [
+              {
+                "budget": 0.5,
+                "success_pct": 3.3
+              },
+              {
+                "budget": 1,
+                "success_pct": 27.6
+              },
+              {
+                "budget": 1.5,
+                "success_pct": 43.8
+              },
+              {
+                "budget": 2,
+                "success_pct": 61.4
+              },
+              {
+                "budget": 3,
+                "success_pct": 70.0
+              },
+              {
+                "budget": 5,
+                "success_pct": 75.2
+              },
+              {
+                "budget": 10,
+                "success_pct": 81.9
+              }
+            ],
+            "other_metadata": {
+              "upper": 90.0
+            }
+          },
+          {
+            "name": "RoboLab",
+            "points": [
+              {
+                "budget": 0.24,
+                "success_pct": 0.5
+              },
+              {
+                "budget": 1,
+                "success_pct": 57.1
+              },
+              {
+                "budget": 2,
+                "success_pct": 64.5
+              },
+              {
+                "budget": 5,
+                "success_pct": 68.0
+              },
+              {
+                "budget": 10,
+                "success_pct": 69.2
+              }
+            ],
+            "other_metadata": {
+              "upper": 100.0
+            }
+          },
+          {
+            "name": "Bench2Dex",
+            "points": [
+              {
+                "budget": 0.55,
+                "success_pct": 1.3
+              },
+              {
+                "budget": 1,
+                "success_pct": 25.6
+              },
+              {
+                "budget": 2,
+                "success_pct": 32.1
+              },
+              {
+                "budget": 3,
+                "success_pct": 41.0
+              },
+              {
+                "budget": 5,
+                "success_pct": 50.0
+              },
+              {
+                "budget": 10,
+                "success_pct": 61.5
+              }
+            ],
+            "other_metadata": {
+              "upper": 69.2
+            }
+          },
+          {
+            "name": "BEHAVIOR",
+            "points": [
+              {
+                "budget": 0.07,
+                "success_pct": 1.0
+              },
+              {
+                "budget": 0.5,
+                "success_pct": 20.0
+              },
+              {
+                "budget": 1,
+                "success_pct": 37.0
+              }
+            ],
+            "other_metadata": {
+              "upper": 40.0
+            }
+          },
+          {
+            "name": "LHPR-VLN",
+            "points": [
+              {
+                "budget": 0.072,
+                "success_pct": 0.9
+              },
+              {
+                "budget": 0.5,
+                "success_pct": 14.0
+              },
+              {
+                "budget": 1,
+                "success_pct": 25.4
+              },
+              {
+                "budget": 2,
+                "success_pct": 28.9
+              },
+              {
+                "budget": 10,
+                "success_pct": 28.9
+              }
+            ],
+            "other_metadata": {
+              "upper": 28.9
+            }
+          }
+        ],
+        "cost": {
+          "libero_ultra_long_tokens_approx": 9000000,
+          "libero_ultra_long_wall_clock": "nearly 2 hours per episode",
+          "robodojo_extended_wall_clock": "more than 3 hours per episode on average"
+        }
+      },
+      "uncertainty": "Dots are measured success; source pink curves are fits, not independent measurements. Do not label interpolated slider values as measured. Extension continues same episode without resets. BEHAVIOR only measured up to 1x. Different published baselines use standard budgets, so not compute-matched. IMPORTANT: official data.js teaser x1 and stepSR budget=1 disagree on RoboDojo, SIMPLE, LIBERO-PRO, VLN-CE, LHPR-VLN. Source image-05 is Figure 4 and matches stepSR labels. Use budget_curves for this redraw, never mix teaser values into the curves."
+    },
+    "gen15": {
+      "id": "gen15",
+      "title": "GEN-1.5: Embodied Foundation Models are One-Shot Learners",
+      "url": "https://generalistai.com/blog/gen-1.5",
+      "data_url": "https://generalistai.com/assets/pages/blog/gen-1.5/assets/results-chart.js",
+      "claim": "One-shot physical prompting supports short-horizon new tasks; demonstrations include sensor data plus action trajectories.",
+      "exact_data": {
+        "one_shot_mean_pct": 59,
+        "one_shot_stddev_pct": 10,
+        "fine_tuned_mean_pct": 83,
+        "fine_tuned_stddev_pct": 9,
+        "tasks": [
+          {
+            "task": "Retrieve money from purse",
+            "fine_tuning_10steps_5minutes": 83.3,
+            "one_shot_icl": 60.7
+          },
+          {
+            "task": "Fold and crease paper",
+            "fine_tuning_10steps_5minutes": 69.3,
+            "one_shot_icl": 50.0
+          },
+          {
+            "task": "Twist lid off glass jar",
+            "fine_tuning_10steps_5minutes": 94.5,
+            "one_shot_icl": 60.0
+          },
+          {
+            "task": "Stack two small cups",
+            "fine_tuning_10steps_5minutes": 75.0,
+            "one_shot_icl": 67.0
+          },
+          {
+            "task": "Sweep trash with brush",
+            "fine_tuning_10steps_5minutes": 99.0,
+            "one_shot_icl": 37.3
+          },
+          {
+            "task": "Open book cover",
+            "fine_tuning_10steps_5minutes": 82.7,
+            "one_shot_icl": 54.7
+          },
+          {
+            "task": "Brush cube into bowl",
+            "fine_tuning_10steps_5minutes": 71.2,
+            "one_shot_icl": 60.8
+          },
+          {
+            "task": "Flip phone upside down",
+            "fine_tuning_10steps_5minutes": 81.0,
+            "one_shot_icl": 78.0
+          },
+          {
+            "task": "Unzip pencil pouch",
+            "fine_tuning_10steps_5minutes": 86.0,
+            "one_shot_icl": 55.5
+          },
+          {
+            "task": "Remove vacuum pad",
+            "fine_tuning_10steps_5minutes": 86.0,
+            "one_shot_icl": 64.0
+          }
+        ],
+        "prompt_seconds": [
+          3,
+          12
+        ],
+        "figure2_prompt_label": "12 s of demos",
+        "context_seconds": 30,
+        "action_hz": 100,
+        "fine_tuning_gradient_steps": 10,
+        "fine_tuning_minutes_per_task": 5
+      },
+      "uncertainty": "Reported ± values are standard deviations, not confidence intervals. General report says 3–12 seconds; figure 2 series label says 12 seconds. Human hand imitation is a separate experiment: usual physical prompts contain sensorimotor trajectories captured with handheld grippers, not arbitrary plain video."
+    },
+    "galbot": {
+      "id": "galbot",
+      "title": "Systematically Exploring the Capabilities of GPT-6 Astra as Embodied Policies",
+      "url": "https://arxiv.org/abs/2609.38537",
+      "data_url": "https://arxiv.org/html/2609.38537v1",
+      "claim": "Hybrid assistance improves dexterous manipulation, but Direct is stronger on the studied unseen RoboCasa compositions.",
+      "exact_data": {
+        "dexterity": {
+          "metric": "Subgoal completion score (0–100), not binary success rate",
+          "columns": [
+            "task",
+            "pi05",
+            "direct",
+            "hybrid"
+          ],
+          "rows": [
+            [
+              "Pot lift and hold",
+              40,
+              44,
+              62
+            ],
+            [
+              "Headphones in box",
+              42,
+              22,
+              42
+            ],
+            [
+              "Toy retrieval",
+              100,
+              22,
+              100
+            ],
+            [
+              "Mug hanging",
+              62,
+              4,
+              82
+            ],
+            [
+              "Mahjong tile storage",
+              48,
+              18,
+              88
+            ],
+            [
+              "Bottles/cans sorting",
+              72,
+              14,
+              100
+            ],
+            [
+              "Upright egg placement",
+              6,
+              12,
+              38
+            ],
+            [
+              "Two-bowl stacking",
+              46,
+              20,
+              52
+            ],
+            [
+              "Bread-slot insertion",
+              10,
+              8,
+              28
+            ],
+            [
+              "Nesting-doll ordering",
+              16,
+              2,
+              24
+            ]
+          ],
+          "mean": [
+            44.2,
+            16.6,
+            61.6
+          ],
+          "cases_per_task": 5
+        },
+        "hybrid_steps_pct": {
+          "pi05_unmodified": 88.02,
+          "astra_corrections": 11.98
+        },
+        "robocasa": {
+          "metric": "Success rate (%)",
+          "columns": [
+            "split",
+            "pi05",
+            "direct",
+            "hybrid"
+          ],
+          "rows": [
+            [
+              "Atomic seen",
+              52,
+              28,
+              52
+            ],
+            [
+              "Composite seen",
+              12,
+              16,
+              28
+            ],
+            [
+              "Composite unseen",
+              4,
+              56,
+              36
+            ],
+            [
+              "All tasks",
+              22.7,
+              33.3,
+              38.7
+            ]
+          ],
+          "tasks_per_split": 5,
+          "episodes_per_task": 5
+        },
+        "latency": {
+          "physical_simulation_seconds": 30,
+          "calls": 250,
+          "mean_seconds_per_call": 39.86,
+          "estimated_total_inference_hours": 2.7680555555555557,
+          "estimate_note": "Derived arithmetic; source states 250 calls ×39.86s with physics paused."
+        }
+      },
+      "uncertainty": "RoboCasa Direct and Hybrid also differ in context management and feedback guards. Their overall difference is not statistically established (exploratory paired exact McNemar p=0.5235). Do not pool with Long-WAM 50-task numbers."
+    },
+    "longwam": {
+      "id": "longwam",
+      "title": "Long-WAM: Scaling the Context of World-Action Models",
+      "url": "https://nvlabs.github.io/LongLive/Long-WAM/#planning",
+      "data_url": "https://nvlabs.github.io/LongLive/Long-WAM/static/js/data.js",
+      "claim": "With the same Long-WAM checkpoint, Astra planning and recovery raises performance on all RoboCasa365 splits.",
+      "exact_data": {
+        "metric": "Success rate (%)",
+        "columns": [
+          "method",
+          "Atomic-Seen",
+          "Composite-Seen",
+          "Composite-Unseen",
+          "Overall"
+        ],
+        "rows": [
+          [
+            "GPT-6 Astra",
+            31.5,
+            22.4,
+            20.8,
+            25.2
+          ],
+          [
+            "pi0.5",
+            39.6,
+            7.1,
+            1.2,
+            16.9
+          ],
+          [
+            "pi0.5 + GPT-6 Astra",
+            46.5,
+            24.0,
+            19.0,
+            30.5
+          ],
+          [
+            "Long-WAM",
+            67.9,
+            15.8,
+            6.1,
+            31.4
+          ],
+          [
+            "Long-WAM + GPT-6 Astra",
+            85.6,
+            38.8,
+            35.0,
+            54.4
+          ]
+        ],
+        "tasks_per_split": [
+          18,
+          16,
+          16
+        ],
+        "num_tasks": 50,
+        "visual_context_seconds": 2.4,
+        "checkpoint": "same Human300-trained Long-WAM checkpoint; no additional policy training"
+      },
+      "uncertainty": "Overall is over 50 tasks weighted by split size, not an equal mean of the three splits. Different task selection/protocol from Galbot, so do not compare absolute values across studies."
+    },
+    "tactalent": {
+      "id": "tactalent",
+      "title": "GPT-6 Astra Is a Native Visuo-Tactile Policy for Contact-Rich Manipulation",
+      "url": "https://arxiv.org/abs/2610.26846",
+      "data_url": "https://arxiv.org/html/2610.26846v1",
+      "claim": "Adding tactile RGB improves Insert Hole within this experiment.",
+      "exact_data": {
+        "task": "Insert Hole",
+        "vision_only_pct": 60,
+        "vision_tactile_pct": 100,
+        "seeds_per_setting": 10,
+        "benchmark": "UniVTAC",
+        "source_table": 1,
+        "benchmark_means": {
+          "UniVTAC_vision": 76.3,
+          "UniVTAC_vision_tactile": 93.8,
+          "OpenViTac_vision": 80.6,
+          "OpenViTac_vision_tactile": 81.8
+        }
+      },
+      "uncertainty": "Does not establish that Astra pretraining contained tactile data. Tactile sensing uses RGB images through the visual interface. Separate experiment from GPT-as-Tactile-Policy; absolute rates must not be compared across studies."
+    },
+    "gpt_tactile_policy": {
+      "id": "gpt_tactile_policy",
+      "title": "GPT-6-Astra Understands Touch and Outperform Vision–Tactile–Language–Action Models",
+      "url": "https://arxiv.org/abs/2610.28457",
+      "data_url": "https://arxiv.org/html/2610.28457v1",
+      "claim": "Tactile observations and matching tactile references improve insertion in paired ablation.",
+      "exact_data": {
+        "task": "Insert Hole",
+        "vision_proprioception_pct": 31,
+        "vision_proprioception_tactile_pct": 99,
+        "test_configurations": 100,
+        "source_table": 3
+      },
+      "uncertainty": "Ablation removes tactile observations AND tactile references; each variant uses a fixed Task Skill matched to available observations. Not evidence of proprietary pretraining data composition."
+    }
+  }
+}

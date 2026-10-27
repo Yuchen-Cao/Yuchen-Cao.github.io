@@ -53,6 +53,18 @@ The homepage's Recent section automatically displays the newest article by date,
 
 ## Preview locally
 
+### Astra Robotics research report (draft)
+
+The project draft is published for review at `https://Yuchen-Cao.github.io/writing/astra-robotics/`. Its `draft: true` flag keeps it out of the homepage, archive, RSS and sitemap, while allowing direct-link access after deployment. This flag is an editorial setting, not access control. Sections 4–6 and video cases remain in progress.
+
+- Edit prose in `content/posts/2026-10-27-astra-robotics.md`.
+- Edit numbered references and paragraph-anchored margin notes in `content/reports/astra-references.json` and `astra-notes.json`.
+- Figure data and source provenance live in `assets/astra-report/figures-data.json`; interactive renderers are in `scripts/report-figures.mjs`.
+- `:::takeaways … :::`, `:::figure N`, and `:::video-cases … :::` are report-specific blocks. The video block preserves the original case request and renders task tabs with clearly marked placeholders. No video or event timing is fabricated.
+- To add real rollouts later, select the cases first and provide each video's policy, viewpoint, playback timing, and event annotations; the current placeholder deliberately does not infer these from old assets.
+
+After building, run `node scripts/export-report.mjs` to create a self-contained preview at `../outputs/astra-report/astra-robotics-preview.html` and `dist/astra-robotics-preview.html`. Styles, scripts and images are embedded, so the exported file can be opened without a preview server. Re-export after changing the report. The original Notion page remains the writing reference.
+
 Node.js 20 or newer is the only requirement.
 
 ```bash

@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import path from "node:path";
 import config from "../site.config.mjs";
+import { renderReport } from "./report.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "dist");
@@ -138,7 +139,7 @@ function nav(current) {
   return config.nav.map((item) => `<a href="${item.href}"${current === item.href ? ' aria-current="page"' : ""}>${item.label}</a>`).join("");
 }
 
-function layout({ title, description, body, current = "", type = "website", canonical = "/", lang = "en", alternates = [] }) {
+function layout({ title, description, body, current = "", type = "website", canonical = "/", lang = "en", alternates = [], report = false, draft = false }) {
   const fullTitle = title === config.siteName ? title : `${title} — ${config.shortName}`;
   const url = new URL(canonical, config.url).href;
   const alternateLinks = alternates.map((item) => `\n  <link rel="alternate" hreflang="${item.lang}" href="${new URL(item.url, config.url).href}">`).join("");
@@ -154,6 +155,8 @@ function layout({ title, description, body, current = "", type = "website", cano
   <link rel="canonical" href="${url}">${alternateLinks}
   <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="/feed.xml">
   <link rel="stylesheet" href="/assets/styles.css?v=${styleVersion}">
+  ${report ? '<link rel="stylesheet" href="/assets/report.css"><link rel="stylesheet" href="/assets/report-figures.css">' : ''}
+  ${draft ? '<meta name="robots" content="noindex, nofollow">' : ''}
   <meta property="og:type" content="${type}">
   <meta property="og:title" content="${escapeHtml(fullTitle)}">
   <meta property="og:description" content="${escapeHtml(description)}">
@@ -220,6 +223,7 @@ posts.sort((a, b) => b.date.localeCompare(a.date));
 
 const groupMap = new Map();
 for (const post of posts) {
+  if (post.draft) continue;
   const key = post.translationKey || post.slug;
   if (!groupMap.has(key)) groupMap.set(key, { key, date: post.date, variants: [] });
   groupMap.get(key).variants.push(post);
@@ -252,12 +256,12 @@ function recentTranslation(post) {
 for (const post of posts) {
   const translations = translationsFor(post);
   const closing = post.lang === "zh-CN" ? `感谢阅读。如果你也在思考这些问题，欢迎在 <a href="${config.github}">GitHub</a> 继续交流。` : `Thanks for reading. If this line of work overlaps with yours, continue the conversation on <a href="${config.github}">GitHub</a>.`;
-  const article = `<div class="article-shell" lang="${post.lang}"><header class="article-header">${postMeta(post)}${languageSwitch(post, translations)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">${closing}</div></div>`;
-  await writePage(post.url, layout({ title: post.title, description: post.description, body: article, current: "/writing/", type: "article", canonical: post.url, lang: post.lang, alternates: translations }));
+  const article = post.layout === 'report' ? renderReport(post) : `<div class="article-shell" lang="${post.lang}"><header class="article-header">${postMeta(post)}${languageSwitch(post, translations)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">${closing}</div></div>`;
+  await writePage(post.url, layout({ title: post.title, description: post.description, body: article, current: "/writing/", type: "article", canonical: post.url, lang: post.lang, alternates: translations, report: post.layout === 'report', draft: post.draft }));
 }
 
 const recentGroup = postGroups[0];
-const allTags = [...new Set(posts.flatMap((post) => post.tags))].sort();
+const allTags = [...new Set(posts.filter(post => !post.draft).flatMap((post) => post.tags))].sort();
 const home = `<div class="shell">
   <section class="hero"><p class="eyebrow">Research notebook · 研究思考笔记</p><div class="hero-grid"><h1>Thinking about agents<br><em>beyond the turn.</em></h1><div><p class="hero-copy">关于语言模型 Agent、时间推理与具身智能的技术文章。记录那些发生在模型、工具与真实世界交界处的问题。</p><p class="hero-copy-en">Technical essays on language-model agents, temporal reasoning, and embodied intelligence.</p></div></div><div class="research-lines"><span>Agentic systems</span><span>Temporal reasoning</span><span>Embodied intelligence</span></div></section>
   <section class="section featured-section"><div class="section-head"><div><p class="section-label">Recent / 最近更新</p><h2>Most recent article</h2></div></div><article class="featured" data-featured>${recentGroup.variants.map(recentTranslation).join("")}</article></section>
@@ -282,7 +286,7 @@ await writeFile(path.join(out, "404.html"), layout({ title: "Page not found", de
 const feedPosts = postGroups.map((group) => group.variants.find((post) => post.lang === "en") || group.variants[0]);
 const rssItems = feedPosts.map((post) => `<item><title>${escapeHtml(post.title)}</title><link>${new URL(post.url, config.url).href}</link><guid>${new URL(post.url, config.url).href}</guid><pubDate>${new Date(`${post.date}T00:00:00Z`).toUTCString()}</pubDate><description>${escapeHtml(post.description)}</description></item>`).join("");
 await writeFile(path.join(out, "feed.xml"), `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${escapeHtml(config.siteName)}</title><link>${config.url}</link><description>${escapeHtml(config.description)}</description>${rssItems}</channel></rss>`);
-const routes = ["/", "/writing/", "/topics/", "/about/", ...posts.map((post) => post.url)];
+const routes = ["/", "/writing/", "/topics/", "/about/", ...posts.filter(post => !post.draft).map((post) => post.url)];
 await writeFile(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map((route) => `<url><loc>${new URL(route, config.url).href}</loc></url>`).join("")}</urlset>`);
 await writeFile(path.join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${config.url}/sitemap.xml\n`);
 console.log(`Built ${posts.length} posts and ${routes.length} routes into dist/`);
