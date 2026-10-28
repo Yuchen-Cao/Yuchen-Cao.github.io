@@ -18,7 +18,7 @@ export function renderReport(post) {
       counts[n] = (counts[n] || 0) + 1;
       const id = `cite-${n}-${counts[n]}`;
       (backrefs[n] ||= []).push(id);
-      return `<sup class="citation"><a id="${id}" href="#ref-${n}" aria-label="参考文献 ${n}：${escape(refs[n].short)}">[${n}]</a></sup>`;
+      return `<sup class="citation"><a id="${id}" href="#ref-${n}" aria-label="参考文献 ${n}：${escape(refs[n].short)}">${n}</a></sup>`;
     });
     return t;
   }
@@ -28,7 +28,7 @@ export function renderReport(post) {
     for (const n of [...raw.matchAll(/\[(\d+)\]/g)].map(m=>m[1])) {
       if (seen.has(n) || !refs[n]) continue;
       seen.add(n);
-      side += `<div class="margin-source"><span class="margin-number">[${n}]</span><span>${escape(refs[n].short).replace(/\.$/,'')}. <a href="${escape(refs[n].url)}" target="_blank" rel="noopener">${escape(refs[n].title)}</a><span class="source-year">${escape(refs[n].year || '2026')} <a href="#${id}" aria-label="返回引用段落">↩</a></span></span></div>`;
+      side += `<div class="margin-source"><span class="margin-number">${n}</span><span>${escape(refs[n].short).replace(/\.$/,'')}. <a href="${escape(refs[n].url)}" target="_blank" rel="noopener">${escape(refs[n].title)}</a><span class="source-year">${escape(refs[n].year || '2026')} <a href="#${id}" aria-label="返回引用段落">↩</a></span></span></div>`;
     }
     for (const note of notes) if (raw.includes(note.match)) {
       side += `<div class="margin-comment"><span class="comment-label">${escape(note.kind || '阅读旁注')}</span><p>${inline(note.text)}</p>${note.url ? `<a class="note-source" href="${escape(note.url)}" target="_blank" rel="noopener">查看来源 ↗</a>` : ''}</div>`;
@@ -92,6 +92,15 @@ export function renderReport(post) {
     return out.join('\n');
   }
   const body=renderBlocks(post.body);
+  const bibtex = `@misc{cao2026astrarobotics,
+  author = {Cao, Yuchen},
+  title = {{${post.title}}},
+  year = {2026},
+  month = oct,
+  date = {${post.date}},
+  url = {https://yuchen-cao.github.io/writing/astra-robotics/}
+}`;
+  const articleCitation = `<section id="cite-this-article" class="report-cite" aria-labelledby="cite-this-article-title"><div class="bibtex-heading"><div><span class="figure-kicker">BIBTEX</span><h2 id="cite-this-article-title">Cite this article</h2></div><div class="bibtex-copy"><span class="bibtex-copy-status" data-bibtex-status role="status" aria-live="polite"></span><button type="button" data-copy-bibtex aria-controls="article-bibtex" aria-label="复制本文 BibTeX" hidden>复制</button></div></div><pre tabindex="0" aria-label="本文 BibTeX 引用"><code id="article-bibtex">${escape(bibtex)}</code></pre></section>`;
   const bibliography=Object.entries(refs).filter(([n])=>backrefs[n]).map(([n,r])=>`<li id="ref-${n}"><span class="reference-index">${n}</span><div>${escape(r.authors || r.short).replace(/\.$/,'')}. <a href="${escape(r.url)}" target="_blank" rel="noopener">${escape(r.title)}</a>. ${escape(r.venue || '')}${r.venue?', ':''}${escape(r.year||'2026')}. <span class="reference-backlinks">${backrefs[n].map((id,i)=>`<a href="#${id}" aria-label="返回引用 ${n}，第 ${i+1} 处">↩${backrefs[n].length>1?i+1:''}</a>`).join(' ')}</span></div></li>`).join('');
-  return `<div class="report" lang="zh-CN"><aside class="report-toc"><a class="toc-home" href="/writing/">← Research notes</a><p class="toc-label">IN THIS ESSAY</p><nav aria-label="文章导航"><a href="#report-top">标题与摘要</a><a href="#takeaways">Key takeaways</a>${toc.map(t=>`<a href="#${t.id}" class="toc-level-${t.level}">${escape(t.label)}</a>`).join('')}<a href="#references">References</a></nav><div class="reading-progress"><span>READING PROGRESS</span><div><i></i></div></div></aside><div class="report-body"><header class="report-row report-hero" id="report-top"><div class="report-content"><div class="report-eyebrow">RESEARCH ESSAY <span>·</span> EMBODIED INTELLIGENCE</div><h1>Astra Robotics 大考<span>大模型离真正的机器人大脑<br class="desktop-break">还有多远？</span></h1><p class="report-deck">${escape(post.description)}</p><div class="report-byline"><span>Yuchen Cao</span><time datetime="${post.date}">2026.10.27</time><span>${escape(post.readingTime)}</span><span class="draft-badge">项目草稿</span></div><div class="source-chips"><a href="${refs[1].url}">01 SenseNova ↗</a><a href="${refs[2].url}">02 Galbot ↗</a><a href="${refs[3].url}">03 Astranomy ↗</a></div></div></header>${body}${row(`<section id="references" class="report-references"><span class="figure-kicker">SOURCES & FURTHER READING</span><h2>References</h2><ol>${bibliography}</ol></section>`)}<footer class="report-end">这是一份持续更新的研究笔记。<a href="#report-top">回到顶部 ↑</a></footer></div></div><script src="/assets/report.js" defer></script><script src="/assets/report-figures.js" defer></script>`;
+  return `<div class="report" lang="zh-CN"><aside class="report-toc"><a class="toc-home" href="/writing/">← Research notes</a><p class="toc-label">IN THIS ESSAY</p><nav aria-label="文章导航"><a href="#report-top">标题与摘要</a><a href="#takeaways">Key takeaways</a>${toc.map(t=>`<a href="#${t.id}" class="toc-level-${t.level}">${escape(t.label)}</a>`).join('')}<a href="#references">References</a><a href="#cite-this-article">Cite this article</a></nav><div class="reading-progress"><span>READING PROGRESS</span><div><i></i></div></div></aside><div class="report-body"><header class="report-row report-hero" id="report-top"><div class="report-content"><div class="report-eyebrow">RESEARCH ESSAY <span>·</span> EMBODIED INTELLIGENCE</div><h1>Astra Robotics 大考<span>大模型离真正的机器人大脑<br class="desktop-break">还有多远？</span></h1><p class="report-deck">${escape(post.description)}</p><div class="report-byline"><span>Yuchen Cao</span><time datetime="${post.date}">2026.10.27</time><span>${escape(post.readingTime)}</span><span class="draft-badge">项目草稿</span></div><div class="source-chips"><a href="${refs[1].url}">01 SenseNova ↗</a><a href="${refs[2].url}">02 Galbot ↗</a><a href="${refs[3].url}">03 Astranomy ↗</a></div></div></header>${body}${row(`<section id="references" class="report-references"><span class="figure-kicker">SOURCES & FURTHER READING</span><h2>References</h2><ol>${bibliography}</ol></section>`)}${row(articleCitation)}<footer class="report-end">这是一份持续更新的研究笔记。<a href="#report-top">回到顶部 ↑</a></footer></div></div><script src="/assets/report.js" defer></script><script src="/assets/report-figures.js" defer></script>`;
 }

@@ -8,7 +8,11 @@ import { renderReport } from "./report.mjs";
 const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "dist");
 const styleVersion = createHash("sha256").update(await readFile(path.join(root, "assets/styles.css"))).digest("hex").slice(0, 12);
-const reportStyleVersion = createHash("sha256").update(await readFile(path.join(root, "assets/report.css"))).update(await readFile(path.join(root, "assets/report-figures.css"))).digest("hex").slice(0, 12);
+const reportStyles = ['report.css', 'report-figures.css', 'report-concepts.css', 'report-charts.css'];
+const reportStyleHash = createHash('sha256');
+for (const file of reportStyles) reportStyleHash.update(await readFile(path.join(root, 'assets', file)));
+const reportStyleVersion = reportStyleHash.digest('hex').slice(0, 12);
+const reportScriptVersion = createHash('sha256').update(await readFile(path.join(root, 'assets/report.js'))).update(await readFile(path.join(root, 'assets/report-figures.js'))).digest('hex').slice(0, 12);
 
 const escapeHtml = (value = "") =>
   String(value).replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
@@ -156,7 +160,7 @@ function layout({ title, description, body, current = "", type = "website", cano
   <link rel="canonical" href="${url}">${alternateLinks}
   <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="/feed.xml">
   <link rel="stylesheet" href="/assets/styles.css?v=${styleVersion}">
-  ${report ? `<link rel="stylesheet" href="/assets/report.css?v=${reportStyleVersion}"><link rel="stylesheet" href="/assets/report-figures.css?v=${reportStyleVersion}">` : ''}
+  ${report ? reportStyles.map(file => `<link rel="stylesheet" href="/assets/${file}?v=${reportStyleVersion}">`).join('') : ''}
   ${draft ? '<meta name="robots" content="noindex, nofollow">' : ''}
   <meta property="og:type" content="${type}">
   <meta property="og:title" content="${escapeHtml(fullTitle)}">
@@ -257,7 +261,7 @@ function recentTranslation(post) {
 for (const post of posts) {
   const translations = translationsFor(post);
   const closing = post.lang === "zh-CN" ? `感谢阅读。如果你也在思考这些问题，欢迎在 <a href="${config.github}">GitHub</a> 继续交流。` : `Thanks for reading. If this line of work overlaps with yours, continue the conversation on <a href="${config.github}">GitHub</a>.`;
-  const article = post.layout === 'report' ? renderReport(post) : `<div class="article-shell" lang="${post.lang}"><header class="article-header">${postMeta(post)}${languageSwitch(post, translations)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">${closing}</div></div>`;
+  const article = post.layout === 'report' ? renderReport(post).replace(/src="(\/assets\/report(?:-figures)?\.js)"/g, `src="$1?v=${reportScriptVersion}"`) : `<div class="article-shell" lang="${post.lang}"><header class="article-header">${postMeta(post)}${languageSwitch(post, translations)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">${closing}</div></div>`;
   await writePage(post.url, layout({ title: post.title, description: post.description, body: article, current: "/writing/", type: "article", canonical: post.url, lang: post.lang, alternates: translations, report: post.layout === 'report', draft: post.draft }));
 }
 
