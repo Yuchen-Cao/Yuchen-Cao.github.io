@@ -47,21 +47,23 @@ To pair two language versions of the same article, give both files the same `tra
 translationKey: beyond-the-turn-based-agent
 ```
 
-Paired posts appear only once on the homepage and writing archive. The reading-language control switches the card title, summary, metadata, and destination URL, while each article page links directly to its alternate-language version.
+Paired posts appear once per language on the homepage and writing archive. The header’s EN/中 switch changes the whole site language, including navigation, cards, topics, About, and RSS. Chinese entry points remain `/`, `/writing/`, `/topics/`, and `/about/`; English entry points use `/en/`. Article URLs remain unchanged, and each article links directly to its translation. English pages only include English posts; Chinese pages prefer Chinese and may include an English-only post when no translation exists.
 
-The homepage's Recent section automatically displays the newest article by date, with both language versions when available. Legacy `featured` metadata does not affect this selection.
+The active language comes from the page URL, so direct links, reloads, and navigation remain consistent without JavaScript or browser storage. Topic filters carry over when switching languages, and stable Astra section/figure anchors carry over between its two versions. Theme preference is applied before first paint and persists independently of language.
+
+Each homepage's Featured section automatically displays the newest article available in that language. Legacy `featured` metadata does not affect this selection.
 
 ## Preview locally
 
-### Astra Robotics research report (draft)
+### Astra Robotics research essay
 
-The project draft is published for review at `https://Yuchen-Cao.github.io/writing/astra-robotics/`. Its `draft: true` flag keeps it out of the homepage, archive, RSS and sitemap, while allowing direct-link access after deployment. This flag is an editorial setting, not access control. Sections 4–6 and video cases remain in progress.
+The complete essay is published at `/writing/astra-robotics/`, with its full English translation at `/writing/astra-robotics-en/`. Both are listed on their language’s homepage and archive.
 
-- Edit prose in `content/posts/2026-10-27-astra-robotics.md`.
-- Edit numbered references and paragraph-anchored margin notes in `content/reports/astra-references.json` and `astra-notes.json`.
-- Figure data and source provenance live in `assets/astra-report/figures-data.json`; interactive renderers are in `scripts/report-figures.mjs`.
-- `:::takeaways … :::`, `:::figure N`, and `:::video-cases … :::` are report-specific blocks. The video block preserves the original case request and renders task tabs with clearly marked placeholders. No video or event timing is fabricated.
-- To add real rollouts later, select the cases first and provide each video's policy, viewpoint, playback timing, and event annotations; the current placeholder deliberately does not infer these from old assets.
+- Edit prose in `content/posts/2026-10-27-astra-robotics.md` and `2026-10-27-astra-robotics-en.md`.
+- Numbered references and paragraph-anchored margin notes live in `content/reports/astra-references.json` and `astra-notes.json`, with `-en.json` counterparts. When editing a note’s paragraph, keep its `match` string synchronized.
+- Figure data and source provenance live in `assets/astra-report/figures-data.json`; renderers are in `scripts/report-figures.mjs`. English captions are in `scripts/report-locales.mjs`; numerical data and SVG internals are shared.
+- `:::takeaways … :::`, `:::figure N`, and `:::video-cases … :::` are report blocks. Video cases and commentary live in `content/reports/astra-cases.json` and `astra-cases-en.json`; both versions share the same media and measurements.
+- Keep language versions paired with the same `translationKey`. Both article citation blocks use the English title and their own canonical URL.
 
 After building, run `node scripts/export-report.mjs` to create a self-contained preview at `../outputs/astra-report/astra-robotics-preview.html` and `dist/astra-robotics-preview.html`. Styles, scripts and images are embedded, so the exported file can be opened without a preview server. Re-export after changing the report.
 

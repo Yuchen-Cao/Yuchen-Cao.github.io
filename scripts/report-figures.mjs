@@ -3,6 +3,7 @@
 import { readFileSync } from 'node:fs';
 import { createConceptFigures } from './report-concepts.mjs';
 import { createChartFigures } from './report-charts.mjs';
+import { englishFigureCaptions } from './report-locales.mjs';
 const DATA = JSON.parse(readFileSync(new URL('../assets/astra-report/figures-data.json', import.meta.url), 'utf8'));
 const SOURCE = {
   gen: 'https://generalistai.com/blog/gen-1.5',
@@ -14,7 +15,10 @@ const SOURCE = {
 const esc = (s) => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const source = (key, label) => `<a href="${SOURCE[key]}">${label}</a>`;
 const note = text => `<p class="rf-note">${text}</p>`;
-function figure(n,title,body,caption){return `<figure class="report-figure" id="figure-${n}" aria-labelledby="figure-${n}-title"><div class="rf-surface" lang="en"><div class="rf-heading"><span class="rf-kicker">FIG. ${String(n).padStart(2,'0')}</span><h4 id="figure-${n}-title">${title}</h4></div>${body}</div><figcaption><strong>图 ${n}.</strong> ${caption}</figcaption></figure>`;}
+function createFigureRenderer(language) {
+const isEnglish = language === 'en';
+const captions = isEnglish ? englishFigureCaptions({ source, DATA }) : {};
+function figure(n,title,body,caption){return `<figure class="report-figure" id="figure-${n}" aria-labelledby="figure-${n}-title"><div class="rf-surface" lang="en"><div class="rf-heading"><span class="rf-kicker">FIG. ${String(n).padStart(2,'0')}</span><h4 id="figure-${n}-title">${title}</h4></div>${body}</div><figcaption><strong>${isEnglish ? 'Figure' : '图'} ${n}.</strong> ${captions[n] ?? caption}</figcaption></figure>`;}
 function tabs(id, items, defaultIndex=0, orientation='horizontal') {
   return `<div class="rf-tabs" data-rf-tabs><div class="rf-controls" role="tablist" aria-label="Figure views" aria-orientation="${orientation}">${items.map((t,i)=>`<button type="button" id="${id}-tab-${i}" role="tab" data-rf-tab="${id}-${i}" aria-controls="${id}-${i}" aria-selected="${i===defaultIndex}" tabindex="${i===defaultIndex?0:-1}">${t.label}</button>`).join('')}</div>${items.map((t,i)=>`<div class="rf-panel" id="${id}-${i}" role="tabpanel" aria-labelledby="${id}-tab-${i}" tabindex="0" data-rf-panel><div class="rf-panel-title">${t.label}</div>${t.html}</div>`).join('')}</div>`;
 }
@@ -68,9 +72,16 @@ function verifiedPromptFigure() {
 const { policyFigure, iclFigure, verifiedHistoryFigure } = createConceptFigures({DATA,figure,source,esc,note,tabs});
 const { budgetFigure, robocasaFigure, wamFigure, tactileFigure, dexterityFigure, ablationFigure } = createChartFigures({DATA,figure,source,esc,note,tabs,chart});
 
-export function renderFigure(index){switch(Number(index)){
+return function renderFigure(index){switch(Number(index)){
 case 1:return policyFigure();case 2:return physicalFigure();case 3:return genFigure();case 4:return iclFigure();case 5:return budgetFigure();
 case 6:return '';case 7:return tactileFigure();case 8:return dexterityFigure();case 9:return robocasaFigure();case 10:return wamFigure();
 case 11:return ablationFigure(11,'action','Action representation: EEF vs. joint');case 12:return verifiedHistoryFigure();case 13:return ablationFigure(13,'history','History: recent observations and interaction memory');case 14:return verifiedPromptFigure();case 15:return ablationFigure(15,'prompt','Prompt: embodiment and camera information');case 16:return timelineFigure();
 default:throw new Error(`Unknown report figure ${index}`);
 }}
+
+}
+
+const renderers = { zh: createFigureRenderer('zh'), en: createFigureRenderer('en') };
+export function renderFigure(index, language = 'zh') {
+  return renderers[language === 'en' ? 'en' : 'zh'](index);
+}
