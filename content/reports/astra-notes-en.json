@@ -6,8 +6,8 @@
   },
   {
     "match": ":::figure 2",
-    "kind": "GEN-1.5 supplementary results",
-    "text": "GEN-1.5 reports an average one-shot ICL success rate of 59% across ten short-horizon tasks: the demonstration is simply placed in context, and the pretrained model is evaluated directly. As a comparison involving additional adaptation, ten gradient updates on a small amount of data raise the success rate to 83%. The report also shows behaviors that combine information across demonstrations and follow paths not taken in the demonstrations themselves.[7]",
+    "kind": "From GEN-1.5",
+    "text": "GEN-1.5 offers a concrete example of physical ICL: placing a demonstration of observations and actions in context while keeping pretrained weights fixed yields a mean one-shot success rate of 59% across ten short-horizon tasks. For comparison, Figure 3 also shows fine-tuning with ten gradient updates on a small amount of data, which yields a mean success rate of 83%.[7]",
     "figure": 3
   },
   {

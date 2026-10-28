@@ -3,7 +3,7 @@ title: Astra’s Robotics Exam: How Close Are General-Purpose Models to Becoming
 date: 2026-10-27
 lang: en
 translationKey: astra-robotics
-description: Drawing on three systematic evaluations, this essay examines how the systems surrounding a general-purpose model shape its embodied capabilities, with a focus on control interfaces, interaction history, real-time feedback, and physical time.
+description: Drawing on three systematic evaluations, this essay examines the important roles of interface design and interaction history in Astra’s embodied-task performance. It also discusses limitations recognized in these evaluations but still unresolved: making use of real-time feedback and keeping model reasoning aligned with physical time.
 tags: Embodied Intelligence, Agentic Systems
 layout: report
 draft: false

@@ -3,7 +3,7 @@ title: Astra Robotics 大考：大模型离真正的机器人大脑还有多远�
 date: 2026-10-27
 lang: zh-CN
 translationKey: astra-robotics
-description: 本研究以三份系统评测为基础，进一步分析外部环境对通用模型具身能力的影响，阐明接口设计、交互历史、实时反馈与物理时间在其中的核心作用。
+description: 本篇 essay 基于三份系统评测，分析接口设计与交互历史在 Astra 具身任务表现中的重要作用。同时讨论这些评测已关注、仍待解决的局限：如何利用实时反馈，以及如何让模型推理与物理时间对齐。
 tags: Embodied Intelligence, Agentic Systems
 layout: report
 draft: false
