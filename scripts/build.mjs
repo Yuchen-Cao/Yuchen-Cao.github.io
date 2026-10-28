@@ -187,16 +187,17 @@ function postMeta(post, { showTags = true } = {}) {
   return `<div class="meta"><span class="language-badge">${language}</span><time datetime="${post.date}">${formatDate(post.date, post.lang)}</time><span>${post.readingTime}</span>${tags}</div>`;
 }
 
-function cardTranslation(post) {
+function cardTranslation(post, isDefault) {
   const action = post.lang === "zh-CN" ? "阅读全文" : "Read article";
-  const hidden = post.lang === "en" ? "" : " hidden";
+  const hidden = isDefault ? "" : " hidden";
   return `<div class="post-card-content" lang="${post.lang}" data-card-translation data-language="${post.lang}"${hidden}>${postMeta(post)}<h3><a href="${post.url}">${escapeHtml(post.title)}</a></h3><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}" aria-label="${action}: ${escapeHtml(post.title)}">${action}</a></div>`;
 }
 
 function card(group, index) {
   const tags = [...new Set(group.variants.flatMap((post) => post.tags))];
+  const defaultPost = group.variants.find((post) => post.lang === "en") || group.variants[0];
   return `<article class="post-card" data-post-card data-tags="${tags.map(slugify).join("|")}">
-    <span class="post-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>${group.variants.map(cardTranslation).join("")}
+    <span class="post-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>${group.variants.map((post) => cardTranslation(post, post === defaultPost)).join("")}
   </article>`;
 }
 
@@ -253,9 +254,9 @@ function languageSwitch(post, translations) {
   return `<nav class="language-switch" aria-label="${label}"><span class="language-switch-label">${label}</span>${options}</nav>`;
 }
 
-function recentTranslation(post) {
-  const hidden = post.lang === "en" ? "" : " hidden";
-  return `<div class="featured-translation" lang="${post.lang}" data-card-translation data-language="${post.lang}"${hidden}><div class="featured-side"><span>${post.lang === "zh-CN" ? "最近更新" : "Recent"}</span><span>${post.lang === "zh-CN" ? "中文" : "English"}</span></div><div>${postMeta(post, { showTags: false })}<h3><a href="${post.url}">${escapeHtml(post.title)}</a></h3><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}">${post.lang === "zh-CN" ? "阅读全文" : "Read article"}</a></div></div>`;
+function recentTranslation(post, isDefault) {
+  const hidden = isDefault ? "" : " hidden";
+  return `<div class="featured-translation" lang="${post.lang}" data-card-translation data-language="${post.lang}"${hidden}><div class="featured-side"><span>Featured essay<br>精选长文</span><span>${post.lang === "zh-CN" ? "中文 · Chinese" : "English"}</span></div><div>${postMeta(post, { showTags: false })}<h2><a href="${post.url}">${escapeHtml(post.title)}</a></h2><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}">${post.lang === "zh-CN" ? "阅读全文" : "Read article"}</a></div></div>`;
 }
 
 for (const post of posts) {
@@ -266,10 +267,11 @@ for (const post of posts) {
 }
 
 const recentGroup = postGroups[0];
+const recentDefault = recentGroup.variants.find((post) => post.lang === "en") || recentGroup.variants[0];
 const allTags = [...new Set(posts.filter(post => !post.draft).flatMap((post) => post.tags))].sort();
 const home = `<div class="shell">
   <section class="hero"><p class="eyebrow">Research notebook · 研究思考笔记</p><div class="hero-grid"><h1>Thinking about agents<br><em>beyond the turn.</em></h1><div><p class="hero-copy">关于语言模型 Agent、时间推理与具身智能的技术文章。记录那些发生在模型、工具与真实世界交界处的问题。</p><p class="hero-copy-en">Technical essays on language-model agents, temporal reasoning, and embodied intelligence.</p></div></div><div class="research-lines"><span>Agentic systems</span><span>Temporal reasoning</span><span>Embodied intelligence</span></div></section>
-  <section class="section featured-section"><div class="section-head"><div><p class="section-label">Recent / 最近更新</p><h2>Most recent article</h2></div></div><article class="featured" data-featured>${recentGroup.variants.map(recentTranslation).join("")}</article></section>
+  <section class="section featured-section" aria-label="Featured essay / 精选长文"><article class="featured" data-featured>${recentGroup.variants.map((post) => recentTranslation(post, post === recentDefault)).join("")}</article></section>
   <section class="section"><div class="section-head"><div><p class="section-label">Latest writing / 最新文章</p><h2>Ideas, with the argument visible.</h2></div><p class="section-intro">每个主题只显示一次；可切换阅读语言，或按研究主题筛选。</p></div>${filterControls(allTags)}<div class="post-list">${postGroups.map(card).join("")}</div></section>
 </div>`;
 await writePage("/", layout({ title: config.siteName, description: config.description, body: home, canonical: "/" }));

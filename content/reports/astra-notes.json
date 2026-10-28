@@ -5,10 +5,10 @@
     "text": "本文沿用 Astranomy 的称呼，将 VLA、WAM 等 System-1 模型称为 Robot Foundation Models（RFM）。"
   },
   {
-    "match": "π0.7 为代表",
+    "match": "π0.6-MEM 为代表",
     "kind": "阅读旁注",
-    "text": "π0.7 将 observation memory、visual subgoal 与高层策略引导引入 VLA，连接历史观测、任务分解与动作执行。",
-    "url": "https://www.pi.website/blog/pi07"
+    "text": "π0.6-MEM 结合短期视频记忆与长期文本记忆，保留近期运动信息与更长程的任务进度。",
+    "url": "https://arxiv.org/abs/2603.03596"
   },
   {
     "match": "Long WAM[9]",
@@ -25,7 +25,7 @@
   {
     "match": "更是保存行动意图、失败经验和任务进度的关键载体",
     "kind": "",
-    "text": "于是我们看到 [MEM](https://arxiv.org/abs/2603.03596)[21] 与 [π0.7](https://www.pi.website/download/pi07.pdf)[4] 更明确引入了多尺度记忆。"
+    "text": "于是我们看到 [π0.6-MEM](https://arxiv.org/abs/2603.03596)[21] 引入了多尺度记忆，[π0.7](https://www.pi.website/download/pi07.pdf)[4] 进一步沿用这一设计。"
   },
   {
     "match": "结果显示，action/feedback-level memory 与 agentic context",
