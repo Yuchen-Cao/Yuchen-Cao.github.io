@@ -5,13 +5,7 @@
     "text": "本文沿用 Astranomy 的称呼，将 VLA、WAM 等 System-1 模型称为 Robot Foundation Models（RFM）。"
   },
   {
-    "match": "π0.6-MEM 为代表",
-    "kind": "阅读旁注",
-    "text": "π0.6-MEM 结合短期视频记忆与长期文本记忆，保留近期运动信息与更长程的任务进度。",
-    "url": "https://arxiv.org/abs/2603.03596"
-  },
-  {
-    "match": "Long WAM[9]",
+    "match": "Long WAM[10]",
     "kind": "",
     "text": "这篇工作还有一个发现，他们在 WAM 上，观察到了自回归训练在 context history 上的 scaling。自回归是有点说法的。",
     "url": "https://nvlabs.github.io/LongLive/Long-WAM/#planning"
@@ -25,22 +19,22 @@
   {
     "match": "更是保存行动意图、失败经验和任务进度的关键载体",
     "kind": "",
-    "text": "于是我们看到 [π0.6-MEM](https://arxiv.org/abs/2603.03596)[21] 引入了多尺度记忆，[π0.7](https://www.pi.website/download/pi07.pdf)[4] 进一步沿用这一设计。"
+    "text": "于是我们看到 [π0.6-MEM](https://arxiv.org/abs/2603.03596)[4] 引入了多尺度记忆，[π0.7](https://www.pi.website/download/pi07.pdf)[11] 进一步沿用这一设计。"
   },
   {
     "match": "结果显示，action/feedback-level memory 与 agentic context",
     "references": [
-      22,
-      23
+      12,
+      13
     ]
   },
   {
-    "match": "《Claude plays robotics》[10]",
+    "match": "《Claude plays robotics》[14]",
     "kind": "两项研究",
-    "text": "《Claude plays robotics》（7 月 9 日）覆盖多种本体和控制接口。另篇《Project Pilot: Can AI control a drone?》（7 月 24 日）研究无人机定位、导航与跟随，并提出 Drone-Bench。[11]"
+    "text": "《Claude plays robotics》（7 月 9 日）覆盖多种本体和控制接口。另篇《Project Pilot: Can AI control a drone?》（7 月 24 日）研究无人机定位、导航与跟随，并提出 Drone-Bench。[15]"
   },
   {
-    "match": "与 CaP[12] 以及后续的 CaP-X[13]",
+    "match": "与 CaP[16] 以及后续的 CaP-X[17]",
     "kind": "交互粒度",
     "text": "CaP-X 的外层循环是“生成控制程序 → 执行完该程序 → 查看轨迹反馈 → 修改下一轮代码”；同一 trial 可多轮继续，环境不重置。模型在程序运行之间迭代策略；这里关注的 Agentic 路线则在探索过程中，以更短的动作或工具调用反复读取反馈、调整后续行动。",
     "url": "https://arxiv.org/abs/2603.22435"
