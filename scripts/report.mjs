@@ -39,7 +39,7 @@ export function renderReport(post) {
     const normalize=url=>url.split('#')[0].replace('/pdf/','/abs/').replace(/\.pdf$/,'').replace(/\/$/,'');
     return html.replace(/<figcaption>([\s\S]*?)<\/figcaption>/g,(_,caption)=>'<figcaption>'+caption.replace(/<a\b[^>]*href="([^"]+)"[^>]*>[\s\S]*?<\/a>/g,(link,url)=>{
       const ref=Object.entries(refs).find(([,r])=>normalize(r.url)===normalize(url));
-      const externalLink=link.includes('↗')?link:link.replace('</a>',' <span class="reference-external" aria-hidden="true">↗</span></a>');
+      const externalLink=!/^https?:\/\//.test(url)||link.includes('↗')?link:link.replace('</a>',' <span class="reference-external" aria-hidden="true">↗</span></a>');
       return ref?externalLink+inline(`[${ref[0]}]`):externalLink;
     })+'</figcaption>');
   }
