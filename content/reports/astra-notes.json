@@ -23,6 +23,16 @@
     "url": "https://research.nvidia.com/labs/srl/projects/astranomy/#action-space-by-target-results"
   },
   {
+    "match": "更是保存行动意图、失败经验和任务进度的关键载体",
+    "kind": "",
+    "text": "于是我们看到 [MEM](https://arxiv.org/abs/2603.03596)[21] 与 [π0.7](https://www.pi.website/download/pi07.pdf)[4] 更明确引入了多尺度记忆。"
+  },
+  {
+    "match": "结果显示，action/feedback-level memory 与 agentic context",
+    "kind": "",
+    "text": "[LIBERO-Plus: A Progressive Robustness Benchmark for Visual-Language-Action Models](https://openaccess.thecvf.com/content/CVPR2026/html/Fei_LIBERO-Plus_A_Progressive_Robustness_Benchmark_for_Visual-Language-Action_Models_CVPR_2026_paper.html)（CVPR 2026）[22]<br />[What Are We Actually Benchmarking in Robot Manipulation?](https://arxiv.org/abs/2606.04233)（CoRL 2026）[23]"
+  },
+  {
     "match": "《Claude plays robotics》[10]",
     "kind": "两项研究",
     "text": "《Claude plays robotics》（7 月 9 日）覆盖多种本体和控制接口。另篇《Project Pilot: Can AI control a drone?》（7 月 24 日）研究无人机定位、导航与跟随，并提出 Drone-Bench。[11]"

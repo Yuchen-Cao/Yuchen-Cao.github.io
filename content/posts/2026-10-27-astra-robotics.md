@@ -167,7 +167,9 @@ Astranomy 细致消融了在 Direct Policy 或 Agentic Policy 下，使用 EEF �
 - Short-term observation history 更接近状态估计，帮助模型理解运动方向、近期动作结果和物体变化
 - Long-term interaction history 则包含之前的动作、计划、决策和尝试，使 Agent 能知道已经做过什么，以及下一步为什么要改变策略。
 
-此前我一直感到疑惑，为什么以 π0.5 为代表的传统 System-1 VLA 的训练往往侧重当前状态或短期视频窗口，而不是完整的交互历史？对长时程具身任务来说，历史不仅是额外的视觉观测，更是保存行动意图、失败经验和任务进度的关键载体。Coding Agent 中已广泛使用的 Context Management 与 Compaction，或许同样值得成为机器人策略训练的一部分。<br />结果显示，action/feedback-level memory 与 agentic context，它们比短期 frame stacking 更丰富。细看消融，我们发现文本上下文的历史起到了非常大的作用。此前大家关心的，早期 VLA “是否如它所预期的真的用上了 language backbone 的能力” 在 Astra 这充当 robotic policy 的 VLM 这里倒是得到了解答。**文本上下文十分重要**。
+此前我一直感到疑惑，为什么以 π0.5 为代表的传统 System-1 VLA 的训练往往侧重当前状态或短期视频窗口，而不是完整的交互历史？对长时程具身任务来说，历史不仅是额外的视觉观测，更是保存行动意图、失败经验和任务进度的关键载体。Coding Agent 中已广泛使用的 Context Management 与 Compaction，或许同样值得成为机器人策略训练的一部分。
+
+结果显示，action/feedback-level memory 与 agentic context，它们比短期 frame stacking 更丰富。细看消融，我们发现文本上下文的历史起到了非常大的作用。此前大家关心的，早期 VLA “是否如它所预期的真的用上了 language backbone 的能力” 在 Astra 这充当 robotic policy 的 VLM 这里倒是得到了解答。**文本上下文十分重要**。
 
 ### 3.3 Harness 本身就是 Policy 的一部分
 
