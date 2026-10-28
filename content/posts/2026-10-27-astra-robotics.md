@@ -52,10 +52,6 @@ draft: false
 
 :::figure 2
 
-GEN-1.5 在十个短时程任务上报告 one-shot ICL 平均成功率 59%：仅将示教放进上下文，直接评测预训练模型。作为进一步适配的对照，使用少量数据做 10 次梯度更新后，成功率达到 83%。报告还展示了跨示教组合与非示教路径的行为。[7]
-
-:::figure 3
-
 SenseNova 也提出使用 ICL 的方式对 Astra 在具身基准上进行评测。与 GEN-1.5 更 Physical Native 的演示不同，SenseNova 照顾到 Astra 是一个在代码 Agentic 任务上被深入后训练过的模型，虽然也不包含任何梯度更新，但示范的构成是让 Astra 以 Agentic 的方式去探索训练数据，基于此完成对应任务。[1]
 
 :::figure 4

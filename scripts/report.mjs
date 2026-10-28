@@ -47,6 +47,10 @@ export function renderReport(post, { languageSwitch = '' } = {}) {
       side += marginSource(n);
     }
     for (const note of notes) if (raw.includes(note.match)) {
+      if (note.figure) {
+        side += `<details class="margin-supplement" open><summary>${escape(note.kind)}</summary><div class="margin-supplement-body"><p>${inline(note.text)}</p>${citeFigure(renderFigure(note.figure, language))}</div></details>`;
+        continue;
+      }
       if (note.references) {
         for (const n of note.references) if (refs[n]) {
           side += marginSource(n, true);
@@ -83,7 +87,7 @@ export function renderReport(post, { languageSwitch = '' } = {}) {
       if(fig) {
         const number=Number(fig[1]);
         const failureHtml=number===6?`<figure lang="en" class="failure-gallery" id="figure-6"><span class="figure-kicker">FIG. 06 · FAILURE CASES</span><h4 lang="en">Failures that persist with more budget</h4><button class="figure-zoom" type="button" data-figure-zoom aria-label="Enlarge failure cases"><img src="/assets/astra-report/failure-cases.png" loading="lazy" alt="SenseNova failure cases: physical verification, recovery from irreversible actions, and long-horizon progress"></button><figcaption><b>${tr('Figure', '图')} 6.</b> ${tr('SenseNova failure cases. From left to right: verifying physical states, recovering after irreversible actions, and preserving progress over long horizons. Arrows indicate key states before and after execution. These failures can persist even with ICL and expanded budgets. Source:', 'SenseNova 的失败案例：从左到右依次为物理状态验证、不可逆动作后的恢复，以及长时程任务中的进度保持。箭头指向执行前后的关键状态；即使提供 ICL 与扩展预算，仍可能发生这些失败。来源：')} ${inline('[1]')}${tr('.', '。')}</figcaption><dialog class="figure-lightbox" aria-label="Failure cases"><button type="button" data-figure-close aria-label="Close enlarged image">Close ×</button><img src="/assets/astra-report/failure-cases.png" alt="Three categories of SenseNova failure cases"></dialog></figure>`:'';
-        out.push(row(number===6?failureHtml:citeFigure(renderFigure(number, language)), '', 'figure-row')); i++;continue;
+        out.push(row(number===6?failureHtml:citeFigure(renderFigure(number, language)), line, 'figure-row')); i++;continue;
       }
       if(line===':::video-cases') {
         const body=[];i++;while(i<lines.length&&lines[i].trim()!==':::')body.push(lines[i++]);i++;

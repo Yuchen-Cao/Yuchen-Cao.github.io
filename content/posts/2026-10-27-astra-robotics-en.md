@@ -52,10 +52,6 @@ The landmark GPT-3 paper demonstrated the one-shot and few-shot capabilities of 
 
 :::figure 2
 
-GEN-1.5 reports an average one-shot ICL success rate of 59% across ten short-horizon tasks: the demonstration is simply placed in context, and the pretrained model is evaluated directly. As a comparison involving additional adaptation, ten gradient updates on a small amount of data raise the success rate to 83%. The report also shows behaviors that combine information across demonstrations and follow paths not taken in the demonstrations themselves.[7]
-
-:::figure 3
-
 SenseNova likewise proposes evaluating Astra on embodied benchmarks through ICL. Its approach differs from GEN-1.5’s more physically native demonstrations, however. SenseNova takes into account that Astra has undergone extensive post-training on agentic coding tasks. No gradient updates are involved here either, but the demonstration process consists of letting Astra explore training data as an agent and then use what it learns to complete the corresponding tasks.[1]
 
 :::figure 4

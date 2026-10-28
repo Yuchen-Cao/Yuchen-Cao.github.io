@@ -5,6 +5,12 @@
     "text": "Following Astranomy, this essay uses Robot Foundation Models (RFMs) to refer to System-1 models such as VLAs and WAMs."
   },
   {
+    "match": ":::figure 2",
+    "kind": "GEN-1.5 supplementary results",
+    "text": "GEN-1.5 reports an average one-shot ICL success rate of 59% across ten short-horizon tasks: the demonstration is simply placed in context, and the pretrained model is evaluated directly. As a comparison involving additional adaptation, ten gradient updates on a small amount of data raise the success rate to 83%. The report also shows behaviors that combine information across demonstrations and follow paths not taken in the demonstrations themselves.[7]",
+    "figure": 3
+  },
+  {
     "match": "Long-WAM [10]",
     "kind": "",
     "text": "Another finding in this work is that autoregressive training enables context-history scaling in a WAM. There may be something to this autoregressive business after all.",

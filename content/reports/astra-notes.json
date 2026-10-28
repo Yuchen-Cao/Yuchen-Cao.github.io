@@ -5,6 +5,12 @@
     "text": "本文沿用 Astranomy 的称呼，将 VLA、WAM 等 System-1 模型称为 Robot Foundation Models（RFM）。"
   },
   {
+    "match": ":::figure 2",
+    "kind": "GEN-1.5 补充实验",
+    "text": "GEN-1.5 在十个短时程任务上报告 one-shot ICL 平均成功率 59%：仅将示教放进上下文，直接评测预训练模型。作为进一步适配的对照，使用少量数据做 10 次梯度更新后，成功率达到 83%。报告还展示了跨示教组合与非示教路径的行为。[7]",
+    "figure": 3
+  },
+  {
     "match": "Long WAM[10]",
     "kind": "",
     "text": "这篇工作还有一个发现，他们在 WAM 上，观察到了自回归训练在 context history 上的 scaling。自回归是有点说法的。",
