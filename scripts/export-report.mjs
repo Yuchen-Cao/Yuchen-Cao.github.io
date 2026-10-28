@@ -120,6 +120,14 @@ async function transformTag(tag) {
       return replaceAttribute(tag, "src", `data:${mime};base64,${data.toString("base64")}`);
     }
   }
+  if (/^<(?:video|source)\b/i.test(tag)) {
+    // Keep large rollout files hosted; the portable HTML uses durable site URLs.
+    for (const name of ['src', 'data-src', 'poster']) {
+      const reference = attribute(tag, name);
+      if (localFile(reference)) tag = replaceAttribute(tag, name, new URL(reference, articleUrl).href);
+    }
+    return tag;
+  }
   if (/^<(?:a|area)\b/i.test(tag)) {
     const href = attribute(tag, "href");
     if (localFile(href)) {
@@ -139,7 +147,7 @@ try {
 
 // Tokenize only the generated page's resource/navigation tags. Keep comments and
 // existing raw-text blocks intact so tag-like text inside code is never rewritten.
-const tokens = /<!--[\s\S]*?-->|<script\b(?:[^>"']|"[^"]*"|'[^']*')*>[\s\S]*?<\/script\s*>|<style\b(?:[^>"']|"[^"]*"|'[^']*')*>[\s\S]*?<\/style\s*>|<(?:link|img|a|area)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi;
+const tokens = /<!--[\s\S]*?-->|<script\b(?:[^>"']|"[^"]*"|'[^']*')*>[\s\S]*?<\/script\s*>|<style\b(?:[^>"']|"[^"]*"|'[^']*')*>[\s\S]*?<\/style\s*>|<(?:link|img|a|area|video|source)\b(?:[^>"']|"[^"]*"|'[^']*')*>/gi;
 const matches = [...html.matchAll(tokens)];
 const replacements = await Promise.all(matches.map((match) => transformTag(match[0])));
 const deferredScripts = [];

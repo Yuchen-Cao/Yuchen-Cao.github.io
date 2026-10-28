@@ -1,0 +1,113 @@
+[
+  {
+    "id": "folding",
+    "title": "Folding clothes",
+    "subtitle": "Coordinating both arms",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "fold_clothes_random_gpt6_native.mp4",
+        "comment": "Astra Native 能看到左右开弓。"
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "fold_clothes_random_gpt6_mixed.mp4",
+        "comment": "RFM-Assisted 策略和原始 π0.5 比较像。"
+      },
+      {
+        "strategy": "π0.5",
+        "file": "fold_clothes_random_pi_05_15.mp4",
+        "comment": "π0.5 看起来比较依从学习的轨迹。"
+      }
+    ]
+  },
+  {
+    "id": "screws",
+    "title": "Fastening screws",
+    "subtitle": "Repeated attempts and exploration",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "fasten_screws_gpt6_native.mp4",
+        "comment": ""
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "fasten_screws_gpt6_mixed.mp4",
+        "comment": ""
+      },
+      {
+        "strategy": "π0.5",
+        "file": "fasten_screws_pi05_15.mp4",
+        "comment": ""
+      }
+    ],
+    "reflection": "Astra 主导的策略中，能看到多次尝试和探索的痕迹（最初抓错了位置）；同样左右开弓。"
+  },
+  {
+    "id": "coin",
+    "title": "Depositing a coin",
+    "subtitle": "Failed grasps, retries and recovery",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "deposit_coin_gpt6_native.mp4",
+        "comment": "Astra Native 的策略能看出很强的识别错误和重试倾向，最终败于超时，或有望在预算提升的情况下完成。"
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "deposit_coin_gpt6_mixed.mp4",
+        "comment": "RFM-Assisted 策略下，Astra 能实时 recover 和纠偏。"
+      },
+      {
+        "strategy": "π0.5",
+        "file": "deposit_coin_pi05_15.mp4",
+        "comment": "纯 VLA 策略下，模型对没有抓到似乎未感知，还在持续依从训练过的示范轨迹的行为。"
+      }
+    ]
+  },
+  {
+    "id": "random-numbers",
+    "title": "Random number arrangement",
+    "subtitle": "Observation, correction and coordination",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "arrange_number_random_gpt6_native.mp4",
+        "comment": "Astra Native 策略表现出非常明显的“左右开弓”特性，也非常擅长观察并根据观察调整。"
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "arrange_number_random_gpt6_mixed.mp4",
+        "comment": "RFM-Assisted 策略下，Astra 多次纠正 VLA 的失误。"
+      },
+      {
+        "strategy": "π0.5",
+        "file": "arrange_number_random_pi05.mp4",
+        "comment": "纯 π0.5 策略则似乎有些盲目执行行为轨迹。"
+      }
+    ]
+  },
+  {
+    "id": "numbers",
+    "title": "Number arrangement",
+    "subtitle": "Reorienting reversed numbers",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "arrange_number_gpt6_native.mp4",
+        "comment": "纯 Astra 策略不仅左右开弓，针对方向反了的数字，还使用了“投掷”的方式尝试翻面，仿佛还挺理解物理规律，提出了新颖的解决方式——受限于推理预算没能完成，但这个 case 看起来也像是提供充足预算可以完成的。"
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "arrange_number_gpt6_mixed.mp4",
+        "comment": "RFM-Assisted 的情况下，Astra 对一次抓取失败进行了修复，但由于方案是 VLA 提出的，应该是依从后训练数据中的单臂行为风格。"
+      },
+      {
+        "strategy": "π0.5",
+        "file": "arrange_number_pi05.mp4",
+        "comment": "纯 π0.5 策略还是对状况缺乏了解的样子。"
+      }
+    ]
+  }
+]
