@@ -22,10 +22,11 @@
   },
   "4": {
     "short": "Physical Intelligence",
-    "title": "π0.7: a Steerable Model with Emergent Capabilities",
-    "url": "https://www.pi.website/blog/pi07",
+    "title": "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
+    "url": "https://www.pi.website/download/pi07.pdf",
     "authors": "Physical Intelligence",
-    "year": "2026"
+    "year": "2026",
+    "projectUrl": "https://www.pi.website/blog/pi07"
   },
   "5": {
     "short": "Brown et al.",
@@ -56,11 +57,12 @@
     "year": "2026"
   },
   "9": {
-    "short": "NVIDIA Research",
+    "short": "Huang et al.",
     "title": "Long-WAM: Scaling the Context of World-Action Models",
-    "url": "https://nvlabs.github.io/LongLive/Long-WAM/#planning",
-    "authors": "NVIDIA Research",
-    "year": "2026"
+    "url": "https://arxiv.org/abs/2610.10528",
+    "authors": "Wei Huang, Bohan Zhang, Chenzhi Liu, Isabella Liu, Shuai Yang, Weian Mao, Luozhou Wang, Yicheng Xiao, Weifeng Lin, Qixin Hu, Bryan Chu, Sifei Liu, Linxi Fan, Xiaojuan Qi, Song Han, and Yukang Chen",
+    "year": "2026",
+    "projectUrl": "https://nvlabs.github.io/LongLive/Long-WAM/"
   },
   "10": {
     "short": "Anthropic",
@@ -112,11 +114,12 @@
     "year": "2026"
   },
   "17": {
-    "short": "ARC authors",
+    "short": "Puthumanaillam et al.",
     "title": "ARC: A Reasoning Recipe for Robot Foundation Models",
-    "url": "https://arc-robot-reasoning.github.io/",
-    "authors": "Anonymous authors (project website)",
-    "year": "2026"
+    "url": "https://arxiv.org/abs/2610.12386",
+    "authors": "Gokul Puthumanaillam, Tao Sun, Elie Aljalbout, Moritz Reuss, Zhaoshuo Li, Fabio Ramos, Ankit Goyal, and Jenai Xuning Yang",
+    "year": "2026",
+    "projectUrl": "https://arc-robot-reasoning.github.io/"
   },
   "18": {
     "short": "Google DeepMind",
