@@ -1,0 +1,54 @@
+[
+  {
+    "match": "Robot Foundation Models",
+    "kind": "Terminology",
+    "text": "Following Astranomy, this essay uses Robot Foundation Models (RFMs) to refer to System-1 models such as VLAs and WAMs."
+  },
+  {
+    "match": "VLAs such as π0.6-MEM",
+    "kind": "Reading note",
+    "text": "π0.6-MEM combines short-term video memory with long-term textual memory, preserving recent motion information alongside longer-term task progress.",
+    "url": "https://arxiv.org/abs/2603.03596"
+  },
+  {
+    "match": "Long-WAM [9]",
+    "kind": "",
+    "text": "Another finding in this work is that autoregressive training enables context-history scaling in a WAM. There may be something to this autoregressive business after all.",
+    "url": "https://nvlabs.github.io/LongLive/Long-WAM/#planning"
+  },
+  {
+    "match": "the harness uses code to handle some of the kinematic solving",
+    "kind": "Experimental setup",
+    "text": "The optional Python tools are disabled by default in this action-representation ablation. Python and geometry tools are evaluated separately in §3.4.",
+    "url": "https://research.nvidia.com/labs/srl/projects/astranomy/#action-space-by-target-results"
+  },
+  {
+    "match": "it is a crucial record of action intent, failed attempts, and task progress",
+    "kind": "",
+    "text": "We now see [π0.6-MEM](https://arxiv.org/abs/2603.03596)[21] introducing multi-scale memory, with [π0.7](https://www.pi.website/download/pi07.pdf)[4] building on that design."
+  },
+  {
+    "match": "The results show that action/feedback-level memory and agentic context",
+    "references": [
+      22,
+      23
+    ]
+  },
+  {
+    "match": "*Claude plays robotics* [10]",
+    "kind": "Two studies",
+    "text": "Claude plays robotics (July 9) covers several embodiments and control interfaces. The separate study Project Pilot: Can AI control a drone? (July 24) investigates drone localization, navigation, and following, and introduces Drone-Bench.[11]"
+  },
+  {
+    "match": "compared with CaP [12] and its successor CaP-X [13]",
+    "kind": "Interaction granularity",
+    "text": "CaP-X’s outer loop is: generate a control program → execute it to completion → inspect trajectory feedback → revise the code for the next round. A single trial can continue over multiple rounds without resetting the environment. The model iterates its strategy between program executions. The agentic approach discussed here instead repeatedly reads feedback and adjusts subsequent behavior through shorter actions or tool calls during exploration.",
+    "url": "https://arxiv.org/abs/2603.22435"
+  },
+  {
+    "match": "the VLMs of that period had not yet received enough embodied training data",
+    "kind": "Related design",
+    "text": "VoLo combines asynchronous tools, interruptible VLAs, and memory management so that the high-level agent can keep monitoring and intervene while a skill is executing.",
+    "url": "https://arxiv.org/abs/2606.07723"
+  }
+]

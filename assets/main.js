@@ -1,68 +1,60 @@
 const root = document.documentElement;
-const toggle = document.querySelector("[data-theme-toggle]");
-const savedTheme = localStorage.getItem("theme");
-const preferredDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-if (savedTheme) root.dataset.theme = savedTheme;
-else if (preferredDark) root.dataset.theme = "dark";
+const toggle = document.querySelector('[data-theme-toggle]');
+const english = root.lang === 'en';
 
 function updateToggleLabel() {
   if (!toggle) return;
-  const dark = root.dataset.theme === "dark";
-  toggle.setAttribute("aria-label", dark ? "Use light theme" : "Use dark theme");
-  toggle.setAttribute("title", dark ? "Use light theme" : "Use dark theme");
-  toggle.textContent = dark ? "☀" : "◐";
+  const dark = root.dataset.theme === 'dark';
+  const label = english ? (dark ? 'Use light theme' : 'Use dark theme') : (dark ? '切换浅色主题' : '切换深色主题');
+  toggle.setAttribute('aria-label', label);
+  toggle.setAttribute('title', label);
+  toggle.textContent = dark ? '☀' : '◐';
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', getComputedStyle(root).getPropertyValue('--paper').trim());
 }
 
-toggle?.addEventListener("click", () => {
-  root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
-  localStorage.setItem("theme", root.dataset.theme);
+toggle?.addEventListener('click', () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('theme', root.dataset.theme); } catch { /* Theme still works when storage is unavailable. */ }
   updateToggleLabel();
 });
-
 updateToggleLabel();
 
-const filters = document.querySelectorAll("[data-filter]");
-const cards = document.querySelectorAll("[data-post-card]");
-const languageChoices = document.querySelectorAll("[data-language-choice]");
-const translationGroups = document.querySelectorAll("[data-post-card], [data-featured]");
-
-function applyReadingLanguage(language) {
-  languageChoices.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.languageChoice === language)));
-  translationGroups.forEach((group) => {
-    const variants = [...group.querySelectorAll("[data-card-translation]")];
-    const active = variants.find((variant) => variant.dataset.language === language) || variants[0];
-    variants.forEach((variant) => { variant.hidden = variant !== active; });
-  });
-  document.documentElement.dataset.readingLanguage = language;
-}
-
+const filters = document.querySelectorAll('[data-filter]');
+const cards = document.querySelectorAll('[data-post-card]');
 function applyFilter(selected) {
-  const active = [...filters].find((item) => item.dataset.filter === selected) || [...filters][0];
+  const active = [...filters].find((item) => item.dataset.filter === selected) || filters[0];
   if (!active) return;
-  filters.forEach((item) => item.setAttribute("aria-pressed", String(item === active)));
+  filters.forEach((item) => item.setAttribute('aria-pressed', String(item === active)));
   cards.forEach((card) => {
-    const matchesTopic = card.dataset.tags.split("|").includes(active.dataset.filter);
-    card.hidden = active.dataset.filter !== "all" && !matchesTopic;
+    card.hidden = active.dataset.filter !== 'all' && !card.dataset.tags.split('|').includes(active.dataset.filter);
   });
 }
 
-languageChoices.forEach((button) => {
-  button.addEventListener("click", () => {
-    localStorage.setItem("reading-language", button.dataset.languageChoice);
-    applyReadingLanguage(button.dataset.languageChoice);
+function updateLanguageLinks() {
+  const filter = new URLSearchParams(location.search).get('filter');
+  document.querySelectorAll('[data-site-language]').forEach((link) => {
+    const destination = new URL(link.href);
+    if (filter && filters.length) destination.searchParams.set('filter', filter);
+    else destination.searchParams.delete('filter');
+    // Report sections share stable IDs across translations.
+    if (document.querySelector('.report') && /^#(?:section-[\d.]+|figure-\d+|takeaways|references|cite-this-article)$/.test(location.hash)) destination.hash = location.hash;
+    else destination.hash = '';
+    link.href = destination.href;
   });
-});
+}
 
-filters.forEach((button) => {
-  button.addEventListener("click", () => {
-    applyFilter(button.dataset.filter);
-    const url = new URL(window.location);
-    if (button.dataset.filter === "all") url.searchParams.delete("filter");
-    else url.searchParams.set("filter", button.dataset.filter);
-    history.replaceState(null, "", url);
-  });
+filters.forEach((button) => button.addEventListener('click', () => {
+  applyFilter(button.dataset.filter);
+  const url = new URL(location.href);
+  if (button.dataset.filter === 'all') url.searchParams.delete('filter');
+  else url.searchParams.set('filter', button.dataset.filter);
+  history.replaceState(null, '', url);
+  updateLanguageLinks();
+}));
+window.addEventListener('popstate', () => {
+  applyFilter(new URLSearchParams(location.search).get('filter') || 'all');
+  updateLanguageLinks();
 });
-
-applyFilter(new URLSearchParams(window.location.search).get("filter") || "all");
-applyReadingLanguage(localStorage.getItem("reading-language") || (navigator.language.toLowerCase().startsWith("zh") ? "zh-CN" : "en"));
+window.addEventListener('hashchange', updateLanguageLinks);
+applyFilter(new URLSearchParams(location.search).get('filter') || 'all');
+updateLanguageLinks();

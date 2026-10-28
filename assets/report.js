@@ -1,6 +1,7 @@
 (() => {
   const report=document.querySelector('.report');
   if(!report)return;
+  const isEnglish = report.lang === 'en';
   const nav=[...report.querySelectorAll('.report-toc nav a')];
   const targets=nav.map(a=>document.getElementById(a.hash.slice(1))).filter(Boolean);
   const progress=report.querySelector('.reading-progress i');
@@ -95,7 +96,7 @@
       copyButton.disabled=false;
       if(copied){
         copyButton.focus({preventScroll:true});
-        copyStatus.textContent='已复制';
+        copyStatus.textContent=isEnglish?'Copied':'已复制';
       }else{
         bibtex.parentElement.focus({preventScroll:true});
         const range=document.createRange();
@@ -103,7 +104,7 @@
         const selection=window.getSelection();
         selection.removeAllRanges();
         selection.addRange(range);
-        copyStatus.textContent='已选中，可手动复制';
+        copyStatus.textContent=isEnglish?'Selected; copy manually':'已选中，可手动复制';
       }
     });
   }

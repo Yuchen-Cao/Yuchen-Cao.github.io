@@ -8,6 +8,7 @@ import { renderReport } from "./report.mjs";
 const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "dist");
 const styleVersion = createHash("sha256").update(await readFile(path.join(root, "assets/styles.css"))).digest("hex").slice(0, 12);
+const mainScriptVersion = createHash("sha256").update(await readFile(path.join(root, "assets/main.js"))).digest("hex").slice(0, 12);
 const reportStyles = ['report.css', 'report-figures.css', 'report-concepts.css', 'report-charts.css', 'report-cases.css'];
 const reportStyleHash = createHash('sha256');
 for (const file of reportStyles) reportStyleHash.update(await readFile(path.join(root, 'assets', file)));
@@ -140,14 +141,28 @@ function formatDate(date, lang = "en") {
   return new Intl.DateTimeFormat(locale, { year: "numeric", month: lang === "zh-CN" ? "long" : "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${date}T00:00:00Z`));
 }
 
-function nav(current) {
-  return config.nav.map((item) => `<a href="${item.href}"${current === item.href ? ' aria-current="page"' : ""}>${item.label}</a>`).join("");
+const isEnglish = (lang) => lang === "en";
+const localePath = (route, lang) => isEnglish(lang) ? `/en${route}` : route;
+const localize = (lang, english, chinese) => isEnglish(lang) ? english : chinese;
+
+function nav(current, lang) {
+  return config.nav.map((item) => `<a href="${localePath(item.href, lang)}"${current === item.href ? ' aria-current="page"' : ""}>${escapeHtml(isEnglish(lang) ? item.label : item.labelZh)}</a>`).join("");
 }
 
-function layout({ title, description, body, current = "", type = "website", canonical = "/", lang = "en", alternates = [], report = false, draft = false }) {
+function siteLanguageSwitch(lang, alternates, canonical) {
+  return `<div class="site-language-switch" role="group" aria-label="${localize(lang, 'Site language', '网站语言')}">${['zh-CN', 'en'].map((language) => {
+    const target = alternates.find((item) => item.lang === language)?.url || localePath('/', language);
+    const label = language === 'en' ? 'EN' : 'ZH';
+    const name = language === 'en' ? 'English' : localize(lang, 'Chinese', '中文');
+    return `<a href="${language === lang ? canonical : target}" data-site-language="${language}" hreflang="${language}" aria-label="${name}"${language === lang ? ' aria-current="page"' : ''}>${label}</a>`;
+  }).join('')}</div>`;
+}
+
+function layout({ title, description, body, current = "", type = "website", canonical = "/", lang = "zh-CN", alternates = [], report = false, draft = false }) {
   const fullTitle = title === config.siteName ? title : `${title} — ${config.shortName}`;
   const url = new URL(canonical, config.url).href;
   const alternateLinks = alternates.map((item) => `\n  <link rel="alternate" hreflang="${item.lang}" href="${new URL(item.url, config.url).href}">`).join("");
+  const feed = localePath('/feed.xml', lang);
   return `<!doctype html>
 <html lang="${lang}">
 <head>
@@ -156,9 +171,10 @@ function layout({ title, description, body, current = "", type = "website", cano
   <title>${escapeHtml(fullTitle)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="author" content="${escapeHtml(config.author)}">
-  <meta name="theme-color" content="#f7f6f2">
+  <meta name="theme-color" content="#f6f8ec">
   <link rel="canonical" href="${url}">${alternateLinks}
-  <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="${feed}">
+  <script>try{const t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch{if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}</script>
   <link rel="stylesheet" href="/assets/styles.css?v=${styleVersion}">
   ${report ? reportStyles.map(file => `<link rel="stylesheet" href="/assets/${file}?v=${reportStyleVersion}">`).join('') : ''}
   ${draft ? '<meta name="robots" content="noindex, nofollow">' : ''}
@@ -166,17 +182,18 @@ function layout({ title, description, body, current = "", type = "website", cano
   <meta property="og:title" content="${escapeHtml(fullTitle)}">
   <meta property="og:description" content="${escapeHtml(description)}">
   <meta property="og:url" content="${url}">
+  <meta property="og:locale" content="${isEnglish(lang) ? 'en_US' : 'zh_CN'}">
   <meta name="twitter:card" content="summary">
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content / 跳至正文</a>
+  <a class="skip-link" href="#main">${localize(lang, 'Skip to content', '跳至正文')}</a>
   <header class="site-header">
-    <a class="brand" href="/" aria-label="${escapeHtml(config.siteName)} home"><span class="brand-mark">YC</span><span class="brand-name">${escapeHtml(config.siteName)}</span></a>
-    <nav class="site-nav" aria-label="Primary navigation">${nav(current)}<button class="theme-toggle" type="button" data-theme-toggle aria-label="Use dark theme">◐</button></nav>
+    <a class="brand" href="${localePath('/', lang)}" aria-label="${escapeHtml(config.siteName)} ${localize(lang, 'home', '首页')}"><span class="brand-mark">YC</span><span class="brand-name">${escapeHtml(config.siteName)}</span></a>
+    <nav class="site-nav" aria-label="${localize(lang, 'Primary navigation', '主导航')}">${nav(current, lang)}${siteLanguageSwitch(lang, alternates, canonical)}<button class="theme-toggle" type="button" data-theme-toggle aria-label="${localize(lang, 'Use dark theme', '切换深色主题')}">◐</button></nav>
   </header>
   <main id="main">${body}</main>
-  <footer class="site-footer"><span>© ${new Date().getUTCFullYear()} ${escapeHtml(config.author)} · Research notes in public</span><span><a href="${config.github}">GitHub</a><a href="/feed.xml">RSS</a></span></footer>
-  <script src="/assets/main.js" defer></script>
+  <footer class="site-footer"><span>© ${new Date().getUTCFullYear()} ${escapeHtml(config.author)} · ${localize(lang, 'Research notes in public', '公开的研究思考笔记')}</span><span><a href="${config.github}">GitHub</a><a href="${feed}">RSS</a></span></footer>
+  <script src="/assets/main.js?v=${mainScriptVersion}" defer></script>
 </body>
 </html>`;
 }
@@ -193,17 +210,21 @@ function cardTranslation(post, isDefault) {
   return `<div class="post-card-content" lang="${post.lang}" data-card-translation data-language="${post.lang}"${hidden}>${postMeta(post)}<h3><a href="${post.url}">${escapeHtml(post.title)}</a></h3><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}" aria-label="${action}: ${escapeHtml(post.title)}">${action}</a></div>`;
 }
 
-function card(group, index) {
-  const tags = [...new Set(group.variants.flatMap((post) => post.tags))];
-  const defaultPost = group.variants.find((post) => post.lang === "en") || group.variants[0];
-  return `<article class="post-card" data-post-card data-tags="${tags.map(slugify).join("|")}">
-    <span class="post-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>${group.variants.map((post) => cardTranslation(post, post === defaultPost)).join("")}
+function localizedPost(group, lang) {
+  return group.variants.find((post) => post.lang === lang) || (lang === 'zh-CN' ? group.variants[0] : undefined);
+}
+
+function card(group, index, lang) {
+  const post = localizedPost(group, lang);
+  if (!post) return '';
+  return `<article class="post-card" data-post-card data-tags="${post.tags.map(slugify).join("|")}">
+    <span class="post-number" aria-hidden="true">${String(index + 1).padStart(2, "0")}</span>${cardTranslation(post, true)}
   </article>`;
 }
 
-function filterControls(allTags) {
+function filterControls(allTags, lang) {
   const topics = allTags.map((tag) => `<button class="filter" data-filter="${slugify(tag)}" aria-pressed="false">${escapeHtml(tag)}</button>`).join("");
-  return `<div class="filter-toolbar"><div class="reading-language" role="group" aria-label="Reading language / 阅读语言"><span>Read in / 阅读语言</span><button data-language-choice="en" aria-pressed="true">English</button><button data-language-choice="zh-CN" aria-pressed="false">中文</button></div><div class="filters" aria-label="Filter articles"><button class="filter" data-filter="all" aria-pressed="true">All topics / 全部主题</button>${topics}</div></div>`;
+  return `<div class="filter-toolbar"><div class="filters" aria-label="${localize(lang, 'Filter articles by topic', '按主题筛选文章')}"><button class="filter" data-filter="all" aria-pressed="true">${localize(lang, 'All topics', '全部主题')}</button>${topics}</div></div>`;
 }
 
 async function writePage(route, html) {
@@ -246,54 +267,63 @@ function languageSwitch(post, translations) {
   if (translations.length < 2) return "";
   const label = post.lang === "zh-CN" ? "阅读语言" : "Read in";
   const options = translations.map((translation) => {
-    const name = translation.lang === "zh-CN" ? "中文" : "English";
+    const name = translation.lang === "zh-CN" ? localize(post.lang, "Chinese", "中文") : "English";
     return translation.slug === post.slug
       ? `<span aria-current="page">${name}</span>`
-      : `<a href="${translation.url}" hreflang="${translation.lang}" lang="${translation.lang}">${name}</a>`;
+      : `<a href="${translation.url}" data-site-language="${translation.lang}" hreflang="${translation.lang}">${name}</a>`;
   }).join("");
   return `<nav class="language-switch" aria-label="${label}"><span class="language-switch-label">${label}</span>${options}</nav>`;
 }
 
 function recentTranslation(post, isDefault) {
   const hidden = isDefault ? "" : " hidden";
-  return `<div class="featured-translation" lang="${post.lang}" data-card-translation data-language="${post.lang}"${hidden}><div class="featured-side"><span>Featured essay<br>精选长文</span><span>${post.lang === "zh-CN" ? "中文 · Chinese" : "English"}</span></div><div>${postMeta(post, { showTags: false })}<h2><a href="${post.url}">${escapeHtml(post.title)}</a></h2><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}">${post.lang === "zh-CN" ? "阅读全文" : "Read article"}</a></div></div>`;
+  return `<div class="featured-translation" lang="${post.lang}" data-card-translation data-language="${post.lang}"${hidden}><div class="featured-side"><span>${localize(post.lang, "Featured essay", "Featured essay<br>精选长文")}</span><span>${post.lang === "zh-CN" ? "中文 · Chinese" : "English"}</span></div><div>${postMeta(post, { showTags: false })}<h2><a href="${post.url}">${escapeHtml(post.title)}</a></h2><p>${escapeHtml(post.description)}</p><a class="read-link" href="${post.url}">${post.lang === "zh-CN" ? "阅读全文" : "Read article"}</a></div></div>`;
 }
 
 for (const post of posts) {
   const translations = translationsFor(post);
   const closing = post.lang === "zh-CN" ? `感谢阅读。如果你也在思考这些问题，欢迎在 <a href="${config.github}">GitHub</a> 继续交流。` : `Thanks for reading. If this line of work overlaps with yours, continue the conversation on <a href="${config.github}">GitHub</a>.`;
-  const article = post.layout === 'report' ? renderReport(post).replace(/src="(\/assets\/report(?:-figures|-cases)?\.js)"/g, `src="$1?v=${reportScriptVersion}"`) : `<div class="article-shell" lang="${post.lang}"><header class="article-header">${postMeta(post)}${languageSwitch(post, translations)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">${closing}</div></div>`;
+  const article = post.layout === 'report' ? renderReport(post, { languageSwitch: languageSwitch(post, translations) }).replace(/src="(\/assets\/report(?:-figures|-cases)?\.js)"/g, `src="$1?v=${reportScriptVersion}"`) : `<div class="article-shell" lang="${post.lang}"><header class="article-header">${postMeta(post)}${languageSwitch(post, translations)}<h1>${escapeHtml(post.title)}</h1><p class="article-deck">${escapeHtml(post.description)}</p></header><article class="prose">${markdown(post.body)}</article><div class="article-footer">${closing}</div></div>`;
   await writePage(post.url, layout({ title: post.title, description: post.description, body: article, current: "/writing/", type: "article", canonical: post.url, lang: post.lang, alternates: translations, report: post.layout === 'report', draft: post.draft }));
 }
 
-const recentGroup = postGroups[0];
-const recentDefault = recentGroup.variants.find((post) => post.lang === "en") || recentGroup.variants[0];
-const allTags = [...new Set(posts.filter(post => !post.draft).flatMap((post) => post.tags))].sort();
-const home = `<div class="shell">
-  <section class="hero"><p class="eyebrow">Research notebook · 研究思考笔记</p><div class="hero-grid"><h1>Thinking about agents<br><em>beyond the turn.</em></h1><div><p class="hero-copy">关于语言模型 Agent、时间推理与具身智能的技术文章。记录那些发生在模型、工具与真实世界交界处的问题。</p><p class="hero-copy-en">Technical essays on language-model agents, temporal reasoning, and embodied intelligence.</p></div></div><div class="research-lines"><span>Agentic systems</span><span>Temporal reasoning</span><span>Embodied intelligence</span></div></section>
-  <section class="section featured-section" aria-label="Featured essay / 精选长文"><article class="featured" data-featured>${recentGroup.variants.map((post) => recentTranslation(post, post === recentDefault)).join("")}</article></section>
-  <section class="section"><div class="section-head"><div><p class="section-label">Latest writing / 最新文章</p><h2>Ideas, with the argument visible.</h2></div><p class="section-intro">每个主题只显示一次；可切换阅读语言，或按研究主题筛选。</p></div>${filterControls(allTags)}<div class="post-list">${postGroups.map(card).join("")}</div></section>
-</div>`;
-await writePage("/", layout({ title: config.siteName, description: config.description, body: home, canonical: "/" }));
+const aboutDocs = {
+  en: parseDocument(await readFile(path.join(root, 'content/pages/about.md'), 'utf8')),
+  'zh-CN': parseDocument(await readFile(path.join(root, 'content/pages/about-zh.md'), 'utf8'))
+};
+const aggregateRoutes = ['/', '/writing/', '/topics/', '/about/'];
+for (const lang of ['zh-CN', 'en']) {
+  const groups = postGroups.filter((group) => localizedPost(group, lang));
+  const recentPost = localizedPost(groups[0], lang);
+  const allTags = [...new Set(groups.flatMap((group) => localizedPost(group, lang).tags))].sort();
+  const localizedLayout = (route, options) => layout({ ...options, lang, canonical: localePath(route, lang), alternates: ['zh-CN', 'en'].map((language) => ({lang: language, url: localePath(route, language)})) });
+  const home = `<div class="shell">
+    <section class="hero"><p class="eyebrow">${localize(lang, 'Research notebook', 'Research notebook · 研究思考笔记')}</p><div class="hero-grid"><h1>Thinking about physical agents<br><em>beyond the turn.</em></h1><div><p class="hero-copy">${localize(lang, 'Technical essays on language-model agents, temporal reasoning, and embodied intelligence.', '关于语言模型 Agent、时间推理与具身智能的技术文章。记录那些发生在模型、工具与真实世界交界处的问题。')}</p><p class="hero-copy-en">${localize(lang, 'Questions at the intersection of models, tools, and the physical world.', 'Technical essays on language-model agents, temporal reasoning, and embodied intelligence.')}</p></div></div><div class="research-lines"><span>Agentic systems</span><span>Temporal reasoning</span><span>Embodied intelligence</span></div></section>
+    <section class="section featured-section" aria-label="${localize(lang, 'Featured essay', '精选长文')}"><article class="featured" data-featured>${recentTranslation(recentPost, true)}</article></section>
+    <section class="section"><div class="section-head"><div><p class="section-label">${localize(lang, 'Latest writing', 'Latest writing / 最新文章')}</p><h2>Ideas, with the argument visible.</h2></div><p class="section-intro">${localize(lang, 'Essays on agents, time, and the physical world. Browse the latest notes or follow a research topic.', '每个主题只显示一次；可切换网站语言，或按研究主题筛选。')}</p></div>${filterControls(allTags, lang)}<div class="post-list">${groups.map((group, i) => card(group, i, lang)).join('')}</div></section>
+  </div>`;
+  await writePage(localePath('/', lang), localizedLayout('/', { title: config.siteName, description: localize(lang, config.description, config.descriptionZh), body: home }));
 
-const writing = `<div class="shell"><header class="page-header"><p class="eyebrow">Writing / 文章</p><h1>Research notes,<br>arguments in progress.</h1><p>关于 Agent、时间推理和具身系统的长文与研究笔记。Switch reading language or browse by topic.</p></header>${filterControls(allTags)}<div class="post-list archive-list">${postGroups.map(card).join("")}</div></div>`;
-await writePage("/writing/", layout({ title: "Writing", description: "Technical essays and research notes on agentic and embodied intelligence.", body: writing, current: "/writing/", canonical: "/writing/" }));
+  const writing = `<div class="shell"><header class="page-header"><p class="eyebrow">${localize(lang, 'Writing', 'Writing / 文章')}</p><h1>Research notes,<br>arguments in progress.</h1><p>${localize(lang, 'Long-form essays and research notes on agents, temporal reasoning, and embodied systems. Browse by topic or switch the site language.', '关于 Agent、时间推理和具身系统的长文与研究笔记。可按主题浏览，或切换网站语言。')}</p></header>${filterControls(allTags, lang)}<div class="post-list archive-list">${groups.map((group, i) => card(group, i, lang)).join('')}</div></div>`;
+  await writePage(localePath('/writing/', lang), localizedLayout('/writing/', { title: localize(lang, 'Writing', '文章'), description: localize(lang, 'Technical essays and research notes on agentic and embodied intelligence.', '关于 Agent 与具身智能的技术文章和研究笔记。'), body: writing, current: '/writing/' }));
 
-const topicCounts = allTags.map((tag) => ({ tag, groups: postGroups.filter((group) => group.variants.some((post) => post.tags.includes(tag))) }));
-const topics = `<div class="shell"><header class="page-header"><p class="eyebrow">Topics / 主题</p><h1>Recurring questions</h1><p>跨越单篇文章、持续推进的研究线索。</p></header><div class="topic-grid">${topicCounts.map(({ tag, groups }) => `<a class="topic-card" href="/writing/?filter=${slugify(tag)}"><span class="topic-count">${groups.length} ${groups.length === 1 ? "article" : "articles"}</span><h2>${escapeHtml(tag)}</h2><p>${groups.slice(0, 2).map((group) => escapeHtml(group.variants.find((post) => post.lang === "en")?.title || group.variants[0].title)).join(" · ")}</p></a>`).join("")}</div></div>`;
-await writePage("/topics/", layout({ title: "Topics", description: "Topics covered in YC Research Notes.", body: topics, current: "/topics/", canonical: "/topics/" }));
+  const topicCounts = allTags.map((tag) => ({ tag, groups: groups.filter((group) => localizedPost(group, lang).tags.includes(tag)) }));
+  const topics = `<div class="shell"><header class="page-header"><p class="eyebrow">${localize(lang, 'Topics', 'Topics / 主题')}</p><h1>Recurring questions</h1><p>${localize(lang, 'Research threads that connect ideas across essays.', '跨越单篇文章、持续推进的研究线索。')}</p></header><div class="topic-grid">${topicCounts.map(({ tag, groups }) => `<a class="topic-card" href="${localePath('/writing/', lang)}?filter=${slugify(tag)}"><span class="topic-count">${groups.length} ${localize(lang, groups.length === 1 ? 'article' : 'articles', '篇文章')}</span><h2>${escapeHtml(tag)}</h2><p>${groups.slice(0, 2).map((group) => escapeHtml(localizedPost(group, lang).title)).join(' · ')}</p></a>`).join('')}</div></div>`;
+  await writePage(localePath('/topics/', lang), localizedLayout('/topics/', { title: localize(lang, 'Topics', '主题'), description: localize(lang, 'Topics covered in YC Research Notes.', 'YC Research Notes 关注的研究主题。'), body: topics, current: '/topics/' }));
 
-const aboutDoc = parseDocument(await readFile(path.join(root, "content/pages/about.md"), "utf8"));
-const about = `<div class="article-shell"><header class="page-header"><p class="eyebrow">About</p><h1>Research in public</h1><p>${escapeHtml(aboutDoc.data.description)}</p></header><article class="prose">${markdown(aboutDoc.body)}</article></div>`;
-await writePage("/about/", layout({ title: "About", description: aboutDoc.data.description, body: about, current: "/about/", canonical: "/about/" }));
+  const aboutDoc = aboutDocs[lang];
+  const about = `<div class="article-shell"><header class="page-header"><p class="eyebrow">${localize(lang, 'About', 'About / 关于')}</p><h1>${localize(lang, 'Research in public', '公开记录研究思考')}</h1><p>${escapeHtml(aboutDoc.data.description)}</p></header><article class="prose">${markdown(aboutDoc.body)}</article></div>`;
+  await writePage(localePath('/about/', lang), localizedLayout('/about/', { title: localize(lang, 'About', '关于'), description: aboutDoc.data.description, body: about, current: '/about/' }));
 
-const notFound = `<div class="shell"><header class="page-header"><p class="eyebrow">404</p><h1>This page moved—or never existed.</h1><p>Return to the <a href="/">research notebook</a> or browse the <a href="/writing/">writing archive</a>.</p></header></div>`;
-await writeFile(path.join(out, "404.html"), layout({ title: "Page not found", description: "Page not found.", body: notFound, canonical: "/404.html" }));
+  const feedPosts = groups.map((group) => localizedPost(group, lang));
+  const rssItems = feedPosts.map((post) => `<item><title>${escapeHtml(post.title)}</title><link>${new URL(post.url, config.url).href}</link><guid>${new URL(post.url, config.url).href}</guid><pubDate>${new Date(`${post.date}T00:00:00Z`).toUTCString()}</pubDate><description>${escapeHtml(post.description)}</description></item>`).join('');
+  await writeFile(path.join(out, localePath('/feed.xml', lang)), `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${escapeHtml(config.siteName)}</title><link>${new URL(localePath('/', lang), config.url).href}</link><language>${lang}</language><description>${escapeHtml(localize(lang, config.description, config.descriptionZh))}</description>${rssItems}</channel></rss>`);
+}
 
-const feedPosts = postGroups.map((group) => group.variants.find((post) => post.lang === "en") || group.variants[0]);
-const rssItems = feedPosts.map((post) => `<item><title>${escapeHtml(post.title)}</title><link>${new URL(post.url, config.url).href}</link><guid>${new URL(post.url, config.url).href}</guid><pubDate>${new Date(`${post.date}T00:00:00Z`).toUTCString()}</pubDate><description>${escapeHtml(post.description)}</description></item>`).join("");
-await writeFile(path.join(out, "feed.xml"), `<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>${escapeHtml(config.siteName)}</title><link>${config.url}</link><description>${escapeHtml(config.description)}</description>${rssItems}</channel></rss>`);
-const routes = ["/", "/writing/", "/topics/", "/about/", ...posts.filter(post => !post.draft).map((post) => post.url)];
+const notFound = `<div class="shell"><header class="page-header"><p class="eyebrow">404</p><h1>This page moved—or never existed.</h1><p>Return to the <a href="/en/">research notebook</a> or browse the <a href="/en/writing/">writing archive</a>.</p></header></div>`;
+await writeFile(path.join(out, '404.html'), layout({ title: 'Page not found', description: 'Page not found.', body: notFound, canonical: '/404.html', lang: 'en' }));
+
+const routes = [...aggregateRoutes, ...aggregateRoutes.map((route) => localePath(route, 'en')), ...posts.filter(post => !post.draft).map((post) => post.url)];
 await writeFile(path.join(out, "sitemap.xml"), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map((route) => `<url><loc>${new URL(route, config.url).href}</loc></url>`).join("")}</urlset>`);
 await writeFile(path.join(out, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${config.url}/sitemap.xml\n`);
 console.log(`Built ${posts.length} posts and ${routes.length} routes into dist/`);

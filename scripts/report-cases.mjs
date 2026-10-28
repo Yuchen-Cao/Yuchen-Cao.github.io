@@ -6,8 +6,9 @@ const STRATEGIES = ['Astra Native', 'RFM-Assisted', 'π0.5'];
 const paragraphs = value => (Array.isArray(value) ? value : String(value || '').split(/\n\s*\n/)).filter(Boolean).map(text => `<p>${esc(text).replace(/\n/g, '<br>')}</p>`).join('');
 const durationLabel = seconds => `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}`;
 
-export function renderVideoCases() {
-  const cases = JSON.parse(readFileSync(new URL('../content/reports/astra-cases.json', import.meta.url), 'utf8'));
+export function renderVideoCases(language = 'zh') {
+  const isEnglish = language === 'en';
+  const cases = JSON.parse(readFileSync(new URL(`../content/reports/astra-cases${isEnglish ? '-en' : ''}.json`, import.meta.url), 'utf8'));
   let media = [];
   try {
     const manifest = JSON.parse(readFileSync(new URL('../assets/astra-report/rollouts/media.json', import.meta.url), 'utf8'));
@@ -30,7 +31,7 @@ export function renderVideoCases() {
     // Short observations fit beside the two taller clips; longer observations
     // stay under their own strategies so the third column remains readable.
     const notesLength = item.cards.reduce((sum, card) => sum + String(card.comment || '').length, 0);
-    const useCommentRail = notesLength > 0 && notesLength <= 95;
+    const useCommentRail = notesLength > 0 && notesLength <= (isEnglish ? 280 : 95);
     const rail = useCommentRail ? `<aside class="rvc-comment-rail" aria-label="Comparison notes">${item.cards.filter(card => card.comment).map(card => `<div class="rvc-rail-entry"><h6>${esc(card.strategy)}</h6>${paragraphs(card.comment)}</div>`).join('')}</aside>` : '';
     const cards = item.cards.map((card, cardIndex) => {
       const info = metadata.get(card.file) || {};
@@ -56,6 +57,6 @@ export function renderVideoCases() {
     <div class="rvc-shell"><header class="rvc-heading"><h4 id="rollout-cases-title">Rollout comparisons</h4><div class="rvc-controls"><button type="button" data-rvc-toggle>Play all</button><button type="button" data-rvc-restart>Restart all</button></div></header>
       <div class="rvc-tabs" role="tablist" aria-label="Rollout cases" aria-orientation="horizontal">${cases.map((item, i) => `<button type="button" id="rvc-tab-${item.id}" role="tab" aria-controls="rvc-panel-${item.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-rvc-tab>${esc(item.title)}</button>`).join('')}</div>
       ${panels}<p class="rvc-status" role="status" aria-live="polite" data-rvc-status hidden></p>
-    </div><figcaption>RoboDojo 仿真实验中的策略对照。Astra Native、RFM-Assisted 与 π0.5 在相同任务上的执行轨迹与行为观察。</figcaption>
+    </div><figcaption>${isEnglish ? 'Policy comparisons in RoboDojo simulation: execution trajectories and behavioral observations for Astra Native, RFM-Assisted, and π0.5 on the same tasks.' : 'RoboDojo 仿真实验中的策略对照。Astra Native、RFM-Assisted 与 π0.5 在相同任务上的执行轨迹与行为观察。'}</figcaption>
   </figure>`;
 }

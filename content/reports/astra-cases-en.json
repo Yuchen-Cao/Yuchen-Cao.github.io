@@ -1,0 +1,113 @@
+[
+  {
+    "id": "folding",
+    "title": "Folding clothes",
+    "subtitle": "Coordinating both arms",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "fold_clothes_random_gpt6_native.mp4",
+        "comment": "Astra Native puts both arms to work."
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "fold_clothes_random_gpt6_mixed.mp4",
+        "comment": "The RFM-assisted policy behaves much like the original π0.5 policy."
+      },
+      {
+        "strategy": "π0.5",
+        "file": "fold_clothes_random_pi_05_15.mp4",
+        "comment": "π0.5 appears to follow the trajectories it learned more closely."
+      }
+    ]
+  },
+  {
+    "id": "screws",
+    "title": "Fastening screws",
+    "subtitle": "Repeated attempts and exploration",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "fasten_screws_gpt6_native.mp4",
+        "comment": ""
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "fasten_screws_gpt6_mixed.mp4",
+        "comment": ""
+      },
+      {
+        "strategy": "π0.5",
+        "file": "fasten_screws_pi05_15.mp4",
+        "comment": ""
+      }
+    ],
+    "reflection": "The Astra-led policies show repeated attempts and exploration after initially grasping the wrong spot. Here, too, both arms get involved."
+  },
+  {
+    "id": "coin",
+    "title": "Depositing a coin",
+    "subtitle": "Failed grasps, retries and recovery",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "deposit_coin_gpt6_native.mp4",
+        "comment": "Astra Native shows a strong tendency to recognize errors and try again. It ultimately runs out of time, but a larger budget might let it finish."
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "deposit_coin_gpt6_mixed.mp4",
+        "comment": "With RFM assistance, Astra can recover and correct its actions in real time."
+      },
+      {
+        "strategy": "π0.5",
+        "file": "deposit_coin_pi05_15.mp4",
+        "comment": "The standalone VLA policy seems unaware that the grasp failed and continues to follow the demonstrated trajectories it was trained on."
+      }
+    ]
+  },
+  {
+    "id": "random-numbers",
+    "title": "Random number arrangement",
+    "subtitle": "Observation, correction and coordination",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "arrange_number_random_gpt6_native.mp4",
+        "comment": "Astra Native clearly makes use of both arms. It is also good at observing the scene and adjusting its actions accordingly."
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "arrange_number_random_gpt6_mixed.mp4",
+        "comment": "With RFM assistance, Astra repeatedly corrects the VLA’s mistakes."
+      },
+      {
+        "strategy": "π0.5",
+        "file": "arrange_number_random_pi05.mp4",
+        "comment": "The standalone π0.5 policy seems to execute its learned trajectories somewhat blindly."
+      }
+    ]
+  },
+  {
+    "id": "numbers",
+    "title": "Number arrangement",
+    "subtitle": "Reorienting reversed numbers",
+    "cards": [
+      {
+        "strategy": "Astra Native",
+        "file": "arrange_number_gpt6_native.mp4",
+        "comment": "The standalone Astra policy not only uses both arms; it also tries tossing a reversed number piece to flip it over. This is an inventive solution that suggests some understanding of the physics. It does not finish within the reasoning budget, but this also looks like a case that might succeed with enough budget."
+      },
+      {
+        "strategy": "RFM-Assisted",
+        "file": "arrange_number_gpt6_mixed.mp4",
+        "comment": "In the RFM-assisted setting, Astra recovers from a failed grasp. Because the VLA proposes the plan, however, the behavior likely retains the single-arm style of its post-training data."
+      },
+      {
+        "strategy": "π0.5",
+        "file": "arrange_number_pi05.mp4",
+        "comment": "The standalone π0.5 policy again seems to lack awareness of the situation."
+      }
+    ]
+  }
+]
