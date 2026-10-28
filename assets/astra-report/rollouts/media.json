@@ -1,0 +1,124 @@
+{
+  "files": [
+    {
+      "file": "arrange_number_gpt6_mixed.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 21.52,
+      "bytes": 3568901,
+      "poster": "arrange_number_gpt6_mixed.jpg"
+    },
+    {
+      "file": "arrange_number_gpt6_native.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 42.04,
+      "bytes": 7090709,
+      "poster": "arrange_number_gpt6_native.jpg"
+    },
+    {
+      "file": "arrange_number_pi05.mp4",
+      "width": 1920,
+      "height": 360,
+      "duration": 42.04,
+      "bytes": 7890538,
+      "poster": "arrange_number_pi05.jpg"
+    },
+    {
+      "file": "arrange_number_random_gpt6_mixed.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 42.04,
+      "bytes": 7750742,
+      "poster": "arrange_number_random_gpt6_mixed.jpg"
+    },
+    {
+      "file": "arrange_number_random_gpt6_native.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 24.6,
+      "bytes": 5111218,
+      "poster": "arrange_number_random_gpt6_native.jpg"
+    },
+    {
+      "file": "arrange_number_random_pi05.mp4",
+      "width": 1920,
+      "height": 360,
+      "duration": 42.04,
+      "bytes": 8756678,
+      "poster": "arrange_number_random_pi05.jpg"
+    },
+    {
+      "file": "deposit_coin_gpt6_mixed.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 8.08,
+      "bytes": 1374698,
+      "poster": "deposit_coin_gpt6_mixed.jpg"
+    },
+    {
+      "file": "deposit_coin_gpt6_native.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 12.04,
+      "bytes": 1538402,
+      "poster": "deposit_coin_gpt6_native.jpg"
+    },
+    {
+      "file": "deposit_coin_pi05_15.mp4",
+      "width": 1920,
+      "height": 360,
+      "duration": 12.04,
+      "bytes": 2414958,
+      "poster": "deposit_coin_pi05_15.jpg"
+    },
+    {
+      "file": "fasten_screws_gpt6_mixed.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 76.04,
+      "bytes": 11622349,
+      "poster": "fasten_screws_gpt6_mixed.jpg"
+    },
+    {
+      "file": "fasten_screws_gpt6_native.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 24.92,
+      "bytes": 4677408,
+      "poster": "fasten_screws_gpt6_native.jpg"
+    },
+    {
+      "file": "fasten_screws_pi05_15.mp4",
+      "width": 1920,
+      "height": 360,
+      "duration": 76.04,
+      "bytes": 13532752,
+      "poster": "fasten_screws_pi05_15.jpg"
+    },
+    {
+      "file": "fold_clothes_random_gpt6_mixed.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 13.2,
+      "bytes": 2383293,
+      "poster": "fold_clothes_random_gpt6_mixed.jpg"
+    },
+    {
+      "file": "fold_clothes_random_gpt6_native.mp4",
+      "width": 1280,
+      "height": 680,
+      "duration": 8.16,
+      "bytes": 1880624,
+      "poster": "fold_clothes_random_gpt6_native.jpg"
+    },
+    {
+      "file": "fold_clothes_random_pi_05_15.mp4",
+      "width": 1920,
+      "height": 360,
+      "duration": 12.08,
+      "bytes": 2885492,
+      "poster": "fold_clothes_random_pi_05_15.jpg"
+    }
+  ]
+}

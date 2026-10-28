@@ -35,9 +35,16 @@
       height:note.getBoundingClientRect().height,
     }));
     const flowEnd=report.querySelector('.report-end').getBoundingClientRect().bottom-bodyTop;
+    const wideAreas=[...report.querySelectorAll('.report-row-wide')].map(row=>{
+      const rect=row.getBoundingClientRect();
+      return {top:rect.top-bodyTop-16,bottom:rect.bottom-bodyTop+16};
+    });
     let bottom=0;
     const offsets=measurements.map(item=>{
-      const top=Math.max(item.anchor,bottom);
+      let top=Math.max(item.anchor,bottom);
+      for(const area of wideAreas){
+        if(top<area.bottom && top+item.height>area.top)top=area.bottom;
+      }
       bottom=top+item.height+16;
       return {...item,offset:top-item.anchor};
     });
@@ -56,12 +63,6 @@
     document.fonts?.ready.then(queueMargins);
     layoutMargins();
   }
-  const titles={bimanual:'Astra · Bimanual coordination',numbers:'Astra · Random number arrangement',comparison:'Astra Direct'};
-  report.querySelectorAll('[data-case]').forEach(button=>button.addEventListener('click',()=>{
-    report.querySelectorAll('[data-case]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
-    report.querySelector('[data-case-title]').textContent=titles[button.dataset.case];
-    report.querySelector('.comparison-placeholder').hidden=button.dataset.case!=='comparison';
-  }));
   const lightbox=report.querySelector('.figure-lightbox');
   report.querySelector('[data-figure-zoom]')?.addEventListener('click',()=>lightbox.showModal());
   report.querySelector('[data-figure-close]')?.addEventListener('click',()=>lightbox.close());
