@@ -12,8 +12,8 @@
   },
   {
     "match": "Long WAM[9]",
-    "kind": "作者批注",
-    "text": "“这篇工作还有一个发现，他们在 WAM 上，观察到了自回归训练在 context history 上的 scaling。自回归是有点说法的。”",
+    "kind": "",
+    "text": "这篇工作还有一个发现，他们在 WAM 上，观察到了自回归训练在 context history 上的 scaling。自回归是有点说法的。",
     "url": "https://nvlabs.github.io/LongLive/Long-WAM/#planning"
   },
   {

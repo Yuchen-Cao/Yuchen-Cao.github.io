@@ -29,16 +29,19 @@ document.querySelectorAll('[data-rf-chart]').forEach(chart => {
   const filter = chart.querySelector('[data-rf-filter]');
   const detail = chart.querySelector('[data-rf-detail]');
   const initial = detail.textContent;
+  const setDetail = text => { detail.textContent = text; detail.hidden = !text; };
+  setDetail(initial);
   const applyFilter = () => {
     chart.querySelectorAll('[data-rf-row]').forEach(row => { row.hidden = filter.value !== 'all' && row.dataset.rfGroup !== filter.value; });
-    detail.textContent = filter.value === 'all' ? '显示全部分组。' : `当前分组：${filter.value}`;
+    setDetail(initial);
   };
   if (filter) { filter.addEventListener('change', applyFilter); applyFilter(); }
   chart.querySelectorAll('[data-rf-value]').forEach(bar => {
-    const reveal = () => { detail.textContent = bar.dataset.rfValue; };
+    const reveal = () => { setDetail(bar.dataset.rfValue); };
     bar.addEventListener('pointerenter', reveal);
     bar.addEventListener('focus', reveal);
-    bar.addEventListener('pointerleave', () => { if (!chart.contains(document.activeElement)) detail.textContent = initial; });
+    bar.addEventListener('blur', () => { setDetail(initial); });
+    bar.addEventListener('pointerleave', () => { if (!chart.contains(document.activeElement)) setDetail(initial); });
   });
 });
 

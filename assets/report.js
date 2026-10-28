@@ -15,7 +15,7 @@
   }
   addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(update);}}, {passive:true});
   addEventListener('resize',update);update();
-  const titles={bimanual:'Astra · 双臂协作',numbers:'Astra · Random number 排列',comparison:'Astra Direct'};
+  const titles={bimanual:'Astra · Bimanual coordination',numbers:'Astra · Random number arrangement',comparison:'Astra Direct'};
   report.querySelectorAll('[data-case]').forEach(button=>button.addEventListener('click',()=>{
     report.querySelectorAll('[data-case]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
     report.querySelector('[data-case-title]').textContent=titles[button.dataset.case];
