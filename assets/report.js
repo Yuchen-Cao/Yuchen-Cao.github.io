@@ -25,4 +25,44 @@
   report.querySelector('[data-figure-zoom]')?.addEventListener('click',()=>lightbox.showModal());
   report.querySelector('[data-figure-close]')?.addEventListener('click',()=>lightbox.close());
   lightbox?.addEventListener('click',event=>{if(event.target===lightbox)lightbox.close();});
+  const copyButton=report.querySelector('[data-copy-bibtex]');
+  const bibtex=report.querySelector('#article-bibtex');
+  const copyStatus=report.querySelector('[data-bibtex-status]');
+  if(copyButton&&bibtex&&copyStatus){
+    copyButton.hidden=false;
+    copyButton.addEventListener('click',async()=>{
+      copyButton.disabled=true;
+      copyStatus.textContent='';
+      let copied=false;
+      try{
+        if(navigator.clipboard?.writeText){
+          await navigator.clipboard.writeText(bibtex.textContent);
+          copied=true;
+        }
+      }catch{}
+      if(!copied){
+        const field=document.createElement('textarea');
+        field.value=bibtex.textContent;
+        field.readOnly=true;
+        field.style.cssText='position:fixed;left:-9999px;top:0;opacity:0';
+        document.body.append(field);
+        field.select();
+        try{copied=document.execCommand('copy');}catch{}
+        field.remove();
+      }
+      copyButton.disabled=false;
+      if(copied){
+        copyButton.focus({preventScroll:true});
+        copyStatus.textContent='已复制';
+      }else{
+        bibtex.parentElement.focus({preventScroll:true});
+        const range=document.createRange();
+        range.selectNodeContents(bibtex);
+        const selection=window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        copyStatus.textContent='已选中，可手动复制';
+      }
+    });
+  }
 })();
