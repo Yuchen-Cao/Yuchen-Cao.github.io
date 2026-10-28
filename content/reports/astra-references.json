@@ -91,11 +91,11 @@
     "year": "2026"
   },
   "14": {
-    "short": "Goetting",
-    "title": "VLA as Tools: Exploring the Space of Agentic Robot Generalists",
-    "url": "https://dylan-goetting.github.io/images/vat.pdf",
-    "authors": "Dylan Goetting",
-    "year": "年份未注明"
+    "short": "Lei et al.",
+    "title": "Towards Long-horizon Embodied Agents with Tool-Aligned Vision-Language-Action Models",
+    "url": "https://arxiv.org/abs/2605.13119",
+    "authors": "Zixing Lei, Changxing Liu, Yichen Xiong, Minhao Xiong, Yuanzhuo Ding, Zhipeng Zhang, Weixin Li, and Siheng Chen",
+    "year": "2026"
   },
   "15": {
     "short": "Zhang et al.",
