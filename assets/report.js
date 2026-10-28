@@ -15,6 +15,47 @@
   }
   addEventListener('scroll',()=>{if(!queued){queued=true;requestAnimationFrame(update);}}, {passive:true});
   addEventListener('resize',update);update();
+  const body=report.querySelector('.report-body');
+  const margins=[...report.querySelectorAll('.report-margin')];
+  const desktopMargins=matchMedia('screen and (min-width: 981px)');
+  let marginsQueued=false;
+  function layoutMargins(){
+    marginsQueued=false;
+    report.classList.toggle('margins-positioned',desktopMargins.matches);
+    if(!desktopMargins.matches){
+      margins.forEach(note=>note.style.removeProperty('--margin-offset'));
+      body.style.removeProperty('--margin-tail');
+      update();
+      return;
+    }
+    const bodyTop=body.getBoundingClientRect().top;
+    const measurements=margins.map(note=>({
+      note,
+      anchor:note.parentElement.getBoundingClientRect().top-bodyTop,
+      height:note.getBoundingClientRect().height,
+    }));
+    const flowEnd=report.querySelector('.report-end').getBoundingClientRect().bottom-bodyTop;
+    let bottom=0;
+    const offsets=measurements.map(item=>{
+      const top=Math.max(item.anchor,bottom);
+      bottom=top+item.height+16;
+      return {...item,offset:top-item.anchor};
+    });
+    offsets.forEach(({note,offset})=>note.style.setProperty('--margin-offset',`${offset}px`));
+    body.style.setProperty('--margin-tail',`${Math.max(0,bottom-flowEnd)}px`);
+    update();
+  }
+  function queueMargins(){
+    if(!marginsQueued){marginsQueued=true;requestAnimationFrame(layoutMargins);}
+  }
+  if(margins.length&&'ResizeObserver' in window){
+    const marginObserver=new ResizeObserver(queueMargins);
+    report.querySelectorAll('.report-content,.report-margin').forEach(element=>marginObserver.observe(element));
+    desktopMargins.addEventListener('change',queueMargins);
+    addEventListener('resize',queueMargins);
+    document.fonts?.ready.then(queueMargins);
+    layoutMargins();
+  }
   const titles={bimanual:'Astra · Bimanual coordination',numbers:'Astra · Random number arrangement',comparison:'Astra Direct'};
   report.querySelectorAll('[data-case]').forEach(button=>button.addEventListener('click',()=>{
     report.querySelectorAll('[data-case]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));
