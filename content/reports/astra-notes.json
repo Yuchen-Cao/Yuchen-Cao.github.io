@@ -1,7 +1,7 @@
 [
   {
     "match": "Robot Foundation Models",
-    "kind": "术语 · 原稿批注",
+    "kind": "术语",
     "text": "本文沿用 Astranomy 的称呼，将 VLA、WAM 等 System-1 模型称为 Robot Foundation Models（RFM）。"
   },
   {
@@ -29,8 +29,10 @@
   },
   {
     "match": "结果显示，action/feedback-level memory 与 agentic context",
-    "kind": "",
-    "text": "[LIBERO-Plus: A Progressive Robustness Benchmark for Visual-Language-Action Models](https://openaccess.thecvf.com/content/CVPR2026/html/Fei_LIBERO-Plus_A_Progressive_Robustness_Benchmark_for_Visual-Language-Action_Models_CVPR_2026_paper.html)（CVPR 2026）[22]<br />[What Are We Actually Benchmarking in Robot Manipulation?](https://arxiv.org/abs/2606.04233)（CoRL 2026）[23]"
+    "references": [
+      22,
+      23
+    ]
   },
   {
     "match": "《Claude plays robotics》[10]",

@@ -9,15 +9,25 @@ const sectionLabels = ['Overview · 三种策略','01 · ICL 与探索预算','0
 export function renderReport(post) {
   const counts = {}, backrefs = {}, seen = new Set(), toc = [];
   let section = -1, paragraphIndex = 0;
+  function registerCitation(n) {
+    counts[n] = (counts[n] || 0) + 1;
+    const id = `cite-${n}-${counts[n]}`;
+    (backrefs[n] ||= []).push(id);
+    return id;
+  }
+  function marginSource(n, cited = false) {
+    const ref = refs[n];
+    const number = cited ? `<a id="${registerCitation(n)}" href="#ref-${n}" aria-label="参考文献 ${n}：${escape(ref.short)}">${n}</a>` : n;
+    const metadata = [ref.venue, ref.year || '2026'].filter(Boolean).join(' · ');
+    return `<div class="margin-source"><span class="margin-number">${number}</span><span>${escape(ref.short).replace(/\.$/,'')}. <a href="${escape(ref.url)}" target="_blank" rel="noopener">${escape(ref.title)} <span class="reference-external" aria-hidden="true">↗</span></a><span class="source-year">${escape(metadata)}</span></span></div>`;
+  }
   function inline(s) {
     let t = escape(s).replace(/&lt;br\s*\/?&gt;/g, '<br>');
     t = t.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>').replace(/\*([^*]+)\*/g, '<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>');
     t = t.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1 ↗</a>');
     t = t.replace(/\[(\d+)\]/g, (_, n) => {
       if (!refs[n]) return `[${n}]`;
-      counts[n] = (counts[n] || 0) + 1;
-      const id = `cite-${n}-${counts[n]}`;
-      (backrefs[n] ||= []).push(id);
+      const id = registerCitation(n);
       return `<sup class="citation"><a id="${id}" href="#ref-${n}" aria-label="参考文献 ${n}：${escape(refs[n].short)}">${n}</a></sup>`;
     });
     return t;
@@ -28,9 +38,16 @@ export function renderReport(post) {
     for (const n of [...raw.matchAll(/\[(\d+)\]/g)].map(m=>m[1])) {
       if (seen.has(n) || !refs[n]) continue;
       seen.add(n);
-      side += `<div class="margin-source"><span class="margin-number">${n}</span><span>${escape(refs[n].short).replace(/\.$/,'')}. <a href="${escape(refs[n].url)}" target="_blank" rel="noopener">${escape(refs[n].title)} <span class="reference-external" aria-hidden="true">↗</span></a><span class="source-year">${escape(refs[n].year || '2026')}</span></span></div>`;
+      side += marginSource(n);
     }
     for (const note of notes) if (raw.includes(note.match)) {
+      if (note.references) {
+        for (const n of note.references) if (refs[n]) {
+          side += marginSource(n, true);
+          seen.add(String(n));
+        }
+        continue;
+      }
       side += `<div class="margin-comment">${note.kind === '' ? '' : `<span class="comment-label">${escape(note.kind || '阅读旁注')}</span>`}<p>${inline(note.text)}</p>${note.url ? `<a class="note-source" href="${escape(note.url)}" target="_blank" rel="noopener">查看来源 ↗</a>` : ''}</div>`;
     }
     return `<div class="report-row ${extra}" id="${id}"><div class="report-content">${html}</div>${side ? `<aside class="report-margin" aria-label="来源与旁注">${side}</aside>` : ''}</div>`;
