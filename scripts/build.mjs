@@ -152,9 +152,9 @@ function nav(current, lang) {
 function siteLanguageSwitch(lang, alternates, canonical) {
   return `<div class="site-language-switch" role="group" aria-label="${localize(lang, 'Site language', '网站语言')}">${['zh-CN', 'en'].map((language) => {
     const target = alternates.find((item) => item.lang === language)?.url || localePath('/', language);
-    const label = language === 'en' ? 'EN' : 'ZH';
+    const label = language === 'en' ? 'EN' : '中';
     const name = language === 'en' ? 'English' : localize(lang, 'Chinese', '中文');
-    return `<a href="${language === lang ? canonical : target}" data-site-language="${language}" hreflang="${language}" aria-label="${name}"${language === lang ? ' aria-current="page"' : ''}>${label}</a>`;
+    return `<a href="${language === lang ? canonical : target}" data-site-language="${language}" lang="${language}" hreflang="${language}" aria-label="${name}"${language === lang ? ' aria-current="page"' : ''}>${label}</a>`;
   }).join('')}</div>`;
 }
 

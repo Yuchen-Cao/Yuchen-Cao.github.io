@@ -31,7 +31,7 @@
 .rvc-playback input { width: 100%; min-width: 0; height: 18px; margin: 0; accent-color: var(--accent); cursor: pointer; }
 .rvc-playback output { color: var(--muted); font: .625rem/1.4 var(--mono, monospace); white-space: nowrap; }
 .rvc-comment { padding-top: .5rem; }
-.report .rvc-comment p, .report .rvc-comment-rail p, .report .rvc-reflection p { margin: 0 0 .35rem; color: var(--ink); font: .72rem/1.8 var(--sans, sans-serif); overflow-wrap: anywhere; }
+.report .rvc-comment p, .report .rvc-comment-rail p, .report .rvc-reflection p { margin: 0 0 .35rem; color: var(--ink); font: .72rem/1.65 var(--sans, sans-serif); overflow-wrap: anywhere; }
 .rvc-comment p:last-child, .rvc-comment-rail p:last-child, .rvc-reflection p:last-child { margin-bottom: 0; }
 .rvc-comment-rail { padding-top: .5rem; }
 .rvc-rail-entry + .rvc-rail-entry { padding-top: .4rem; margin-top: .4rem; border-top: 1px solid color-mix(in srgb, var(--line) 70%, transparent); }

@@ -28,7 +28,9 @@ for (const file of htmlFiles) {
   for (const match of html.matchAll(/href="#([^"]+)"/g)) {
     if (!ids.includes(decodeURIComponent(match[1]))) failures.push(`${path.relative(root, file)} has broken anchor #${match[1]}`);
   }
-  if (html.includes('<html lang="en">') && /\p{Script=Han}/u.test(html)) failures.push(`${path.relative(root, file)} contains Chinese in an English page`);
+  // The Chinese language selector is intentionally labelled “中” in either locale.
+  const localizedContent = html.replace(/<a\b(?=[^>]*data-site-language="zh-CN")(?=[^>]*lang="zh-CN")[^>]*>中<\/a>/g, '');
+  if (html.includes('<html lang="en">') && /\p{Script=Han}/u.test(localizedContent)) failures.push(`${path.relative(root, file)} contains Chinese in an English page`);
   const hrefs = [...html.matchAll(/href="(\/[^"#?]*)/g)].map((match) => match[1]);
   for (const href of hrefs) {
     if (href.endsWith(".xml") || href.endsWith(".css")) continue;
