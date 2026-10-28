@@ -45,7 +45,7 @@ function physicalFigure() {
   return figure(2,'From language few-shot to physical one-shot',tabs('rf-physical-icl',panels),`${source('gen','GEN-1.5，Figure 1')} 与 <a href="https://arxiv.org/abs/2005.14165">GPT-3</a> 的 in-context learning 评测方式。两者都将示例放入上下文，保持预训练权重固定，并在新输入上评测；物理提示的示例由传感器观测与动作轨迹组成。`);
 }
 
-function genFigure(){return figure(3,'Physical ICL: from demonstrations to success',tabs('rf-gen',[
+function genFigure(){return figure(3,'GEN-1.5: ICL and fine-tuning',tabs('rf-gen',[
 {label:'Ten tasks',html:chart('gen-tasks',genTasks.map(t=>({label:t[0],values:t.slice(1),group:t[0]})),['ICL · 12-second demo','10 gradient updates · 5 minutes of data'])},
   {label:'Average performance',html:chart('gen-summary',[{label:'One-shot ICL',values:[59],details:['±10 percentage points, standard deviation; no weight updates']},{label:'Few-shot fine-tuning',values:[83],details:['±9 percentage points, standard deviation; 10 gradient updates']}],['Reported mean'])+note('One-shot ICL: 59 ± 10%. Fine-tuning with 5 minutes of data per task and 10 gradient updates: 83 ± 9%. ± denotes standard deviation.')}
 ],1),`数据来自 ${source('gen','GEN-1.5')} 的任务结果与正文。单位：任务成功率（%）。任务图对比 12 秒示教上下文与 5 分钟数据、10 次梯度更新；正文的 59 ± 10% / 83 ± 9% 分别对应 one-shot ICL 与 fine-tuning，± 表示标准差。`);}

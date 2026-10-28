@@ -3,7 +3,7 @@ title: Astra’s Robotics Exam: How Close Are General-Purpose Models to Becoming
 date: 2026-10-27
 lang: en
 translationKey: astra-robotics
-description: Drawing on three systematic evaluations, this essay examines how the systems surrounding a general-purpose model shape its embodied capabilities, with a focus on control interfaces, interaction history, real-time feedback, and physical time.
+description: Drawing on three systematic evaluations, this essay examines the important roles of interface design and interaction history in Astra’s embodied-task performance. It also discusses limitations recognized in these evaluations but still unresolved: making use of real-time feedback and keeping model reasoning aligned with physical time.
 tags: Embodied Intelligence, Agentic Systems
 layout: report
 draft: false
@@ -51,10 +51,6 @@ Beyond the early, informal experiments shared by people following this topic, re
 The landmark GPT-3 paper demonstrated the one-shot and few-shot capabilities of pretrained language models: keep the model weights fixed, put task examples into the context, and evaluate the model’s responses to new inputs. The GEN-1.5 technical report cites GPT-3’s language-task results—approximately 45% in the one-shot setting and 65% in the few-shot setting—and carries that evaluation idea into the physical world. A demonstration consisting of observations and actions becomes the context for testing whether a pretrained model can complete a task in a new scene.[6][7]
 
 :::figure 2
-
-GEN-1.5 reports an average one-shot ICL success rate of 59% across ten short-horizon tasks: the demonstration is simply placed in context, and the pretrained model is evaluated directly. As a comparison involving additional adaptation, ten gradient updates on a small amount of data raise the success rate to 83%. The report also shows behaviors that combine information across demonstrations and follow paths not taken in the demonstrations themselves.[7]
-
-:::figure 3
 
 SenseNova likewise proposes evaluating Astra on embodied benchmarks through ICL. Its approach differs from GEN-1.5’s more physically native demonstrations, however. SenseNova takes into account that Astra has undergone extensive post-training on agentic coding tasks. No gradient updates are involved here either, but the demonstration process consists of letting Astra explore training data as an agent and then use what it learns to complete the corresponding tasks.[1]
 

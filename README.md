@@ -61,6 +61,7 @@ The complete essay is published at `/writing/astra-robotics/`, with its full Eng
 
 - Edit prose in `content/posts/2026-10-27-astra-robotics.md` and `2026-10-27-astra-robotics-en.md`.
 - Numbered references and paragraph-anchored margin notes live in `content/reports/astra-references.json` and `astra-notes.json`, with `-en.json` counterparts. When editing a note’s paragraph, keep its `match` string synchronized.
+- A margin note can attach to a figure directive (for example, `"match": ":::figure 2"`) and include a supplementary figure with `"figure": 3`. The supplement opens in the desktop margin and collapses below the figure on narrow screens; links to its figure or citations open it automatically.
 - Figure data and source provenance live in `assets/astra-report/figures-data.json`; renderers are in `scripts/report-figures.mjs`. English captions are in `scripts/report-locales.mjs`; numerical data and SVG internals are shared.
 - `:::takeaways … :::`, `:::figure N`, and `:::video-cases … :::` are report blocks. Video cases and commentary live in `content/reports/astra-cases.json` and `astra-cases-en.json`; both versions share the same media and measurements.
 - Keep language versions paired with the same `translationKey`. Both article citation blocks use the English title and their own canonical URL.

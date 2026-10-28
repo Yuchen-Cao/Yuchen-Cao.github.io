@@ -19,6 +19,30 @@
   const body=report.querySelector('.report-body');
   const margins=[...report.querySelectorAll('.report-margin')];
   const desktopMargins=matchMedia('screen and (min-width: 981px)');
+  const supplements=[...report.querySelectorAll('.margin-supplement')];
+  function revealLinkedSupplement(){
+    const target=document.getElementById(location.hash.slice(1));
+    const supplement=target?.closest('.margin-supplement');
+    if(supplement&&!supplement.open){
+      supplement.open=true;
+      requestAnimationFrame(()=>target.scrollIntoView());
+    }
+  }
+  function setSupplementDefaults(){
+    supplements.forEach(supplement=>{supplement.open=desktopMargins.matches;});
+    revealLinkedSupplement();
+  }
+  setSupplementDefaults();
+  desktopMargins.addEventListener('change',setSupplementDefaults);
+  addEventListener('hashchange',revealLinkedSupplement);
+  let supplementsBeforePrint;
+  addEventListener('beforeprint',()=>{
+    supplementsBeforePrint=supplements.map(supplement=>supplement.open);
+    supplements.forEach(supplement=>{supplement.open=true;});
+  });
+  addEventListener('afterprint',()=>{
+    supplements.forEach((supplement,index)=>{supplement.open=supplementsBeforePrint?.[index]??desktopMargins.matches;});
+  });
   let marginsQueued=false;
   function layoutMargins(){
     marginsQueued=false;

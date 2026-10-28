@@ -5,6 +5,12 @@
     "text": "Following Astranomy, this essay uses Robot Foundation Models (RFMs) to refer to System-1 models such as VLAs and WAMs."
   },
   {
+    "match": ":::figure 2",
+    "kind": "From GEN-1.5",
+    "text": "GEN-1.5 offers a concrete example of physical ICL: placing a demonstration of observations and actions in context while keeping pretrained weights fixed yields a mean one-shot success rate of 59% across ten short-horizon tasks. For comparison, Figure 3 also shows fine-tuning with ten gradient updates on a small amount of data, which yields a mean success rate of 83%.[7]",
+    "figure": 3
+  },
+  {
     "match": "Long-WAM [10]",
     "kind": "",
     "text": "Another finding in this work is that autoregressive training enables context-history scaling in a WAM. There may be something to this autoregressive business after all.",
