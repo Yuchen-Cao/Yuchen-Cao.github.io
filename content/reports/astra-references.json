@@ -138,5 +138,28 @@
     "url": "https://arxiv.org/abs/2605.11484",
     "authors": "Jialian Li, Yuchen Cao, Junhong Liu, Weiran Guo, Xutao Wang, Jiaming Song, Jiahao Zhang, Jie Chen",
     "year": "2026"
+  },
+  "21": {
+    "short": "Torne et al.",
+    "title": "MEM: Multi-Scale Embodied Memory for Vision Language Action Models",
+    "url": "https://arxiv.org/abs/2603.03596",
+    "authors": "Marcel Torne, Karl Pertsch, Homer Walke, Kyle Vedder, Suraj Nair, Brian Ichter, Allen Z. Ren, Haohuan Wang, Jiaming Tang, Kyle Stachowicz, Karan Dhabalia, Michael Equi, Quan Vuong, Jost Tobias Springenberg, Sergey Levine, Chelsea Finn, and Danny Driess",
+    "year": "2026"
+  },
+  "22": {
+    "short": "Fei et al.",
+    "title": "LIBERO-Plus: A Progressive Robustness Benchmark for Visual-Language-Action Models",
+    "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Fei_LIBERO-Plus_A_Progressive_Robustness_Benchmark_for_Visual-Language-Action_Models_CVPR_2026_paper.html",
+    "authors": "Senyu Fei, Siyin Wang, Junhao Shi, Zihao Dai, Jikun Cai, Pengfang Qian, Li Ji, Xinzhe He, Shiduo Zhang, Zhaoye Fei, Jinlan Fu, Jingjing Gong, and Xipeng Qiu",
+    "venue": "CVPR",
+    "year": "2026"
+  },
+  "23": {
+    "short": "Jiang et al.",
+    "title": "What Are We Actually Benchmarking in Robot Manipulation?",
+    "url": "https://arxiv.org/abs/2606.04233",
+    "authors": "Tianchong Jiang, Xiangshan Tan, Samuel Wheeler, Luzhe Sun, Tewodros W. Ayalew, and Matthew Walter",
+    "venue": "CoRL",
+    "year": "2026"
   }
 }
