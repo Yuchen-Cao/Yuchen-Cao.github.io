@@ -87,7 +87,9 @@ button { font: inherit; }
 .contact-trigger::-webkit-details-marker { display: none; }
 .contact-trigger:hover, .site-contact[open] .contact-trigger { color: var(--accent); border-color: var(--accent); }
 .contact-trigger svg { width: 16px; height: 16px; transition: transform .18s ease; }
-.site-contact[open] .contact-trigger svg { transform: rotate(45deg); }
+.site-contact[open] .contact-toggle-icon { transform: rotate(45deg); }
+.contact-trigger.contact-trigger-icon { justify-content: center; width: 40px; min-height: 40px; padding: 9px; gap: 0; }
+.contact-trigger-icon svg { width: 20px; height: 20px; }
 .contact-panel { position: absolute; top: calc(100% + 12px); right: 0; width: 360px; max-width: calc(100vw - 36px); padding: 24px 24px 14px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--paper-raised); color: var(--ink); box-shadow: 0 16px 48px color-mix(in srgb, var(--ink) 14%, transparent); animation: contact-reveal .18s ease-out; }
 .contact-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
 .contact-eyebrow { margin: 0 0 6px; font-family: var(--mono); font-size: .63rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
