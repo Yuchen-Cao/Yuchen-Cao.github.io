@@ -51,7 +51,7 @@ Paired posts appear once per language on the homepage and writing archive. The h
 
 The active language comes from the page URL, so direct links, reloads, and navigation remain consistent without JavaScript or browser storage. Topic filters carry over when switching languages, and stable Astra section/figure anchors carry over between its two versions. Theme preference is applied before first paint and persists independently of language.
 
-Reading surfaces use warm paper in light mode and neutral graphite in dark mode. The five chart series colors are defined separately in `assets/report-figures.css`; horizontal bars, vertical bars, and legends share those tokens in both themes.
+Both themes use the official [Everforest Medium palette](https://github.com/sainnhe/everforest/blob/master/palette.md): Light Medium uses `#FDF6E3` as its main background, and Dark Medium uses `#2D353B`. The `--ef-*` tokens in `assets/styles.css` are the source for reading surfaces, text, borders, controls, and code blocks. Charts use the same palette’s blue, orange, green, grey2, and purple through shared aliases in `assets/report-figures.css`; horizontal bars, vertical bars, and legends stay in sync when switching themes.
 
 Each homepage's Featured section automatically displays the newest article available in that language. Legacy `featured` metadata does not affect this selection.
 

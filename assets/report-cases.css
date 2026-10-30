@@ -1,5 +1,5 @@
-.rvc-comparison { width: 100%; min-width: 0; overflow-anchor: none; font-family: var(--sans, sans-serif); color: var(--ink, #2d3b34); }
-.rvc-shell { padding: .85rem 1rem 1rem; border: 1px solid var(--line, #d8dfc9); border-radius: 11px; background: var(--paper-raised, #fffdf5); }
+.rvc-comparison { width: 100%; min-width: 0; overflow-anchor: none; font-family: var(--sans, sans-serif); color: var(--ink); }
+.rvc-shell { padding: .85rem 1rem 1rem; border: 1px solid var(--line); border-radius: 11px; background: var(--paper-raised); }
 .rvc-heading { display: flex; align-items: center; justify-content: space-between; gap: .6rem 1rem; }
 .report .rvc-heading h4 { margin: 0; font: 650 .91rem/1.5 var(--sans, sans-serif); letter-spacing: -.01em; }
 .rvc-controls { display: flex; align-items: center; gap: .35rem; }
@@ -19,7 +19,7 @@
 .rvc-card-heading { display: flex; align-items: center; justify-content: space-between; gap: .4rem; margin: 0 0 .35rem; }
 .report .rvc-card-heading h5 { margin: 0; font: 650 .73rem/1.5 var(--sans, sans-serif); }
 .rvc-strategy-0 .rvc-card-heading h5 { color: var(--accent); }
-.rvc-strategy-1 .rvc-card-heading h5 { color: var(--warm, #ad572d); }
+.rvc-strategy-1 .rvc-card-heading h5 { color: var(--warm); }
 .rvc-video-meta { display: flex; align-items: center; gap: .35rem; color: var(--muted); font: .55rem/1 var(--mono, monospace); }
 .rvc-open { display: inline-flex; align-items: center; justify-content: center; width: 23px; height: 23px; padding: 3px; border: 0; border-radius: 3px; color: var(--muted); background: transparent; cursor: pointer; }
 .rvc-open:hover { background: var(--accent-soft); color: var(--accent); }

@@ -171,7 +171,7 @@ function layout({ title, description, body, current = "", type = "website", cano
   <title>${escapeHtml(fullTitle)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="author" content="${escapeHtml(config.author)}">
-  <meta name="theme-color" content="#f9f7ed">
+  <meta name="theme-color" content="#fdf6e3">
   <link rel="canonical" href="${url}">${alternateLinks}
   <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="${feed}">
   <script>try{const t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch{if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}</script>
