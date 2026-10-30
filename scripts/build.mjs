@@ -9,6 +9,7 @@ const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "dist");
 const styleVersion = createHash("sha256").update(await readFile(path.join(root, "assets/styles.css"))).digest("hex").slice(0, 12);
 const mainScriptVersion = createHash("sha256").update(await readFile(path.join(root, "assets/main.js"))).digest("hex").slice(0, 12);
+const brandLogoVersion = createHash("sha256").update(await readFile(path.join(root, "assets/korat-logo.svg"))).digest("hex").slice(0, 12);
 const reportStyles = ['report.css', 'report-figures.css', 'report-concepts.css', 'report-charts.css', 'report-cases.css'];
 const reportStyleHash = createHash('sha256');
 for (const file of reportStyles) reportStyleHash.update(await readFile(path.join(root, 'assets', file)));
@@ -206,7 +207,7 @@ function layout({ title, description, body, current = "", type = "website", cano
 <body>
   <a class="skip-link" href="#main">${localize(lang, 'Skip to content', '跳至正文')}</a>
   <header class="site-header">
-    <a class="brand" href="${localePath('/', lang)}" aria-label="${escapeHtml(config.siteName)} ${localize(lang, 'home', '首页')}"><span class="brand-name">${escapeHtml(config.author)}</span></a>
+    <a class="brand" href="${localePath('/', lang)}" aria-label="${escapeHtml(config.siteName)} ${localize(lang, 'home', '首页')}"><img class="brand-logo" src="/assets/korat-logo.svg?v=${brandLogoVersion}" width="38" height="38" alt=""><span class="brand-name">${escapeHtml(config.author)}</span></a>
     <nav class="site-nav" aria-label="${localize(lang, 'Primary navigation', '主导航')}">${nav(current, lang)}${siteLanguageSwitch(lang, alternates, canonical)}<button class="theme-toggle" type="button" data-theme-toggle aria-label="${localize(lang, 'Use dark theme', '切换深色主题')}">◐</button></nav>
     ${contactPanel(lang)}
   </header>

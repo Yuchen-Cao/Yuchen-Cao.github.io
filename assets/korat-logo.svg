@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <title>Korat cat</title>
+  <desc>A round, silver-blue cat portrait with golden eyes, based on Yuchen Cao’s Korat.</desc>
+  <circle cx="128" cy="128" r="120" fill="#E9E3D3" stroke="#424A55" stroke-width="5"/>
+  <path d="M64 90C60 73 51 48 61 42C71 36 94 59 104 71C119 66 137 66 152 71C163 58 185 38 196 44C205 49 198 75 193 92C211 107 220 128 218 151C216 199 181 229 128 230C75 229 40 200 38 153C36 128 45 106 64 90Z" fill="#7C8796" stroke="#424A55" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M65 55C68 70 71 80 77 87L94 79C85 69 75 59 65 55ZM191 57C180 62 170 71 162 80L180 88C186 79 189 68 191 57Z" fill="#525C6B"/>
+  <path d="M68 62L76 80L85 77L68 62ZM188 64L177 79L170 77L188 64Z" fill="#A29BA4"/>
+  <path d="M44 145C48 183 80 212 128 213C177 213 207 186 213 146C222 191 184 228 128 230C72 229 34 191 44 145Z" fill="#667382"/>
+  <path d="M68 105C79 94 99 95 109 104M147 104C158 96 177 96 188 108" stroke="#A4AFBB" stroke-width="6" stroke-linecap="round"/>
+  <path d="M66 124C76 111 99 109 113 124C107 144 80 150 66 124Z" fill="#DDBB60" stroke="#424A55" stroke-width="4.5" stroke-linejoin="round"/>
+  <path d="M143 125C157 111 180 113 190 127C177 151 151 145 143 125Z" fill="#DDBB60" stroke="#424A55" stroke-width="4.5" stroke-linejoin="round"/>
+  <path d="M72 128C80 142 100 142 107 129M149 129C158 143 177 142 184 131" stroke="#F4D98B" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="90" cy="125" rx="9.5" ry="14" fill="#252B33"/>
+  <ellipse cx="166" cy="126" rx="9.5" ry="14" fill="#252B33"/>
+  <circle cx="87" cy="120" r="3.5" fill="#FFF9E9"/>
+  <circle cx="163" cy="121" r="3.5" fill="#FFF9E9"/>
+  <path d="M88 169C88 152 110 146 128 156C146 146 168 152 168 169C168 184 144 190 128 180C112 190 88 184 88 169Z" fill="#A0A9B3"/>
+  <path d="M119 154Q128 151 137 155Q141 157 137 162L131 168Q128 171 125 168L119 162Q115 157 119 154Z" fill="#363D47"/>
+  <path d="M124 156L131 156" stroke="#67717D" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M128 169V176M128 176Q119 184 112 178M128 176Q137 184 144 178" stroke="#424A55" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M92 163L59 158M92 174L62 179M164 163L197 158M164 174L194 179" stroke="#D6DCE0" stroke-width="3" stroke-linecap="round"/>
+</svg>

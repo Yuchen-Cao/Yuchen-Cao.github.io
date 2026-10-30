@@ -85,6 +85,7 @@ button { font: inherit; }
 .site-header { min-height: 78px; display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 1.5rem; border-bottom: 1px solid var(--line); }
 .site-header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 1.25rem; min-width: 0; }
 .brand { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; font-weight: 720; letter-spacing: -.02em; }
+.brand-logo { display: block; flex: 0 0 auto; width: 38px; height: 38px; }
 .brand-name { font-size: 1.05rem; white-space: nowrap; }
 .site-nav { display: flex; align-items: center; gap: 1.25rem; }
 .site-nav a { color: var(--muted); text-decoration: none; font-size: .87rem; font-weight: 650; }
@@ -258,6 +259,8 @@ button { font: inherit; }
   .shell, .site-header, .site-footer, .article-shell { width: min(calc(100% - 1.5rem), var(--max)); }
   .site-header { min-height: 68px; gap: .7rem; }
   .brand-name { font-size: 1rem; }
+  .brand { gap: .55rem; }
+  .brand-logo { width: 34px; height: 34px; }
   .site-header-actions { gap: .65rem; }
   .site-language-switch { font-size: .62rem; padding: .15rem; }
   .site-language-switch a, .site-language-switch > span { font-size: .62rem; min-width: 1.8rem; padding: .3rem .35rem; }
