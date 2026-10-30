@@ -11,7 +11,22 @@
     "figure": 3
   },
   {
-    "match": "Long WAM[10]",
+    "match": "SenseNova 的原文里把拼插类交互的失败",
+    "reference": 8,
+    "text": "TacTalent 将左右指尖的触觉 RGB 图像与场景图像一同输入 Astra，沿用已有视觉接口；示范轨迹与在线交互历史作为上下文提供，不为各任务额外训练触觉策略。[方法与设置](https://arxiv.org/html/2610.26846v1#S3)"
+  },
+  {
+    "match": "SenseNova 的原文里把拼插类交互的失败",
+    "reference": 9,
+    "text": "GPT-as-Tactile-Policy 除触觉图像外，还提供压痕深度、接触区域及标记点位移等结构化描述，并使用从专家示范整理出的 Task Skill 与触觉参考；整理经验与在线执行均保持模型参数固定。[方法 §3](https://arxiv.org/html/2610.28457v1#S3)"
+  },
+  {
+    "match": "另一项 GPT-GEAR 研究",
+    "reference": 10,
+    "text": "GPT-GEAR 在 UniVTAC 的五个代表任务上各评测 20 次。这里的 text 是测得的 x/y/z 力分量的结构化文字表示，属于传感反馈，并非额外的任务指令。[实验与 Table 3](https://arxiv.org/html/2610.28259v1)"
+  },
+  {
+    "match": "Long WAM[11]",
     "kind": "",
     "text": "这篇工作还有一个发现，他们在 WAM 上，观察到了自回归训练在 context history 上的 scaling。自回归是有点说法的。",
     "url": "https://nvlabs.github.io/LongLive/Long-WAM/#planning"
@@ -25,22 +40,22 @@
   {
     "match": "更是保存行动意图、失败经验和任务进度的关键载体",
     "kind": "",
-    "text": "于是我们看到 [π0.6-MEM](https://arxiv.org/abs/2603.03596)[4] 引入了多尺度记忆，[π0.7](https://www.pi.website/download/pi07.pdf)[11] 进一步沿用这一设计。"
+    "text": "于是我们看到 [π0.6-MEM](https://arxiv.org/abs/2603.03596)[4] 引入了多尺度记忆，[π0.7](https://www.pi.website/download/pi07.pdf)[12] 进一步沿用这一设计。"
   },
   {
     "match": "结果显示，action/feedback-level memory 与 agentic context",
     "references": [
-      12,
-      13
+      13,
+      14
     ]
   },
   {
-    "match": "《Claude plays robotics》[14]",
+    "match": "《Claude plays robotics》[15]",
     "kind": "两项研究",
-    "text": "《Claude plays robotics》（7 月 9 日）覆盖多种本体和控制接口。另篇《Project Pilot: Can AI control a drone?》（7 月 24 日）研究无人机定位、导航与跟随，并提出 Drone-Bench。[15]"
+    "text": "《Claude plays robotics》（7 月 9 日）覆盖多种本体和控制接口。另篇《Project Pilot: Can AI control a drone?》（7 月 24 日）研究无人机定位、导航与跟随，并提出 Drone-Bench。[16]"
   },
   {
-    "match": "与 CaP[16] 以及后续的 CaP-X[17]",
+    "match": "与 CaP[17] 以及后续的 CaP-X[18]",
     "kind": "交互粒度",
     "text": "CaP-X 的外层循环是“生成控制程序 → 执行完该程序 → 查看轨迹反馈 → 修改下一轮代码”；同一 trial 可多轮继续，环境不重置。模型在程序运行之间迭代策略；这里关注的 Agentic 路线则在探索过程中，以更短的动作或工具调用反复读取反馈、调整后续行动。",
     "url": "https://arxiv.org/abs/2603.22435"

@@ -64,6 +64,14 @@
     "year": "2026"
   },
   "10": {
+    "short": "Zhou et al.",
+    "title": "Large Multimodal Models for Direct Robot Control: GPT-6 as a Beginning",
+    "url": "https://arxiv.org/abs/2610.28259",
+    "authors": "Youwei Zhou, Bohan Hou, Yankai Fu, Yaoxu Lyu, Yifan Ye, Shilin Shan, Chen Guo, Jiaming Liu, Ran He, Caifeng Shan, Shanghang Zhang, Jianfei Yang, and Zhihe Lu",
+    "year": "2026",
+    "projectUrl": "https://6uooon9.github.io/GPT-GEAR/"
+  },
+  "11": {
     "short": "Huang et al.",
     "title": "Long-WAM: Scaling the Context of World-Action Models",
     "url": "https://arxiv.org/abs/2610.10528",
@@ -71,7 +79,7 @@
     "year": "2026",
     "projectUrl": "https://nvlabs.github.io/LongLive/Long-WAM/"
   },
-  "11": {
+  "12": {
     "short": "Physical Intelligence",
     "title": "π0.7: a Steerable Generalist Robotic Foundation Model with Emergent Capabilities",
     "url": "https://www.pi.website/download/pi07.pdf",
@@ -79,7 +87,7 @@
     "year": "2026",
     "projectUrl": "https://www.pi.website/blog/pi07"
   },
-  "12": {
+  "13": {
     "short": "Fei et al.",
     "title": "LIBERO-Plus: A Progressive Robustness Benchmark for Visual-Language-Action Models",
     "url": "https://openaccess.thecvf.com/content/CVPR2026/html/Fei_LIBERO-Plus_A_Progressive_Robustness_Benchmark_for_Visual-Language-Action_Models_CVPR_2026_paper.html",
@@ -87,7 +95,7 @@
     "venue": "CVPR",
     "year": "2026"
   },
-  "13": {
+  "14": {
     "short": "Jiang et al.",
     "title": "What Are We Actually Benchmarking in Robot Manipulation?",
     "url": "https://arxiv.org/abs/2606.04233",
@@ -95,70 +103,70 @@
     "venue": "CoRL",
     "year": "2026"
   },
-  "14": {
+  "15": {
     "short": "Anthropic",
     "title": "Claude plays robotics",
     "url": "https://www.anthropic.com/research/claude-plays-robotics",
     "authors": "Shmuel Berman, Michael Ilie, Jia Deng, and Daniel Freeman",
     "year": "2026"
   },
-  "15": {
+  "16": {
     "short": "Anthropic / Andon Labs",
     "title": "Project Pilot: Can AI control a drone?",
     "url": "https://www.anthropic.com/research/project-pilot",
     "authors": "Anthropic and Andon Labs",
     "year": "2026"
   },
-  "16": {
+  "17": {
     "short": "Liang et al.",
     "title": "Code as Policies: Language Model Programs for Embodied Control",
     "url": "https://code-as-policies.github.io/",
     "authors": "Jacky Liang et al.",
     "year": "2022"
   },
-  "17": {
+  "18": {
     "short": "Fu et al.",
     "title": "CaP-X: A Framework for Benchmarking and Improving Coding Agents for Robot Manipulation",
     "url": "https://arxiv.org/abs/2603.22435",
     "authors": "Letian Fu et al.",
     "year": "2026"
   },
-  "18": {
+  "19": {
     "short": "Lei et al.",
     "title": "Towards Long-horizon Embodied Agents with Tool-Aligned Vision-Language-Action Models",
     "url": "https://arxiv.org/abs/2605.13119",
     "authors": "Zixing Lei, Changxing Liu, Yichen Xiong, Minhao Xiong, Yuanzhuo Ding, Zhipeng Zhang, Weixin Li, and Siheng Chen",
     "year": "2026"
   },
-  "19": {
+  "20": {
     "short": "Zhang et al.",
     "title": "Harness VLA: Steering Frozen VLAs into Reliable Manipulation Primitives via Memory-Guided Agents",
     "url": "https://arxiv.org/abs/2607.08448",
     "authors": "Yixian Zhang et al.",
     "year": "2026"
   },
-  "20": {
+  "21": {
     "short": "NVlabs",
     "title": "VoLo: A Physical Orchestrator for Open-Vocabulary Long-Horizon Manipulation",
     "url": "https://arxiv.org/abs/2606.07723",
     "authors": "Siyi Chen et al.",
     "year": "2026"
   },
-  "21": {
+  "22": {
     "short": "Google DeepMind",
     "title": "Introducing Gemini Robotics ER 2",
     "url": "https://blog.google/innovation-and-ai/models-and-research/google-deepmind/gemini-robotics-er-2/",
     "authors": "Steven Hansen and Peng Xu; Google DeepMind",
     "year": "2026"
   },
-  "22": {
+  "23": {
     "short": "Su et al.",
     "title": "Multi-Stream LLMs: Unblocking Language Models with Parallel Streams of Thoughts, Inputs and Outputs",
     "url": "https://arxiv.org/abs/2605.12460",
     "authors": "Guinan Su, Yanwu Yang, Xueyan Li, Jonas Geiping",
     "year": "2026"
   },
-  "23": {
+  "24": {
     "short": "Li et al.",
     "title": "Engagement Process: Rethinking the Temporal Interface of Action and Observation",
     "url": "https://arxiv.org/abs/2605.11484",

@@ -71,7 +71,7 @@ for (const slug of ['astra-robotics', 'astra-robotics-en']) {
   const other = slug === 'astra-robotics' ? 'astra-robotics-en' : 'astra-robotics';
   if (!html.includes(`href="/writing/${other}/"`)) failures.push(`${slug} is missing its translation switch`);
   for (let n = 1; n <= 16; n++) if (!html.includes(`id="figure-${n}"`)) failures.push(`${slug} is missing figure ${n}`);
-  for (let n = 1; n <= 23; n++) if (!html.includes(`id="ref-${n}"`)) failures.push(`${slug} is missing reference ${n}`);
+  for (let n = 1; n <= 24; n++) if (!html.includes(`id="ref-${n}"`)) failures.push(`${slug} is missing reference ${n}`);
   const citation = html.match(/<code id="article-bibtex">([\s\S]*?)<\/code>/)?.[1] || '';
   if (!citation || /\p{Script=Han}/u.test(citation) || !citation.includes(`/writing/${slug}/`)) failures.push(`${slug} has an invalid English BibTeX citation`);
 }

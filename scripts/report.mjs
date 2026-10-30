@@ -21,11 +21,11 @@ export function renderReport(post, { languageSwitch = '' } = {}) {
     (backrefs[n] ||= []).push(id);
     return id;
   }
-  function marginSource(n, cited = false) {
+  function marginSource(n, cited = false, note = null) {
     const ref = refs[n];
     const number = cited ? `<a id="${registerCitation(n)}" href="#ref-${n}" aria-label="${tr('Reference', '参考文献')} ${n}: ${escape(ref.short)}">${n}</a>` : n;
     const metadata = [ref.venue, ref.year || '2026'].filter(Boolean).join(' · ');
-    return `<div class="margin-source"><span class="margin-number">${number}</span><span>${escape(ref.short).replace(/\.$/,'')}. <a href="${escape(ref.url)}" target="_blank" rel="noopener">${escape(ref.title)} <span class="reference-external" aria-hidden="true">↗</span></a><span class="source-year">${escape(metadata)}</span></span></div>`;
+    return `<div class="margin-source"><span class="margin-number">${number}</span><div>${escape(ref.short).replace(/\.$/,'')}. <a href="${escape(ref.url)}" target="_blank" rel="noopener">${escape(ref.title)} <span class="reference-external" aria-hidden="true">↗</span></a><span class="source-year">${escape(metadata)}</span>${note?.text ? `<p>${inline(note.text)}</p>` : ''}</div></div>`;
   }
   function inline(s) {
     let t = escape(s).replace(/&lt;br\s*\/?&gt;/g, '<br>');
@@ -44,9 +44,11 @@ export function renderReport(post, { languageSwitch = '' } = {}) {
     for (const n of [...raw.matchAll(/\[(\d+)\]/g)].map(m=>m[1])) {
       if (seen.has(n) || !refs[n]) continue;
       seen.add(n);
-      side += marginSource(n);
+      const sourceNote = notes.find(note => String(note.reference) === n && raw.includes(note.match));
+      side += marginSource(n, false, sourceNote);
     }
     for (const note of notes) if (raw.includes(note.match)) {
+      if (note.reference) continue;
       if (note.figure) {
         side += `<details class="margin-supplement" open><summary>${escape(note.kind)}</summary><div class="margin-supplement-body"><p>${inline(note.text)}</p>${citeFigure(renderFigure(note.figure, language))}</div></details>`;
         continue;
