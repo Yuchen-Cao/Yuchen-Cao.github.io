@@ -12,7 +12,7 @@
 .rc-v-bars { display: grid; grid-template-columns: repeat(var(--rc-series), minmax(0, 1fr)); gap: 5px; height: 100%; border-bottom: 1px solid var(--rf-line); background: repeating-linear-gradient(to top, transparent, transparent calc(25% - 1px), color-mix(in srgb, var(--rf-line) 64%, transparent) calc(25% - 1px), color-mix(in srgb, var(--rf-line) 64%, transparent) 25%); }
 .rc-v-bar-wrap { position: relative; min-width: 0; height: 100%; }
 .rc-v-bar { position: absolute; bottom: 0; left: 10%; width: 80%; height: var(--rc-height); min-height: 2px; border-radius: 3px 3px 0 0; outline-offset: 3px; cursor: default; }
-.rc-v-fill { display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--rf-color); opacity: .88; }
+.rc-v-fill { display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--rf-color); }
 .rc-v-bar:hover .rc-v-fill, .rc-v-bar:focus .rc-v-fill { opacity: 1; box-shadow: 0 0 0 2px color-mix(in srgb, var(--rf-color) 22%, transparent); }
 .rc-v-missing { min-height: 1px; }
 .rc-v-missing .rc-v-fill { background: var(--rf-line); }
@@ -49,7 +49,6 @@
 .rc-tactile .rc-v-bars { gap: .45rem; }
 .rc-tactile .rc-v-label { min-height: 0; }
 .rc-tactile .rf-detail { order: 3; min-height: 1.6em; }
-.rc-tactile .rf-c4 { --rf-color: var(--purple, #9a83b8); }
 @container tactile (max-width: 570px) {
   .rc-tactile { grid-template-columns: minmax(0, 1fr); }
   .rc-tactile > .rc-study + .rc-study { border-left: 0; border-top: 1px solid var(--rf-line); padding: .7rem 0 0; }

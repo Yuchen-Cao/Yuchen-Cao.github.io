@@ -171,7 +171,7 @@ function layout({ title, description, body, current = "", type = "website", cano
   <title>${escapeHtml(fullTitle)}</title>
   <meta name="description" content="${escapeHtml(description)}">
   <meta name="author" content="${escapeHtml(config.author)}">
-  <meta name="theme-color" content="#f6f8ec">
+  <meta name="theme-color" content="#f9f7ed">
   <link rel="canonical" href="${url}">${alternateLinks}
   <link rel="alternate" type="application/rss+xml" title="${escapeHtml(config.siteName)}" href="${feed}">
   <script>try{const t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.dataset.theme=t;else if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}catch{if(matchMedia('(prefers-color-scheme: dark)').matches)document.documentElement.dataset.theme='dark'}</script>
@@ -188,7 +188,7 @@ function layout({ title, description, body, current = "", type = "website", cano
 <body>
   <a class="skip-link" href="#main">${localize(lang, 'Skip to content', '跳至正文')}</a>
   <header class="site-header">
-    <a class="brand" href="${localePath('/', lang)}" aria-label="${escapeHtml(config.siteName)} ${localize(lang, 'home', '首页')}"><span class="brand-mark">YC</span><span class="brand-name">${escapeHtml(config.siteName)}</span></a>
+    <a class="brand" href="${localePath('/', lang)}" aria-label="${escapeHtml(config.siteName)} ${localize(lang, 'home', '首页')}"><span class="brand-name">${escapeHtml(config.author)}</span></a>
     <nav class="site-nav" aria-label="${localize(lang, 'Primary navigation', '主导航')}">${nav(current, lang)}${siteLanguageSwitch(lang, alternates, canonical)}<button class="theme-toggle" type="button" data-theme-toggle aria-label="${localize(lang, 'Use dark theme', '切换深色主题')}">◐</button></nav>
   </header>
   <main id="main">${body}</main>
@@ -309,7 +309,7 @@ for (const lang of ['zh-CN', 'en']) {
 
   const topicCounts = allTags.map((tag) => ({ tag, groups: groups.filter((group) => localizedPost(group, lang).tags.includes(tag)) }));
   const topics = `<div class="shell"><header class="page-header"><p class="eyebrow">${localize(lang, 'Topics', 'Topics / 主题')}</p><h1>Recurring questions</h1><p>${localize(lang, 'Research threads that connect ideas across essays.', '跨越单篇文章、持续推进的研究线索。')}</p></header><div class="topic-grid">${topicCounts.map(({ tag, groups }) => `<a class="topic-card" href="${localePath('/writing/', lang)}?filter=${slugify(tag)}"><span class="topic-count">${groups.length} ${localize(lang, groups.length === 1 ? 'article' : 'articles', '篇文章')}</span><h2>${escapeHtml(tag)}</h2><p>${groups.slice(0, 2).map((group) => escapeHtml(localizedPost(group, lang).title)).join(' · ')}</p></a>`).join('')}</div></div>`;
-  await writePage(localePath('/topics/', lang), localizedLayout('/topics/', { title: localize(lang, 'Topics', '主题'), description: localize(lang, 'Topics covered in YC Research Notes.', 'YC Research Notes 关注的研究主题。'), body: topics, current: '/topics/' }));
+  await writePage(localePath('/topics/', lang), localizedLayout('/topics/', { title: localize(lang, 'Topics', '主题'), description: localize(lang, 'Topics covered in Yuchen Cao’s research notes.', 'Yuchen Cao 的研究笔记关注的主题。'), body: topics, current: '/topics/' }));
 
   const aboutDoc = aboutDocs[lang];
   const about = `<div class="article-shell"><header class="page-header"><p class="eyebrow">${localize(lang, 'About', 'About / 关于')}</p><h1>${localize(lang, 'Research in public', '公开记录研究思考')}</h1><p>${escapeHtml(aboutDoc.data.description)}</p></header><article class="prose">${markdown(aboutDoc.body)}</article></div>`;

@@ -1,4 +1,4 @@
-# YC — Research Notes
+# Yuchen Cao — Research Notes
 
 The source for [Yuchen-Cao.github.io](https://Yuchen-Cao.github.io): a bilingual research blog about agentic language models, temporal reasoning, and embodied intelligence.
 
@@ -50,6 +50,8 @@ translationKey: beyond-the-turn-based-agent
 Paired posts appear once per language on the homepage and writing archive. The header’s EN/中 switch changes the whole site language, including navigation, cards, topics, About, and RSS. Chinese entry points remain `/`, `/writing/`, `/topics/`, and `/about/`; English entry points use `/en/`. Article URLs remain unchanged, and each article links directly to its translation. English pages only include English posts; Chinese pages prefer Chinese and may include an English-only post when no translation exists.
 
 The active language comes from the page URL, so direct links, reloads, and navigation remain consistent without JavaScript or browser storage. Topic filters carry over when switching languages, and stable Astra section/figure anchors carry over between its two versions. Theme preference is applied before first paint and persists independently of language.
+
+Reading surfaces use warm paper in light mode and neutral graphite in dark mode. The five chart series colors are defined separately in `assets/report-figures.css`; horizontal bars, vertical bars, and legends share those tokens in both themes.
 
 Each homepage's Featured section automatically displays the newest article available in that language. Legacy `featured` metadata does not affect this selection.
 

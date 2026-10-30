@@ -1,6 +1,5 @@
-/* Everforest-inspired paper, foliage, aqua, and apricot.
-   Source palette: https://github.com/sainnhe/everforest/blob/master/palette.md
-   Text accents are deepened in light mode for long-form reading contrast. */
+/* Warm paper in light mode; neutral graphite in dark mode.
+   Reading surfaces and text accents are independent of the chart series palette. */
 :root {
   color-scheme: light;
   --paper: #f9f7ed;
@@ -28,22 +27,22 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --paper: #27352f;
-  --paper-raised: #303f36;
-  --ink: #e8e8d2;
-  --muted: #bcc7b0;
-  --faint: #a0b19a;
-  --line: #4b5d48;
-  --line-strong: #6a7d61;
-  --accent: #b4d58b;
-  --accent-soft: #3c5038;
-  --aqua: #88d4c2;
-  --warm: #f0ad7b;
-  --code: #202d26;
-  --code-ink: #e9ecd6;
-  --code-muted: #b0c49f;
-  --code-line: #52664b;
-  --shadow: 0 20px 60px rgba(16, 27, 19, 0.2);
+  --paper: #292a2d;
+  --paper-raised: #323438;
+  --ink: #e7e5e0;
+  --muted: #b9b9b5;
+  --faint: #9b9da2;
+  --line: #46494f;
+  --line-strong: #62666d;
+  --accent: #a8bfba;
+  --accent-soft: #3b4144;
+  --aqua: #9ab5c8;
+  --warm: #d0ac90;
+  --code: #222326;
+  --code-ink: #e7e5e0;
+  --code-muted: #a7afb8;
+  --code-line: #4c5057;
+  --shadow: 0 20px 60px rgba(0, 0, 0, 0.16);
 }
 
 * { box-sizing: border-box; }
@@ -71,8 +70,7 @@ button { font: inherit; }
 .site-header { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; border-bottom: 1px solid var(--line); }
 .site-header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 1.25rem; min-width: 0; }
 .brand { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; font-weight: 720; letter-spacing: -.02em; }
-.brand-mark { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border: 1px solid var(--accent); border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-family: var(--serif); font-size: .85rem; }
-.brand-name { font-size: .95rem; }
+.brand-name { font-size: 1.05rem; white-space: nowrap; }
 .site-nav { display: flex; align-items: center; gap: 1.25rem; }
 .site-nav a { color: var(--muted); text-decoration: none; font-size: .87rem; font-weight: 650; }
 .site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--accent); }
@@ -206,12 +204,12 @@ button { font: inherit; }
 
 @media (max-width: 560px) {
   .shell, .site-header, .site-footer, .article-shell { width: min(calc(100% - 1.5rem), var(--max)); }
-  .site-header { min-height: 68px; gap: .75rem; }
-  .brand-name { display: none; }
+  .site-header { min-height: 68px; flex-direction: column; align-items: flex-start; gap: .7rem; padding-block: .9rem; }
+  .brand-name { font-size: 1rem; }
   .site-header-actions { gap: .65rem; }
   .site-language-switch { font-size: .62rem; padding: .15rem; }
   .site-language-switch a, .site-language-switch > span { font-size: .62rem; min-width: 1.8rem; padding: .3rem .35rem; }
-  .site-nav { gap: .65rem; }
+  .site-nav { width: 100%; justify-content: space-between; gap: .65rem; }
   .site-nav a { font-size: .75rem; }
   .hero { padding-top: 2rem; }
   .hero h1 { font-size: clamp(2.35rem, 11vw, 3.25rem); }
@@ -232,7 +230,6 @@ button { font: inherit; }
   .site-header { gap: .5rem; }
   .site-header-actions, .site-nav { gap: .45rem; }
   .site-nav a { font-size: .68rem; }
-  .brand-mark { width: 1.85rem; height: 1.85rem; }
   .site-language-switch a, .site-language-switch > span { min-width: 1.65rem; padding-inline: .25rem; }
 }
 
