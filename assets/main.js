@@ -19,6 +19,70 @@ toggle?.addEventListener('click', () => {
 });
 updateToggleLabel();
 
+const contact = document.querySelector('[data-contact]');
+if (contact) {
+  const trigger = contact.querySelector('summary');
+  const status = contact.querySelector('[data-contact-status]');
+  let feedbackTimer;
+  const closeContact = (restoreFocus = false) => {
+    contact.open = false;
+    if (restoreFocus) trigger.focus();
+  };
+  contact.querySelectorAll('button[hidden]').forEach((button) => { button.hidden = false; });
+  contact.querySelector('[data-contact-close]').addEventListener('click', () => closeContact(true));
+  contact.addEventListener('toggle', () => {
+    clearTimeout(feedbackTimer);
+    status.textContent = '';
+  });
+  document.addEventListener('pointerdown', (event) => {
+    if (contact.open && !contact.contains(event.target)) closeContact();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && contact.open) {
+      event.preventDefault();
+      closeContact(true);
+    }
+  });
+  contact.addEventListener('focusout', (event) => {
+    // Safari may leave focus on the body when a button is clicked.
+    if (contact.open && event.relatedTarget && !contact.contains(event.relatedTarget)) closeContact();
+  });
+  async function copyContact(value) {
+    try {
+      await navigator.clipboard.writeText(value);
+      return;
+    } catch { /* Older browsers and local file previews can use the selection fallback. */ }
+    const previousFocus = document.activeElement;
+    const input = document.createElement('textarea');
+    input.value = value;
+    input.readOnly = true;
+    input.tabIndex = -1;
+    input.style.cssText = 'position:fixed;top:0;left:0;opacity:0;pointer-events:none;font-size:16px';
+    contact.append(input);
+    try {
+      input.select();
+      if (!document.execCommand('copy')) throw new Error('Copy unavailable');
+    } finally {
+      input.remove();
+      previousFocus?.focus({ preventScroll: true });
+    }
+  }
+  contact.querySelectorAll('[data-contact-copy]').forEach((button) => {
+    button.addEventListener('click', async () => {
+      clearTimeout(feedbackTimer);
+      try {
+        await copyContact(button.dataset.contactCopy);
+        status.textContent = button.dataset.contactKind === 'wechat'
+          ? (english ? 'WeChat ID copied. Find me in WeChat.' : '微信号已复制，可前往微信添加。')
+          : (english ? 'Email address copied.' : '邮箱地址已复制。');
+      } catch {
+        status.textContent = english ? 'Please select and copy the contact text above.' : '请选中上方联系方式，手动复制。';
+      }
+      feedbackTimer = setTimeout(() => { status.textContent = ''; }, 4500);
+    });
+  });
+}
+
 const filters = document.querySelectorAll('[data-filter]');
 const cards = document.querySelectorAll('[data-post-card]');
 function applyFilter(selected) {
