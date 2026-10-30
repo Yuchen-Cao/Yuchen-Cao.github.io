@@ -88,7 +88,7 @@ Of course, relaxing the budget indefinitely does not make every problem disappea
 
 The figure shows several cases that still fail despite ICL and a generous interaction budget.
 
-SenseNova attributes failures in insertion and assembly interactions to Astra’s limitations in precise physical manipulation. This also raises the question of whether the evaluation supplies enough contact information. Contemporary studies report substantial improvements in insertion success with tactile feedback, and show that its representation also affects performance. **These results suggest that the sensory interface may constrain how well the model can use its capabilities; they do not establish that Astra saw substantial tactile data during pretraining.**
+SenseNova attributes failures in insertion and assembly interactions to Astra’s limitations in precise physical manipulation. My own suspicion, however, is that **Astra may well have seen substantial tactile-feedback data during training; the SenseNova evaluation setup simply leaves tactile feedback out**. Contemporary studies report substantial improvements on insertion tasks when Astra is given tactile feedback in simulation.
 
 :::figure 7
 
