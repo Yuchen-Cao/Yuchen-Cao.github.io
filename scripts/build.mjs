@@ -158,6 +158,21 @@ function siteLanguageSwitch(lang, alternates, canonical) {
   }).join('')}</div>`;
 }
 
+function contactPanel(lang) {
+  const copyIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></svg>';
+  return `<details class="site-contact" data-contact>
+      <summary class="contact-trigger" aria-controls="contact-panel">${localize(lang, 'Contact', '联系我')}<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 3v10M3 8h10"/></svg></summary>
+      <section class="contact-panel" id="contact-panel" aria-labelledby="contact-title">
+        <div class="contact-heading"><div><p class="contact-eyebrow">${escapeHtml(config.author)}</p><h2 id="contact-title">${localize(lang, "Let’s talk.", '聊聊想法。')}</h2></div><button class="contact-close" type="button" data-contact-close aria-label="${localize(lang, 'Close contact panel', '关闭联系面板')}" hidden><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg></button></div>
+        <p class="contact-intro">${localize(lang, 'Research, writing, or a new collaboration.', '欢迎交流研究、文章与合作。')}</p>
+        <div class="contact-method"><span class="contact-label">Email</span><div class="contact-value-row"><a class="contact-email" href="mailto:${escapeHtml(config.email)}" aria-label="${localize(lang, 'Email', '发送邮件至')} ${escapeHtml(config.email)}">${escapeHtml(config.email)}<span aria-hidden="true">↗</span></a><button class="contact-copy" type="button" data-contact-copy="${escapeHtml(config.email)}" data-contact-kind="email" aria-label="${localize(lang, 'Copy email address', '复制邮箱地址')}" title="${localize(lang, 'Copy email address', '复制邮箱地址')}" hidden>${copyIcon}</button></div></div>
+        <div class="contact-method"><span class="contact-label">WeChat</span><div class="contact-value-row"><span class="contact-value">${escapeHtml(config.wechat)}</span><button class="contact-copy contact-copy-wechat" type="button" data-contact-copy="${escapeHtml(config.wechat)}" data-contact-kind="wechat" aria-label="${localize(lang, 'Copy WeChat ID', '复制微信号')}" hidden><span>${localize(lang, 'Copy ID', '复制微信号')}</span>${copyIcon}</button></div></div>
+        <p class="contact-hint">${localize(lang, 'Click the email to write, or find me on WeChat.', '点击邮箱写信，或在微信搜索我的微信号。')}</p>
+        <p class="contact-status" role="status" aria-live="polite" aria-atomic="true" data-contact-status></p>
+      </section>
+    </details>`;
+}
+
 function layout({ title, description, body, current = "", type = "website", canonical = "/", lang = "zh-CN", alternates = [], report = false, draft = false }) {
   const fullTitle = title === config.siteName ? title : `${title} — ${config.shortName}`;
   const url = new URL(canonical, config.url).href;
@@ -190,6 +205,7 @@ function layout({ title, description, body, current = "", type = "website", cano
   <header class="site-header">
     <a class="brand" href="${localePath('/', lang)}" aria-label="${escapeHtml(config.siteName)} ${localize(lang, 'home', '首页')}"><span class="brand-name">${escapeHtml(config.author)}</span></a>
     <nav class="site-nav" aria-label="${localize(lang, 'Primary navigation', '主导航')}">${nav(current, lang)}${siteLanguageSwitch(lang, alternates, canonical)}<button class="theme-toggle" type="button" data-theme-toggle aria-label="${localize(lang, 'Use dark theme', '切换深色主题')}">◐</button></nav>
+    ${contactPanel(lang)}
   </header>
   <main id="main">${body}</main>
   <footer class="site-footer"><span>© ${new Date().getUTCFullYear()} ${escapeHtml(config.author)} · ${localize(lang, 'Research notes in public', '公开的研究思考笔记')}</span><span><a href="${config.github}">GitHub</a><a href="${feed}">RSS</a></span></footer>
