@@ -88,7 +88,7 @@ SenseNova 的评测发现，在最多 10× 标准动作步数预算下，观察�
 
 图示为提供 ICL 和足够交互预算情况下依旧失败的部分 case。
 
-SenseNova 的原文里把拼插类交互的失败归为 Astra 在精密物理操作领域的局限性。不过我倾向于认为，**Astra 训练时很可能还是见过大量的触觉反馈数据，只是 SenseNova 的评测配置忽视了触觉反馈**。因为同期研究[8][9]在仿真环境给 Astra 触觉后，模型在插入问题上的成功率有显著提升。
+SenseNova 的原文里把拼插类交互的失败归为 Astra 在精密物理操作领域的局限性。这也让我关注评测是否提供了足够的接触信息。同期研究观察到，提供触觉反馈后，插入成功率明显提升；触觉信息的表示方式也会影响模型表现。**这些结果支持感知接口可能是能力发挥的限制因素之一，但不能据此推断 Astra 在预训练时见过大量触觉数据。**
 
 :::figure 7
 
@@ -127,7 +127,7 @@ Galbot 的评测中，我们看到在灵巧类操作中 RFM-assisted policy（�
 
 Astra 在 Robocasa 365 上的评测，呈现出一组非常符合我们对大模型预期的样子。在 Composite unseen 类型的任务上，Astra Direct Policy 达到 56%，高于 RFM-assisted 策略的 36% 和独立 π0.5 的 4%。[2]这非常好理解，从以前的经验来看，π0.5 高度依赖后训练，从 case 看体现出非常盲目贴合已学习轨迹的特征；而通用大模型早已经历长期大量的无监督预训练配合深入的长程 Agentic RL 积累，具备了足够的探索特性（后文中我实测的轨迹中也有体现）；规划执行长程任务，也是通用大模型带着探索的上下文历史训练后十分擅长的领域。
 
-针对同一评测基准，Long WAM[10] 也搭建了一套结合 GPT-6 Astra 的快慢脑系统。他们发现在 GPT-6 Astra 的加持下，自己提出的方法在每一个 split 内均有额外的明显提升。他们同样也观察到** Astra 非常擅长长任务里的恢复与修正**。
+针对同一评测基准，Long WAM[11] 也搭建了一套结合 GPT-6 Astra 的快慢脑系统。他们发现在 GPT-6 Astra 的加持下，自己提出的方法在每一个 split 内均有额外的明显提升。他们同样也观察到** Astra 非常擅长长任务里的恢复与修正**。
 
 :::figure 10
 
@@ -188,11 +188,11 @@ Astranomy 细致消融了在 Direct Policy 或 Agentic Policy 下，使用 EEF �
 
 ### 3.5 From CaP to Agentic Robotics
 
-近几个月，Agentic Robotics 的讨论逐渐开始火热。Anthropic 在《Claude plays robotics》[14] 中系统比较了直接控制、代码控制、预训练 policy 监督与 RL 等接口，其中的代码控制让人们想起了 Code-as-Policy 路线。
+近几个月，Agentic Robotics 的讨论逐渐开始火热。Anthropic 在《Claude plays robotics》[15] 中系统比较了直接控制、代码控制、预训练 policy 监督与 RL 等接口，其中的代码控制让人们想起了 Code-as-Policy 路线。
 
-不过与 CaP[16] 以及后续的 CaP-X[17] 侧重于比较稀疏地生成可执行的控制程序不同，现代 Agentic Robotics 则更强调模型在执行过程中反复接收反馈、维护自身决策历史，并持续修改后续策略。
+不过与 CaP[17] 以及后续的 CaP-X[18] 侧重于比较稀疏地生成可执行的控制程序不同，现代 Agentic Robotics 则更强调模型在执行过程中反复接收反馈、维护自身决策历史，并持续修改后续策略。
 
-在 Astra 发布之前，VLA-as-Tools[18]，Harness VLA[19] 以及 VoLoAgent[20] 等工作实际都在尝试 RFM-Assisted Policy，尝试利用 sys-2 的 VLM agentic 能力，配合 VLA 这类 sys-1 模型解决具身领域的长程富接触问题。受限于当时的 VLM 没有进行充裕的具身数据灌入，VLM 的能力被限制在上层的规划与监控，没有直接介入控制的能力。而 Astra 显然同时具备 Agentic 层面的长程规划、trial and error，以及随时接入修正控制策略的能力。这让人不禁发问，如果成本和实时性问题被解决，sys-1 这一层是否还有存在的必要？
+在 Astra 发布之前，VLA-as-Tools[19]，Harness VLA[20] 以及 VoLoAgent[21] 等工作实际都在尝试 RFM-Assisted Policy，尝试利用 sys-2 的 VLM agentic 能力，配合 VLA 这类 sys-1 模型解决具身领域的长程富接触问题。受限于当时的 VLM 没有进行充裕的具身数据灌入，VLM 的能力被限制在上层的规划与监控，没有直接介入控制的能力。而 Astra 显然同时具备 Agentic 层面的长程规划、trial and error，以及随时接入修正控制策略的能力。这让人不禁发问，如果成本和实时性问题被解决，sys-1 这一层是否还有存在的必要？
 
 ## 4 Beyond Success Rates: What Robot Rollouts Reveal About Generalization
 
@@ -220,9 +220,9 @@ Astranomy 细致消融了在 Direct Policy 或 Agentic Policy 下，使用 EEF �
 在这方面也已有一些研究工作。
 
 - **ARC：异步推理与控制解耦。** ARC 使用后台 VLM 更新 action-grounded reasoning trace，底层策略以 15 Hz 执行动作，并消费最新有效 trace。其示例 rollout 中，reasoning 约 1 Hz 更新。它利用外部 VLM 为机器人示教生成与具体动作对齐的因果推理轨迹，描述当前状态、动作意图、预期后果以及需要避免的行为，并进一步训练 π0.5、Cosmos3-Nano-Policy 等 RFM 学会利用这些 Reasoning Traces。部署时，ARC 将后台 VLM 的低频推理与 RFM 的高频动作执行解耦：VLM 异步更新 Reasoning Trace，控制策略则持续利用最新有效的推理结果生成动作。提供了一种缓解推理延迟的方式。[5]
-- **Gemini Robotics ER 2：Bidirectional Streaming**。 Google 明确提出通过 Gemini Live API 的双向流式端点接收视频、音频或文本输入，并把 VLA 与机器人 API 作为工具调用。这里已经很接近 Agentic Physical Interaction 的产品级范式。不过，双向 API 流式交互不自动等价于模型内部 Observation、Reasoning、Action 三流同时自回归。[21]
-- **Long-WAM：长历史、未来预测与实时动作执行。** Long-WAM 从 World-Action Model 的角度出发，试图在保留更长 Observation History 和 Future Prediction 能力的同时，满足真实机器人控制的低延迟要求。Long-WAM 结合 Streaming VAE、异步 Action Chunk Execution 和推理优化，让机器人在执行当前动作时提前生成后续动作。其优化配置在 RTX 5090 上可以达到每个 Action Chunk 107.4 ms 的模型推理延迟（2.4 秒历史窗口），而使用 19.2 秒历史时则需要约 341 ms。[10] **长时序记忆、未来预测与实时控制并不必然冲突，但现阶段需要在模型训练和推理系统层面协同设计。**
-- **Multi-Stream LLM** 与 **Engagement Process**：更彻底的模型和交互层统一。 Multi-Stream LLM 研究让多个输入和输出流在同一个模型前向过程中并行演化[22]；EP 则将物理交互重新定义为共享时间线上的异步观测与动作事件。[23] 两者可以很好地组合：EP 定义与环境交互的时序语义，Multi-Stream 架构负责学习这种时序下的信息处理与输出。
+- **Gemini Robotics ER 2：Bidirectional Streaming**。 Google 明确提出通过 Gemini Live API 的双向流式端点接收视频、音频或文本输入，并把 VLA 与机器人 API 作为工具调用。这里已经很接近 Agentic Physical Interaction 的产品级范式。不过，双向 API 流式交互不自动等价于模型内部 Observation、Reasoning、Action 三流同时自回归。[22]
+- **Long-WAM：长历史、未来预测与实时动作执行。** Long-WAM 从 World-Action Model 的角度出发，试图在保留更长 Observation History 和 Future Prediction 能力的同时，满足真实机器人控制的低延迟要求。Long-WAM 结合 Streaming VAE、异步 Action Chunk Execution 和推理优化，让机器人在执行当前动作时提前生成后续动作。其优化配置在 RTX 5090 上可以达到每个 Action Chunk 107.4 ms 的模型推理延迟（2.4 秒历史窗口），而使用 19.2 秒历史时则需要约 341 ms。[11] **长时序记忆、未来预测与实时控制并不必然冲突，但现阶段需要在模型训练和推理系统层面协同设计。**
+- **Multi-Stream LLM** 与 **Engagement Process**：更彻底的模型和交互层统一。 Multi-Stream LLM 研究让多个输入和输出流在同一个模型前向过程中并行演化[23]；EP 则将物理交互重新定义为共享时间线上的异步观测与动作事件。[24] 两者可以很好地组合：EP 定义与环境交互的时序语义，Multi-Stream 架构负责学习这种时序下的信息处理与输出。
 
 如果我们不再将机器人控制表示为严格串行的 Observation → Reasoning → Action 循环，而是让持续输入的 Observation、较低频的 Reasoning，以及高频 Action 共享一条物理时间线，那么是否能够同时保留大模型的长时程推理能力与实时机器人控制的要求？<br />进一步地，我们**或许可以让这些不同速率的事件在同一个 Shared Causal Network 中联合训练**，使模型不仅学习下一步做什么，也学习何时应该观察、何时重新思考，以及何时必须及时干预。
 
@@ -230,16 +230,16 @@ Astranomy 细致消融了在 Direct Policy 或 Agentic Policy 下，使用 EEF �
 
 关注文本 Context history、world model 与 Agentic Control 的交汇。
 
-当前测试的 VLA 基本都是开源的 π0.5，从 case 和结果都能看出它非常依赖后训练、刻板得仿佛过拟合到特定数据上。从 π0.6-MEM 开始，π 系列开始引入了长短期记忆，通用性和长程上都有了长足提升。[4][11]
+当前测试的 VLA 基本都是开源的 π0.5，从 case 和结果都能看出它非常依赖后训练、刻板得仿佛过拟合到特定数据上。从 π0.6-MEM 开始，π 系列开始引入了长短期记忆，通用性和长程上都有了长足提升。[4][12]
 
 VLM 原本擅长语言理解、长上下文推理和 Agentic Interaction，如今开始尝试直接生成机器人动作；而 VLA/WAM 原本更侧重从机器人轨迹中学习 Observation-to-Action Mapping，现在也逐渐将长期记忆、语义推理以及未来状态预测纳入模型设计。
 
 **History 的重要性在众多工作中被反复强调：**
 
 - Astranomy 的消融表明，对 Astra 而言，包含历史规划、动作与反馈的文本交互上下文，能够显著改善 Agentic Policy 的长程表现。[3] 这与 Coding Agent 对完整交互历史和 Context Management 的依赖高度一致。
-- 从另一条路线出发，Physical Intelligence 在 π0.6-MEM 中引入了短期视频记忆与长期文本记忆：前者保留最近几秒的运动与视觉变化，后者则通过自然语言总结任务阶段、已完成的动作与重要历史事件。[4] 后续的 π0.7 进一步沿用了 MEM 风格的历史视觉编码，并让高层策略利用过去的子任务信息进行决策。[11]
-- Long-WAM 则从 World-Action Model 的方向提供了另一种证据：历史不仅需要被保留，还需要通过适当的时序建模训练，才能真正转化为有用的控制信息。其 AR Video Pretraining、长历史条件预测与 Future Latent Modeling，使 WAM 能够利用近期的物理演化信息来预测和生成动作。[10] 它所关注的秒级连续视觉历史，与 Astra/MEM 中更偏长期任务进度和交互经验的语义记忆，恰好是互补的两个时间尺度。
+- 从另一条路线出发，Physical Intelligence 在 π0.6-MEM 中引入了短期视频记忆与长期文本记忆：前者保留最近几秒的运动与视觉变化，后者则通过自然语言总结任务阶段、已完成的动作与重要历史事件。[4] 后续的 π0.7 进一步沿用了 MEM 风格的历史视觉编码，并让高层策略利用过去的子任务信息进行决策。[12]
+- Long-WAM 则从 World-Action Model 的方向提供了另一种证据：历史不仅需要被保留，还需要通过适当的时序建模训练，才能真正转化为有用的控制信息。其 AR Video Pretraining、长历史条件预测与 Future Latent Modeling，使 WAM 能够利用近期的物理演化信息来预测和生成动作。[11] 它所关注的秒级连续视觉历史，与 Astra/MEM 中更偏长期任务进度和交互经验的语义记忆，恰好是互补的两个时间尺度。
 
-**Reasoning 也在逐渐成为这两条路线的共同研究对象：** ARC 通过生成与动作对齐的因果推理监督，让原本主要学习机器人轨迹的 VLA/WAM 学会利用语言推理信息来改善控制效果。[5] π0.7 允许模型通过高层语言子任务、描述执行质量、速度与策略的 episode metadata，以及 World Model 生成的视觉目标来控制执行方式。[11] 虽然这些能力仍然不等同于 Astra 所展现的完整 Agentic Exploration，但已经不再是传统意义上仅依靠当前观测预测下一段动作的策略。
+**Reasoning 也在逐渐成为这两条路线的共同研究对象：** ARC 通过生成与动作对齐的因果推理监督，让原本主要学习机器人轨迹的 VLA/WAM 学会利用语言推理信息来改善控制效果。[5] π0.7 允许模型通过高层语言子任务、描述执行质量、速度与策略的 episode metadata，以及 World Model 生成的视觉目标来控制执行方式。[12] 虽然这些能力仍然不等同于 Astra 所展现的完整 Agentic Exploration，但已经不再是传统意义上仅依靠当前观测预测下一段动作的策略。
 
 二者结合，Context history（又或者进一步的 Memory）或许才是 Reasoning 与 Action 能够形成真正闭环的关键连接。

@@ -11,7 +11,22 @@
     "figure": 3
   },
   {
-    "match": "Long-WAM [10]",
+    "match": ":::figure 7",
+    "reference": 8,
+    "text": "TacTalent supplies scene images and bilateral tactile RGB images through Astra’s existing visual interface, with demonstration trajectories and interaction history in context. No new per-task tactile policy is trained. Insert Hole: 10 trials per condition. [Method and Table 1](https://arxiv.org/html/2610.26846v1#S3)"
+  },
+  {
+    "match": ":::figure 7",
+    "reference": 9,
+    "text": "GPT-as-Tactile-Policy adds indentation, contact-region and marker-displacement descriptors, plus an expert-derived Task Skill and tactile references, with model weights fixed. Its ablation removes both tactile observations and references, with Task Skills matched to available inputs. Insert Hole: 100 trials per condition. [Method and Table 3](https://arxiv.org/html/2610.28457v1#S3)"
+  },
+  {
+    "match": ":::figure 7",
+    "reference": 10,
+    "text": "GPT-GEAR compares five input configurations on five UniVTAC tasks, with 20 trials per task. Tactile text reports measured x/y/z force components. Hover over or focus a bar to see mean action rounds and total tokens, averaged over all episodes. [Experiment and Table 3](https://arxiv.org/html/2610.28259v1)"
+  },
+  {
+    "match": "Long-WAM [11]",
     "kind": "",
     "text": "Another finding in this work is that autoregressive training enables context-history scaling in a WAM. There may be something to this autoregressive business after all.",
     "url": "https://nvlabs.github.io/LongLive/Long-WAM/#planning"
@@ -25,22 +40,22 @@
   {
     "match": "it is a crucial record of action intent, failed attempts, and task progress",
     "kind": "",
-    "text": "We now see [π0.6-MEM](https://arxiv.org/abs/2603.03596)[4] introducing multi-scale memory, with [π0.7](https://www.pi.website/download/pi07.pdf)[11] building on that design."
+    "text": "We now see [π0.6-MEM](https://arxiv.org/abs/2603.03596)[4] introducing multi-scale memory, with [π0.7](https://www.pi.website/download/pi07.pdf)[12] building on that design."
   },
   {
     "match": "The results show that action/feedback-level memory and agentic context",
     "references": [
-      12,
-      13
+      13,
+      14
     ]
   },
   {
-    "match": "*Claude plays robotics* [14]",
+    "match": "*Claude plays robotics* [15]",
     "kind": "Two studies",
-    "text": "Claude plays robotics (July 9) covers several embodiments and control interfaces. The separate study Project Pilot: Can AI control a drone? (July 24) investigates drone localization, navigation, and following, and introduces Drone-Bench.[15]"
+    "text": "Claude plays robotics (July 9) covers several embodiments and control interfaces. The separate study Project Pilot: Can AI control a drone? (July 24) investigates drone localization, navigation, and following, and introduces Drone-Bench.[16]"
   },
   {
-    "match": "compared with CaP [16] and its successor CaP-X [17]",
+    "match": "compared with CaP [17] and its successor CaP-X [18]",
     "kind": "Interaction granularity",
     "text": "CaP-X’s outer loop is: generate a control program → execute it to completion → inspect trajectory feedback → revise the code for the next round. A single trial can continue over multiple rounds without resetting the environment. The model iterates its strategy between program executions. The agentic approach discussed here instead repeatedly reads feedback and adjusts subsequent behavior through shorter actions or tool calls during exploration.",
     "url": "https://arxiv.org/abs/2603.22435"

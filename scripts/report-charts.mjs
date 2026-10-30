@@ -75,9 +75,13 @@ export function createChartFigures({ DATA, figure, source, esc, note, tabs, char
   }
 
   function tactileFigure() {
-    const yang = study('Yang et al.', '10 trials / condition', verticalChart('touch-yang', [{ label: 'Insert Hole · UniVTAC', values: [60, 100], details: ['6 / 10 successes', '10 / 10 successes'] }], ['Vision only', 'Vision + tactile RGB']) + note('Tactile signals are supplied as RGB images.'));
-    const wang = study('Wang et al.', '100 trials / condition', verticalChart('touch-wang', [{ label: 'Insert Hole', values: [31, 99], details: ['31 / 100 successes', '99 / 100 successes'] }], ['Vision + proprioception', '+ tactile input + references']) + note('The ablation removes both tactile observations and references; Task Skills match the observations available in each condition.'));
-    return figure(7, 'Tactile feedback: two independent insertion studies', `<div class="rc-paired rc-tactile">${yang}${wang}</div>`, `两项独立仿真实验，单位为成功率（%）。<a href="${DATA.studies.tactalent.url}">Yang et al.，Table 1</a> 每条件 10 次，60% → 100%；<a href="${DATA.studies.gpt_tactile_policy.url}">Wang et al.，Table 3</a> 每条件 100 次，31% → 99%。`);
+    const yangData = DATA.studies.tactalent.exact_data;
+    const wangData = DATA.studies.gpt_tactile_policy.exact_data;
+    const gearData = DATA.studies.gpt_gear.exact_data;
+    const yang = study('TacTalent', 'Insert Hole', verticalChart('touch-yang', [{ label: 'Yang et al.', values: [yangData.vision_only_pct, yangData.vision_tactile_pct], details: ['6 / 10 successes', '10 / 10 successes'] }], ['Vision only', 'Vision + tactile RGB']));
+    const wang = study('GPT-as-Tactile-Policy', 'Insert Hole', verticalChart('touch-wang', [{ label: 'Wang et al.', values: [wangData.vision_proprioception_pct, wangData.vision_proprioception_tactile_pct], details: ['31 / 100 successes', '99 / 100 successes'] }], ['Vision + proprioception', '+ tactile input + references']));
+    const gear = study('GPT-GEAR', '5 UniVTAC tasks', verticalChart('touch-gear', [{ label: 'Zhou et al.', values: gearData.rows.map(row => row.success_pct), details: gearData.rows.map(row => `${row.action_rounds.toFixed(2)} mean action rounds; ${row.total_tokens_k.toFixed(2)}k mean total tokens`) }], gearData.rows.map(row => row.label), { colors: [0, 3, 1, 2, 4] }));
+    return figure(7, 'Tactile feedback: three independent studies', `<div class="rc-tactile-frame"><div class="rc-paired rc-tactile">${yang}${wang}${gear}</div></div>`, '三项独立仿真实验，统一显示成功率（%）。各栏仅作内部比较；任务与评测协议不同，绝对成功率不宜跨栏横比。具体方法与来源见侧栏。');
   }
 
   function dexterityFigure() {

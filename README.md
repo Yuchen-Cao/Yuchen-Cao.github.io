@@ -1,4 +1,4 @@
-# YC — Research Notes
+# Yuchen Cao — Research Notes
 
 The source for [Yuchen-Cao.github.io](https://Yuchen-Cao.github.io): a bilingual research blog about agentic language models, temporal reasoning, and embodied intelligence.
 
@@ -51,6 +51,8 @@ Paired posts appear once per language on the homepage and writing archive. The h
 
 The active language comes from the page URL, so direct links, reloads, and navigation remain consistent without JavaScript or browser storage. Topic filters carry over when switching languages, and stable Astra section/figure anchors carry over between its two versions. Theme preference is applied before first paint and persists independently of language.
 
+Both themes use the official [Everforest Medium palette](https://github.com/sainnhe/everforest/blob/master/palette.md): Light Medium uses `#FDF6E3` as its main background, and Dark Medium uses `#2D353B`. The `--ef-*` tokens in `assets/styles.css` are the source for reading surfaces, text, borders, controls, and code blocks. Charts use the same palette’s blue, orange, green, grey2, and purple through shared aliases in `assets/report-figures.css`; horizontal bars, vertical bars, and legends stay in sync when switching themes.
+
 Each homepage's Featured section automatically displays the newest article available in that language. Legacy `featured` metadata does not affect this selection.
 
 ## Preview locally
@@ -61,6 +63,7 @@ The complete essay is published at `/writing/astra-robotics/`, with its full Eng
 
 - Edit prose in `content/posts/2026-10-27-astra-robotics.md` and `2026-10-27-astra-robotics-en.md`.
 - Numbered references and paragraph-anchored margin notes live in `content/reports/astra-references.json` and `astra-notes.json`, with `-en.json` counterparts. When editing a note’s paragraph, keep its `match` string synchronized.
+- Set a note’s `reference` to a citation number to place its `text` directly beneath that source in the margin. A matched figure directive can carry the source and method note together; a matched paragraph can use its existing citation.
 - A margin note can attach to a figure directive (for example, `"match": ":::figure 2"`) and include a supplementary figure with `"figure": 3`. The supplement opens in the desktop margin and collapses below the figure on narrow screens; links to its figure or citations open it automatically.
 - Figure data and source provenance live in `assets/astra-report/figures-data.json`; renderers are in `scripts/report-figures.mjs`. English captions are in `scripts/report-locales.mjs`; numerical data and SVG internals are shared.
 - `:::takeaways … :::`, `:::figure N`, and `:::video-cases … :::` are report blocks. Video cases and commentary live in `content/reports/astra-cases.json` and `astra-cases-en.json`; both versions share the same media and measurements.

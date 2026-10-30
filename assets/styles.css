@@ -1,24 +1,37 @@
-/* Everforest-inspired paper, foliage, aqua, and apricot.
-   Source palette: https://github.com/sainnhe/everforest/blob/master/palette.md
-   Text accents are deepened in light mode for long-form reading contrast. */
+/* Everforest Medium: official light/dark palettes.
+   https://github.com/sainnhe/everforest/blob/master/palette.md */
 :root {
   color-scheme: light;
-  --paper: #f9f7ed;
-  --paper-raised: #fffdf5;
-  --ink: #2d3b34;
-  --muted: #5e6d5b;
-  --faint: #65735f;
-  --line: #d8dfc9;
-  --line-strong: #a8b89a;
-  --accent: #52752e;
-  --accent-soft: #e9f0d8;
-  --aqua: #287d77;
-  --warm: #ad572d;
-  --code: #293a31;
-  --code-ink: #e9ecd6;
-  --code-muted: #b0c49f;
-  --code-line: #52664b;
-  --shadow: 0 18px 52px rgba(69, 91, 48, 0.075);
+  --ef-bg-dim: #efebd4;
+  --ef-bg0: #fdf6e3;
+  --ef-bg1: #f4f0d9;
+  --ef-bg4: #e0dcc7;
+  --ef-bg5: #bdc3af;
+  --ef-bg-green: #f0f1d2;
+  --ef-bg-visual: #eaedc8;
+  --ef-fg: #5c6a72;
+  --ef-grey2: #829181;
+  --ef-green: #8da101;
+  --ef-aqua: #35a77c;
+  --ef-orange: #f57d26;
+  --ef-blue: #3a94c5;
+  --ef-purple: #df69ba;
+  --paper: var(--ef-bg0);
+  --paper-raised: var(--ef-bg1);
+  --ink: var(--ef-fg);
+  --muted: var(--ef-fg);
+  --faint: var(--ef-grey2);
+  --line: var(--ef-bg4);
+  --line-strong: var(--ef-bg5);
+  --accent: var(--ef-green);
+  --accent-soft: var(--ef-bg-green);
+  --aqua: var(--ef-aqua);
+  --warm: var(--ef-orange);
+  --code: var(--ef-bg-dim);
+  --code-ink: var(--ef-fg);
+  --code-muted: var(--ef-fg);
+  --code-line: var(--ef-bg4);
+  --shadow: 0 18px 52px color-mix(in srgb, var(--ef-fg) 7.5%, transparent);
   --max: 1180px;
   --reading: 720px;
   --sans: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
@@ -28,22 +41,23 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --paper: #27352f;
-  --paper-raised: #303f36;
-  --ink: #e8e8d2;
-  --muted: #bcc7b0;
-  --faint: #a0b19a;
-  --line: #4b5d48;
-  --line-strong: #6a7d61;
-  --accent: #b4d58b;
-  --accent-soft: #3c5038;
-  --aqua: #88d4c2;
-  --warm: #f0ad7b;
-  --code: #202d26;
-  --code-ink: #e9ecd6;
-  --code-muted: #b0c49f;
-  --code-line: #52664b;
-  --shadow: 0 20px 60px rgba(16, 27, 19, 0.2);
+  --ef-bg-dim: #232a2e;
+  --ef-bg0: #2d353b;
+  --ef-bg1: #343f44;
+  --ef-bg4: #4f585e;
+  --ef-bg5: #56635f;
+  --ef-bg-green: #425047;
+  --ef-bg-visual: #543a48;
+  --ef-fg: #d3c6aa;
+  --ef-grey2: #9da9a0;
+  --ef-green: #a7c080;
+  --ef-aqua: #83c092;
+  --ef-orange: #e69875;
+  --ef-blue: #7fbbb3;
+  --ef-purple: #d699b6;
+  --muted: var(--ef-grey2);
+  --code-muted: var(--ef-grey2);
+  --shadow: 0 20px 60px color-mix(in srgb, var(--ef-bg-dim) 40%, transparent);
 }
 
 * { box-sizing: border-box; }
@@ -61,7 +75,7 @@ body {
 a { color: inherit; text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent); text-underline-offset: .2em; }
 a:hover { color: var(--accent); }
 button { font: inherit; }
-::selection { background: var(--accent-soft); color: var(--ink); }
+::selection { background: var(--ef-bg-visual); color: var(--ink); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
 
 .skip-link { position: fixed; top: .75rem; left: .75rem; z-index: 20; padding: .55rem .8rem; background: var(--ink); color: var(--paper); transform: translateY(-150%); }
@@ -71,8 +85,7 @@ button { font: inherit; }
 .site-header { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; border-bottom: 1px solid var(--line); }
 .site-header-actions { display: flex; align-items: center; justify-content: flex-end; gap: 1.25rem; min-width: 0; }
 .brand { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; font-weight: 720; letter-spacing: -.02em; }
-.brand-mark { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; border: 1px solid var(--accent); border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-family: var(--serif); font-size: .85rem; }
-.brand-name { font-size: .95rem; }
+.brand-name { font-size: 1.05rem; white-space: nowrap; }
 .site-nav { display: flex; align-items: center; gap: 1.25rem; }
 .site-nav a { color: var(--muted); text-decoration: none; font-size: .87rem; font-weight: 650; }
 .site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--accent); }
@@ -206,12 +219,12 @@ button { font: inherit; }
 
 @media (max-width: 560px) {
   .shell, .site-header, .site-footer, .article-shell { width: min(calc(100% - 1.5rem), var(--max)); }
-  .site-header { min-height: 68px; gap: .75rem; }
-  .brand-name { display: none; }
+  .site-header { min-height: 68px; flex-direction: column; align-items: flex-start; gap: .7rem; padding-block: .9rem; }
+  .brand-name { font-size: 1rem; }
   .site-header-actions { gap: .65rem; }
   .site-language-switch { font-size: .62rem; padding: .15rem; }
   .site-language-switch a, .site-language-switch > span { font-size: .62rem; min-width: 1.8rem; padding: .3rem .35rem; }
-  .site-nav { gap: .65rem; }
+  .site-nav { width: 100%; justify-content: space-between; gap: .65rem; }
   .site-nav a { font-size: .75rem; }
   .hero { padding-top: 2rem; }
   .hero h1 { font-size: clamp(2.35rem, 11vw, 3.25rem); }
@@ -232,7 +245,6 @@ button { font: inherit; }
   .site-header { gap: .5rem; }
   .site-header-actions, .site-nav { gap: .45rem; }
   .site-nav a { font-size: .68rem; }
-  .brand-mark { width: 1.85rem; height: 1.85rem; }
   .site-language-switch a, .site-language-switch > span { min-width: 1.65rem; padding-inline: .25rem; }
 }
 

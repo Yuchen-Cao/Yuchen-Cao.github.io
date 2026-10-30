@@ -12,7 +12,7 @@
 .rc-v-bars { display: grid; grid-template-columns: repeat(var(--rc-series), minmax(0, 1fr)); gap: 5px; height: 100%; border-bottom: 1px solid var(--rf-line); background: repeating-linear-gradient(to top, transparent, transparent calc(25% - 1px), color-mix(in srgb, var(--rf-line) 64%, transparent) calc(25% - 1px), color-mix(in srgb, var(--rf-line) 64%, transparent) 25%); }
 .rc-v-bar-wrap { position: relative; min-width: 0; height: 100%; }
 .rc-v-bar { position: absolute; bottom: 0; left: 10%; width: 80%; height: var(--rc-height); min-height: 2px; border-radius: 3px 3px 0 0; outline-offset: 3px; cursor: default; }
-.rc-v-fill { display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--rf-color); opacity: .88; }
+.rc-v-fill { display: block; width: 100%; height: 100%; border-radius: inherit; background: var(--rf-color); }
 .rc-v-bar:hover .rc-v-fill, .rc-v-bar:focus .rc-v-fill { opacity: 1; box-shadow: 0 0 0 2px color-mix(in srgb, var(--rf-color) 22%, transparent); }
 .rc-v-missing { min-height: 1px; }
 .rc-v-missing .rc-v-fill { background: var(--rf-line); }
@@ -39,12 +39,21 @@
 .rc-study-heading { margin: .1rem 0 .55rem; }
 .rc-study-heading h5 { margin: 0 0 .25rem; font: 650 .88rem/1.4 var(--sans, sans-serif); color: var(--rf-ink); }
 .rc-study-heading > span { color: var(--rf-muted); font-size: .64rem; }
-.rc-tactile .rf-legend { min-height: 1.5em; align-content: start; }
-.rc-tactile .rc-v-grid { max-width: 210px; margin-inline: auto; }
-.rc-tactile .rc-v-bars { gap: 1.25rem; }
+.rc-tactile-frame { container: tactile / inline-size; }
+.rc-tactile { grid-template-columns: 1fr 1fr 1.3fr; }
+.rc-tactile .rc-study-heading h5 { min-height: 2.8em; }
+.rc-tactile .rc-vertical { display: flex; flex-direction: column; }
+.rc-tactile .rf-chart-toolbar { order: 2; margin-top: .65rem; }
+.rc-tactile .rf-legend { display: grid; gap: .35rem; align-content: start; }
+.rc-tactile .rc-v-grid { width: 100%; max-width: 250px; margin-inline: auto; }
+.rc-tactile .rc-v-bars { gap: .45rem; }
 .rc-tactile .rc-v-label { min-height: 0; }
-.rc-tactile .rf-detail { min-height: 1.6em; }
-.rc-tactile .rf-note { margin-top: .6rem; }
+.rc-tactile .rf-detail { order: 3; min-height: 1.6em; }
+@container tactile (max-width: 570px) {
+  .rc-tactile { grid-template-columns: minmax(0, 1fr); }
+  .rc-tactile > .rc-study + .rc-study { border-left: 0; border-top: 1px solid var(--rf-line); padding: .7rem 0 0; }
+  .rc-tactile .rc-study-heading h5 { min-height: 0; }
+}
 
 .rc-compact .rf-chart-row { grid-template-columns: minmax(120px, .85fr) minmax(0, 2fr); gap: .65rem; padding: .2rem 0; }
 .rc-compact .rf-row-label { font-size: .7rem; line-height: 1.35; }

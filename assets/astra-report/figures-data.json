@@ -1488,6 +1488,50 @@
         "source_table": 3
       },
       "uncertainty": "Ablation removes tactile observations AND tactile references; each variant uses a fixed Task Skill matched to available observations. Not evidence of proprietary pretraining data composition."
+    },
+    "gpt_gear": {
+      "id": "gpt_gear",
+      "title": "Large Multimodal Models for Direct Robot Control: GPT-6 as a Beginning",
+      "url": "https://arxiv.org/abs/2610.28259",
+      "data_url": "https://arxiv.org/html/2610.28259v1",
+      "exact_data": {
+        "source_table": 3,
+        "tasks": 5,
+        "trials_per_task": 20,
+        "rows": [
+          {
+            "label": "RGB",
+            "success_pct": 14,
+            "action_rounds": 10.57,
+            "total_tokens_k": 423.9
+          },
+          {
+            "label": "Touch only",
+            "success_pct": 16,
+            "action_rounds": 12.38,
+            "total_tokens_k": 569.02
+          },
+          {
+            "label": "RGB + touch image",
+            "success_pct": 30,
+            "action_rounds": 10.53,
+            "total_tokens_k": 646.06
+          },
+          {
+            "label": "RGB + touch text",
+            "success_pct": 50,
+            "action_rounds": 9.44,
+            "total_tokens_k": 451.19
+          },
+          {
+            "label": "RGB + image + text",
+            "success_pct": 48,
+            "action_rounds": 9.75,
+            "total_tokens_k": 553.36
+          }
+        ]
+      },
+      "uncertainty": "Independent study with a different task set and evaluation protocol from the two Insert Hole studies. Text describes measured x/y/z force components. Action rounds and total tokens are averaged over all evaluated episodes."
     }
   }
 }
