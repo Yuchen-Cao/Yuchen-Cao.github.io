@@ -11,19 +11,19 @@
     "figure": 3
   },
   {
-    "match": "SenseNova attributes failures in insertion and assembly interactions",
+    "match": ":::figure 7",
     "reference": 8,
-    "text": "TacTalent feeds left- and right-fingertip tactile RGB images alongside scene images through Astra’s existing visual interface. Demonstration trajectories and online interaction history supply context, without training a new tactile policy for each task. [Method and setup](https://arxiv.org/html/2610.26846v1#S3)"
+    "text": "TacTalent supplies scene images and bilateral tactile RGB images through Astra’s existing visual interface, with demonstration trajectories and interaction history in context. No new per-task tactile policy is trained. Insert Hole: 10 trials per condition. [Method and Table 1](https://arxiv.org/html/2610.26846v1#S3)"
   },
   {
-    "match": "SenseNova attributes failures in insertion and assembly interactions",
+    "match": ":::figure 7",
     "reference": 9,
-    "text": "GPT-as-Tactile-Policy combines tactile images with structured descriptions of indentation depth, contact regions, and marker displacements, plus a Task Skill and tactile references distilled from expert demonstrations. Model parameters stay fixed during both experience summarization and online execution. [Method §3](https://arxiv.org/html/2610.28457v1#S3)"
+    "text": "GPT-as-Tactile-Policy adds indentation, contact-region and marker-displacement descriptors, plus an expert-derived Task Skill and tactile references, with model weights fixed. Its ablation removes both tactile observations and references, with Task Skills matched to available inputs. Insert Hole: 100 trials per condition. [Method and Table 3](https://arxiv.org/html/2610.28457v1#S3)"
   },
   {
-    "match": "Another study, GPT-GEAR",
+    "match": ":::figure 7",
     "reference": 10,
-    "text": "GPT-GEAR evaluates five representative UniVTAC tasks with 20 trials per task. Its text input exposes measured x/y/z force components; it is sensor feedback, not additional task instructions. [Experiment and Table 3](https://arxiv.org/html/2610.28259v1)"
+    "text": "GPT-GEAR compares five input configurations on five UniVTAC tasks, with 20 trials per task. Tactile text reports measured x/y/z force components. Hover over or focus a bar to see mean action rounds and total tokens, averaged over all episodes. [Experiment and Table 3](https://arxiv.org/html/2610.28259v1)"
   },
   {
     "match": "Long-WAM [11]",

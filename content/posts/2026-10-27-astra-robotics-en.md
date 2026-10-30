@@ -88,23 +88,9 @@ Of course, relaxing the budget indefinitely does not make every problem disappea
 
 The figure shows several cases that still fail despite ICL and a generous interaction budget.
 
-SenseNova attributes failures in insertion and assembly interactions to Astra’s limitations in precise physical manipulation. This also raises the question of whether the evaluation supplies enough contact information. In their respective simulation settings, contemporary studies [8][9] report substantial improvements in insertion success when a fixed-parameter Astra receives tactile observations together with relevant demonstrations or task guidance. **These results suggest that the sensory interface may constrain how well the model can use its capabilities; they do not establish that Astra saw substantial tactile data during pretraining.**
+SenseNova attributes failures in insertion and assembly interactions to Astra’s limitations in precise physical manipulation. This also raises the question of whether the evaluation supplies enough contact information. Contemporary studies report substantial improvements in insertion success with tactile feedback, and show that its representation also affects performance. **These results suggest that the sensory interface may constrain how well the model can use its capabilities; they do not establish that Astra saw substantial tactile data during pretraining.**
 
 :::figure 7
-
-Beyond whether tactile feedback is available, **how it is presented to the model** also matters. Another study, GPT-GEAR [10], finds that replacing tactile images with structured force descriptions alongside RGB increases success from 30% to 50%; supplying both tactile images and text yields 48%. My reading is that explicit physical quantities are easier for the model to use in this setting, rather than that adding another input always helps.
-
-**GPT-GEAR: ablation of tactile input representations**
-
-| Observation | Success rate (%) | Mean action rounds | Mean total tokens |
-| --- | --- | --- | --- |
-| RGB | 14.0 | 10.57 | 423.90k |
-| Tactile only | 16.0 | 12.38 | 569.02k |
-| RGB + tactile images | 30.0 | 10.53 | 646.06k |
-| RGB + tactile text | **50.0** | **9.44** | 451.19k |
-| RGB + tactile images and text | 48.0 | 9.75 | 553.36k |
-
-*Recreated from GPT-GEAR, Table 3. Action rounds and total tokens are averaged over all evaluated episodes; k denotes thousands. Task selection and evaluation protocols differ across studies, so these success rates should not be compared directly with the figure above.*
 
 Another category of failure involves tasks in which spilling or dropping something destroys prerequisites and makes recovery difficult. One possible direction is to encourage the model to “look before it leaps” in these situations: use a world model’s next-state predictions to choose a lower-risk path, for example, or use more carefully constructed pairs of counterfactual data to post-train policies for high-risk situations.
 

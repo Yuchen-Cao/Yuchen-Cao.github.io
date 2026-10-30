@@ -11,19 +11,19 @@
     "figure": 3
   },
   {
-    "match": "SenseNova 的原文里把拼插类交互的失败",
+    "match": ":::figure 7",
     "reference": 8,
-    "text": "TacTalent 将左右指尖的触觉 RGB 图像与场景图像一同输入 Astra，沿用已有视觉接口；示范轨迹与在线交互历史作为上下文提供，不为各任务额外训练触觉策略。[方法与设置](https://arxiv.org/html/2610.26846v1#S3)"
+    "text": "TacTalent 将场景图像与双指触觉 RGB 图像送入 Astra 已有视觉接口，示范轨迹与交互历史作为上下文，不额外训练任务专用触觉策略。图中 Insert Hole 每配置评测 10 次。[方法与 Table 1](https://arxiv.org/html/2610.26846v1#S3)"
   },
   {
-    "match": "SenseNova 的原文里把拼插类交互的失败",
+    "match": ":::figure 7",
     "reference": 9,
-    "text": "GPT-as-Tactile-Policy 除触觉图像外，还提供压痕深度、接触区域及标记点位移等结构化描述，并使用从专家示范整理出的 Task Skill 与触觉参考；整理经验与在线执行均保持模型参数固定。[方法 §3](https://arxiv.org/html/2610.28457v1#S3)"
+    "text": "GPT-as-Tactile-Policy 在触觉图像外加入压痕、接触区域、标记点位移描述，以及专家示范提炼的 Task Skill 和触觉参考，保持模型权重固定。消融同时移除触觉观测与参考，并匹配 Task Skill；Insert Hole 每配置 100 次。[方法与 Table 3](https://arxiv.org/html/2610.28457v1#S3)"
   },
   {
-    "match": "另一项 GPT-GEAR 研究",
+    "match": ":::figure 7",
     "reference": 10,
-    "text": "GPT-GEAR 在 UniVTAC 的五个代表任务上各评测 20 次。这里的 text 是测得的 x/y/z 力分量的结构化文字表示，属于传感反馈，并非额外的任务指令。[实验与 Table 3](https://arxiv.org/html/2610.28259v1)"
+    "text": "GPT-GEAR 在 UniVTAC 的五个任务上各评测 20 次，比较五种输入配置。触觉 text 表示测得的 x/y/z 力分量。悬停或聚焦柱体可查看平均动作轮数与总 Token 数，两者均对所有 episode 取平均。[实验与 Table 3](https://arxiv.org/html/2610.28259v1)"
   },
   {
     "match": "Long WAM[11]",

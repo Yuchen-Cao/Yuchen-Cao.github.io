@@ -48,7 +48,14 @@ export function renderReport(post, { languageSwitch = '' } = {}) {
       side += marginSource(n, false, sourceNote);
     }
     for (const note of notes) if (raw.includes(note.match)) {
-      if (note.reference) continue;
+      if (note.reference) {
+        const n = String(note.reference);
+        if (!raw.includes(`[${n}]`) && refs[n]) {
+          side += marginSource(n, true, note);
+          seen.add(n);
+        }
+        continue;
+      }
       if (note.figure) {
         side += `<details class="margin-supplement" open><summary>${escape(note.kind)}</summary><div class="margin-supplement-body"><p>${inline(note.text)}</p>${citeFigure(renderFigure(note.figure, language))}</div></details>`;
         continue;

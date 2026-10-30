@@ -39,12 +39,22 @@
 .rc-study-heading { margin: .1rem 0 .55rem; }
 .rc-study-heading h5 { margin: 0 0 .25rem; font: 650 .88rem/1.4 var(--sans, sans-serif); color: var(--rf-ink); }
 .rc-study-heading > span { color: var(--rf-muted); font-size: .64rem; }
-.rc-tactile .rf-legend { min-height: 1.5em; align-content: start; }
-.rc-tactile .rc-v-grid { max-width: 210px; margin-inline: auto; }
-.rc-tactile .rc-v-bars { gap: 1.25rem; }
+.rc-tactile-frame { container: tactile / inline-size; }
+.rc-tactile { grid-template-columns: 1fr 1fr 1.3fr; }
+.rc-tactile .rc-study-heading h5 { min-height: 2.8em; }
+.rc-tactile .rc-vertical { display: flex; flex-direction: column; }
+.rc-tactile .rf-chart-toolbar { order: 2; margin-top: .65rem; }
+.rc-tactile .rf-legend { display: grid; gap: .35rem; align-content: start; }
+.rc-tactile .rc-v-grid { width: 100%; max-width: 250px; margin-inline: auto; }
+.rc-tactile .rc-v-bars { gap: .45rem; }
 .rc-tactile .rc-v-label { min-height: 0; }
-.rc-tactile .rf-detail { min-height: 1.6em; }
-.rc-tactile .rf-note { margin-top: .6rem; }
+.rc-tactile .rf-detail { order: 3; min-height: 1.6em; }
+.rc-tactile .rf-c4 { --rf-color: var(--purple, #9a83b8); }
+@container tactile (max-width: 570px) {
+  .rc-tactile { grid-template-columns: minmax(0, 1fr); }
+  .rc-tactile > .rc-study + .rc-study { border-left: 0; border-top: 1px solid var(--rf-line); padding: .7rem 0 0; }
+  .rc-tactile .rc-study-heading h5 { min-height: 0; }
+}
 
 .rc-compact .rf-chart-row { grid-template-columns: minmax(120px, .85fr) minmax(0, 2fr); gap: .65rem; padding: .2rem 0; }
 .rc-compact .rf-row-label { font-size: .7rem; line-height: 1.35; }
